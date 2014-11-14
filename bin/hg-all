@@ -1,0 +1,20 @@
+#!/bin/bash
+
+command=$1
+i=0
+for dir in $(ls -l | grep \^d | awk '{print $9}') # find all immediate subdirectories
+do
+    if [ ! -L $dir ]  # make sure it isn't a symlink to avoid recursion
+    then
+        cd $dir
+        if [ -e .hg ] # make sure this is the root of a repository
+        then
+            2>&1 hg ${command} | ccat.sh ${i} -p "${dir} " - &
+            let "i++"
+        fi
+        cd ..
+    fi
+done
+
+wait
+

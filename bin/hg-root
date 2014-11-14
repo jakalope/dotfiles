@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [[ $# > 0 ]]; then
+    cd $1
+fi
+
+while [[ ! -e .hg && $(pwd) != "/" ]]
+do
+    cd ..
+done
+
+pwd
+

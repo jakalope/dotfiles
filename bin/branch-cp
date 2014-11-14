@@ -1,0 +1,13 @@
+#!/bin/bash
+
+current_branch=$(hg branch)
+other_branch="$1"
+file="$2"
+temp_filename=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+rand_shelf=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+hg shelve --name $rand_shelf
+hg update -C "$other_branch"
+cp "$2" $temp_filename
+hg update "$current_branch"
+hg unshelve --name $rand_shelf
+cp $temp_filename "$2"

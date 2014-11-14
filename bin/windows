@@ -1,0 +1,4 @@
+#!/bin/bash
+
+virtualbox --startvm PALE4D970A
+

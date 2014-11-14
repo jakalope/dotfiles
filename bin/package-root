@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [[ $# > 0 ]]; then
+    cd $1
+fi
+
+while [[ ! -e manifest.xml && $(pwd) != "/" ]]
+do
+    cd ..
+done
+
+if [[ $(pwd) != "/" ]]; then
+    pwd
+fi
+

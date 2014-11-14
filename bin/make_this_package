@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cd ${HOME}/workspace/${WORKSPACE}/$(dirname $1)
+while [[ ! -f manifest.xml && $(pwd) != "/" ]]
+do
+    cd ..
+done
+
+if [ ! -e .clang_complete ]
+then
+    gen_clang_complete.bash "$1"
+else
+    make -j
+fi
+

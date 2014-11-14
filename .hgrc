@@ -1,0 +1,11 @@
+[ui]
+username = Jake Askeland <jake.askeland@us.bosch.com>
+ignore = ~/.hgignore
+
+[extensions]
+prompt = ~/hg-prompt/prompt.py
+color = 
+graphlog = 
+shelve = 
+hgwatchman = /home/asj1pal/toys/hgwatchman/hgwatchman
+

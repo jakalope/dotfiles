@@ -1,0 +1,58 @@
+#!/bin/bash
+
+if [[ $# == 0 ]]; then
+    WORKSPACE="pjfa"         # Use the default workspace
+else
+    WORKSPACE="$1"          # User has speicified a workspace
+fi
+
+WORKSPACE=$(echo $WORKSPACE | sed 's:/$::g') # Remove trailing slash
+working_dir=$(pwd)/${WORKSPACE}
+
+export ROS_EDIT=1
+
+tmux has-session -t $WORKSPACE &> /dev/null
+if [[ $? != 0 ]]; then
+    ROS_PACKAGE_PATH=''
+    CMAKE_PREFIX_PATH=''
+    source /opt/ros/groovy/setup.bash
+    export temporary_bashrc=$(mktemp)
+    chmod 0600 ${temporary_bashrc} # make it secure
+    ROS_PACKAGE_PATH=${working_dir}:${ROS_PACKAGE_PATH}
+    CMAKE_PREFIX_PATH=$(rospack find rviz):$(rospack find OGRE):${CMAKE_PREFIX_PATH}
+    export_command="export CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}; \
+                    export WORKSPACE=${WORKSPACE}; \
+                    export VIMSERVER=${WORKSPACE}; \
+                    export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}; \
+                    alias bash='bash --rcfile ${temporary_bashrc}'; \
+                    alias term='gnome-terminal --command=\"bash --rcfile ${temporary_bashrc}\"'"
+    cd_command="cd ${working_dir}"
+
+    # build temp bashrc file
+    cp ~/.bashrc $temporary_bashrc
+    echo "$export_command" >> $temporary_bashrc
+    echo "$cd_command" >> $temporary_bashrc 
+
+    # build vim pane command
+    vim_command="${export_command}; ${cd_command}; vims"
+
+    # start up a tmux session
+    tmux new-session -s $WORKSPACE -n VIM -d "${vim_command}"
+    tmux split-window -h "bash --rcfile ${temporary_bashrc} -i"
+    tmux split-window -v "bash --rcfile ${temporary_bashrc} -i"
+    tmux resize-pane -L 10
+    tmux resize-pane -D 25
+    tmux select-pane -t 0
+
+    cd ${working_dir}
+    gen_cscope_db.bash ${WORKSPACE} &
+    gen_ctags_db.bash ${WORKSPACE} &
+fi
+
+tmux attach -t $WORKSPACE
+
+# cleanup
+rm ${temporary_bashrc}
+if [[ $(jobs | wc -l) > 0 ]]; then
+    kill %%
+fi

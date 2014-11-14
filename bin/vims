@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [[ ${VIMSERVER} == "" ]]; then
+    VIMSERVER="VIM"
+fi
+
+# VIM
+if [[ $# > 0 ]]; then
+    if [[ ${1} == '-p' ]]; then
+        vim --servername $VIMSERVER --remote $(xsel --clipboard --output | awk -F: '{print $1}')
+        sleep 0.1  # wait for vim to open the file
+        vim --servername $VIMSERVER --remote-send +$(xsel --clipboard --output | awk -F: '{print ":" $2 "<CR>"}')
+    elif [[ ${1} == '-t' ]]; then
+        vim --servername $VIMSERVER --remote-tab-silent $(xsel --clipboard --output | awk -F: '{print $1}')
+        sleep 0.1  # wait for vim to open the file
+        vim --servername $VIMSERVER --remote-send +$(xsel --clipboard --output | awk -F: '{print ":" $2 "<CR>"}')
+    else
+        vim --servername $VIMSERVER --remote-tab-silent "$@"
+    fi  
+else
+    vim --servername $VIMSERVER
+fi
+

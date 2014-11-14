@@ -1,0 +1,16 @@
+# PJFA Default options file for AStyle
+# Author: Jake Askeland, jake.askeland@us.bosch.com
+# 2014-07
+
+style=allman                 # brackets on next line at same intent (broken brackets)  --  PJFA specific
+indent=spaces=2              # 2 spaces, no tab character for indents
+indent-preproc-define        # indent #define lines after a \
+indent-preproc-cond          # indent inside #ifdef and #ifndef statements
+indent-col1-comments         # indent comments along with the code
+max-instatement-indent=80    # aligns continuation lines until n spaces
+unpad-paren                  # removes spaces between statement-parenthesis-statement, e.g. if ( a ) -> if(a)
+pad-header                   # pushes out first parenthesis of if,while,for, e.g. if(a) -> if (a)
+align-reference=type         # char &a -> char& a  --  PJFA specific
+align-pointer=type           # char *a -> char* a  --  PJFA specific
+max-code-length=120          # PJFA specific
+break-after-logical          # breaks on logical conditionals, when present
