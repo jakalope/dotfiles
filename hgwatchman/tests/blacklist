@@ -1,0 +1,26 @@
+# When watchman is activated, help output and config changes:
+test-basic.t
+test-globalopts.t
+test-help.t
+test-commandserver.py
+test-extension.t
+
+# Tests that fail because we add extra files
+test-fncache.t
+test-hardlinks.t
+test-inherit-mode.t
+
+# Other tests that fail because we cross repo boundaries
+test-nested-repo.t
+test-push-warn.t
+# test-subrepo.t works fine, except one of the tests involves a nested repo :(
+test-subrepo.t
+
+# Fails because we write state even on reads
+test-tags.t
+
+# Fails because watchman doesn't work properly when permissions are manipulated
+test-permissions.t
+
+# Fails because watchman isn't in the PATH for this test
+test-merge-tools.t
