@@ -11,4 +11,4 @@ if [[ $? != 0 || "${tmux_version}" != "tmux 1.8" ]]; then
     cd ..
     rm -r tmux-1.8
 fi
-
+cp -R -i .astylerc .bashrc bin .gdbinit .gitconfig hg-prompt .hgrc hgwatchman .rviz .vim .vimrc ~
