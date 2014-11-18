@@ -1,0 +1,11 @@
+{
+  "project_id"  : "watchman",
+  "lint_engine" : "WatchmanLintEngine",
+  "unit_engine" : "WatchmanIntegrationEngine",
+  "load"        : ["arcanist"],
+  "copyright_holder" : "Facebook, Inc.",
+  "git.default-relative-commit" : "origin/master",
+  "base" : "git:merge-base(origin/master), hg:gca(master)",
+  "arc.feature.start.default" : "origin/master",
+  "conduit_uri" : "https://reviews.facebook.net/api/"
+}

@@ -1,0 +1,33 @@
+language: c
+
+os:
+  - osx
+  - linux
+
+branches:
+  only:
+    - master
+
+# try some different compilers
+compiler:
+  - gcc
+#  - clang
+
+# for the bser module
+python:
+  - "2.7"
+#  - "3.2"
+
+# for the ruby-watchman gem
+gemfile: ruby/ruby-watchman/Gemfile
+rvm:
+  - "2.0.0"
+
+# try some different compiler options
+env:
+  - CONFIGARGS=""
+#  - CONFIGARGS="--enable-stack-protector"
+#  - CONFIGARGS="" WATCHMAN_VALGRIND=1
+
+before_script: ./travis/deps.sh
+script: ./travis/run.sh
