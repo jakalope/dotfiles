@@ -24,6 +24,7 @@ if [[ $? != 0 ]]; then
                     export WORKSPACE=${WORKSPACE}; \
                     export VIMSERVER=${WORKSPACE}; \
                     export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}; \
+                    export PATH=$(rospack find gnome_utilities)/scripts:$(rospack find mercurial_tools)/scripts:$(rospack find bag_scripts):${PATH}; \
                     alias bash='bash --rcfile ${temporary_bashrc}'; \
                     alias term='gnome-terminal --command=\"bash --rcfile ${temporary_bashrc}\"'"
     cd_command="cd ${working_dir}"
