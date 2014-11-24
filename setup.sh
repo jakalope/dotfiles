@@ -48,15 +48,15 @@ pushd ~
 stamp=$(date +%Y-%m-%d-%H-%M-%S)
 echo 'backing up old files...'
 add_suffix "_${stamp}" .astylerc .bashrc bin .gdbinit .gitconfig hg-prompt \
-    .hgrc hgwatchman .rviz .vim .vimrc
+    .hgrc hgwatchman ros-edit .rviz .vim .vimrc
 echo 'removing old files...'
 rm -rf .astylerc .bashrc bin .gdbinit .gitconfig hg-prompt \
-    .hgrc hgwatchman .rviz .vim .vimrc
+    .hgrc hgwatchman ros-edit .rviz .vim .vimrc
 popd
 
 echo 'linking...'
 ln --symbolic --target ${HOME} \
-    $(pwd)/{.astylerc,.bashrc,bin,.gdbinit,.gitconfig,hg-prompt,.hgrc,hgwatchman,.rviz,.vim,.vimrc}
+    $(pwd)/{.astylerc,.bashrc,bin,.gdbinit,.gitconfig,hg-prompt,.hgrc,hgwatchman,ros-edit,.rviz,.vim,.vimrc}
 
 mkdir -p ~/workspace
 pushd ~/workspace
