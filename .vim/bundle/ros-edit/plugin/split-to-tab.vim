@@ -4,9 +4,13 @@ endif
 
 let g:split_to_tab_loaded = 1
 
+" get the directory this script resides in
+" http://stackoverflow.com/questions/4976776/how-to-get-path-to-the-current-vimscript-being-executed
+let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+
 " Enable extended key mappings in vim under screen/tmux.
 " See http://stackoverflow.com/questions/15445481/mapping-arrow-keys-when-running-tmux
-silent !tmux source-file ~/ros-edit/vim-support.conf
+exe "silent !tmux source-file ".s:path."/vim-support.conf"
 if &term =~ '^screen' && exists('$TMUX')
     set mouse+=a
     " tmux knows the extended mouse mode
@@ -79,11 +83,11 @@ endfunction
 function! ToggleCollapse()
     if exists('g:collapsed')
         unlet g:collapsed
-        silent !tmux source-file ~/ros-edit/enable_pane_switching.conf
+        exe "silent !tmux source-file ".s:path."/enable_pane_switching.conf"
         call SplitsToTabs()
     else
         let g:collapsed = 1
-        silent !tmux source-file ~/ros-edit/disable_pane_switching.conf
+        exe "silent !tmux source-file ".s:path."/disable_pane_switching.conf"
         call TabsToSplits()
     endif
 endfunction
