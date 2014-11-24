@@ -22,7 +22,7 @@ if [[ $? != 0 ]]; then
     cd ..
 fi
 
-cp -R -i .astylerc .bashrc bin .gdbinit .gitconfig hg-prompt .hgrc hgwatchman .rviz .vim .vimrc ~
+ln -s -i .astylerc .bashrc bin .gdbinit .gitconfig hg-prompt .hgrc hgwatchman .rviz .vim .vimrc ~
 cd ~
 mkdir -p workspace
 cd workspace
