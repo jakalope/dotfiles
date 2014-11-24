@@ -25,47 +25,63 @@ set tabstop=4
 set softtabstop=4
 set expandtab
 
-autocmd FileType python set cc=80
+autocmd FileType vim call SetVimOptions()
+autocmd FileType tex call SetTexOptions()
 
-autocmd FileType c set shiftwidth=2
-autocmd FileType c set softtabstop=2
-autocmd FileType c set cc=120
-autocmd FileType cpp set shiftwidth=2
-autocmd FileType cpp set softtabstop=2
-autocmd FileType cpp set cc=120
+autocmd FileType sh call SetPythonOptions()
+autocmd FileType bash call SetPythonOptions()
+autocmd FileType python call SetPythonOptions()
 
-autocmd FileType tex set cc=120
-autocmd FileType tex set shiftwidth=2
-autocmd FileType tex set softtabstop=2
+autocmd FileType c call SetCPPOptions()
+autocmd FileType cpp call SetCPPOptions()
 
-vnoremap _> :s:^:#<CR>
-vnoremap _< :s:^#:<CR>
-nnoremap _> :s:^:#<CR>
-nnoremap _< :s:^#:<CR>
+function SetVimOptions()
+    set cc=80
+    set shiftwidth=4
+    set tabstop=4
+    set softtabstop=4
+    set expandtab
+    vnoremap _> :s:^:"<CR>
+    vnoremap _< :s:^":<CR>
+    nnoremap _> :s:^:"<CR>
+    nnoremap _< :s:^":<CR>
+endfunction
 
-autocmd FileType c vnoremap _> :s:^://<CR>
-autocmd FileType c vnoremap _< :s:^//:<CR>
+function SetTexOptions()
+    set cc=120
+    set shiftwidth=2
+    set tabstop=2
+    set softtabstop=2
+    set expandtab
+    vnoremap _> :s:^:%<CR>
+    vnoremap _< :s:^%:<CR>
+    nnoremap _> :s:^:%<CR>
+    nnoremap _< :s:^%:<CR>
+endfunction
 
-autocmd FileType c nnoremap _> :s:^://<CR>
-autocmd FileType c nnoremap _< :s:^//:<CR>
+function SetPythonOptions()
+    set cc=80
+    set shiftwidth=4
+    set tabstop=4
+    set softtabstop=4
+    set expandtab
+    vnoremap _> :s:^:#<CR>
+    vnoremap _< :s:^#:<CR>
+    nnoremap _> :s:^:#<CR>
+    nnoremap _< :s:^#:<CR>
+endfunction
 
-autocmd FileType cpp vnoremap _> :s:^://<CR>
-autocmd FileType cpp vnoremap _< :s:^//:<CR>
-
-autocmd FileType cpp nnoremap _> :s:^://<CR>
-autocmd FileType cpp nnoremap _< :s:^//:<CR>
-
-autocmd FileType vim vnoremap _> :s:^:"<CR>
-autocmd FileType vim vnoremap _< :s:^":<CR>
-
-autocmd FileType vim nnoremap _> :s:^:"<CR>
-autocmd FileType vim nnoremap _< :s:^":<CR>
-
-" reopen file at last cursor position
-"autocmd BufReadPost *
-"\ if line("'\"") > 0 && line ("'\"") <= line("$") |
-"\   exe "normal g'\"" |
-"\ endif
+function SetCPPOptions()
+    set cc=120
+    set shiftwidth=2
+    set tabstop=2
+    set softtabstop=2
+    set expandtab
+    vnoremap _> :s:^://<CR>
+    vnoremap _< :s:^//:<CR>
+    nnoremap _> :s:^://<CR>
+    nnoremap _< :s:^//:<CR>
+endfunction
 
 " ctags
 set tags=tags;/
@@ -82,12 +98,6 @@ set tags=tags;/
 
 nnoremap <C-k> :exec "!gen_cscope_db.bash " . v:servername . " &"<CR>
 nnoremap <C-l> :exec "!gen_ctags_db.bash " . v:servername . " &"<CR>
-
-" Open compainion file, if it exists (e.g. test.h -> test.cpp)
-nnoremap <C-C> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:vsp<CR>:cs find f <C-R>=g:word<CR><CR>
-nnoremap <C-H> :let g:word="\\/" . expand("%:t:r") . "\\.h"<CR>:vsp<CR>:cs find f <C-R>=g:word<CR><CR>
-nnoremap <C-c> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:cs find f <C-R>=g:word<CR><CR>
-nnoremap <C-h> :let g:word="\\/" . expand("%:t:r") . "\\.h"<CR>:cs find f <C-R>=g:word<CR><CR>
 
 set nowrap
 
@@ -190,6 +200,13 @@ nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".line(".")."\" \| xse
 
 " Find all files that include this file, in this directory
 nnoremap _csi :let g:cmd=system("echo ".expand('%')." \| awk -F/ '{print $(NF-1)\"/\"$NF}'")<CR>:cs find i <C-R>=g:cmd<CR><CR>
+
+" Open compainion file, if it exists (e.g. test.h -> test.cpp)
+nnoremap <C-C> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:vsp<CR>:cs find f <C-R>=g:word<CR><CR>
+nnoremap <C-H> :let g:word="\\/" . expand("%:t:r") . "\\.h"<CR>:vsp<CR>:cs find f <C-R>=g:word<CR><CR>
+nnoremap <C-c> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:cs find f <C-R>=g:word<CR><CR>
+nnoremap <C-h> :let g:word="\\/" . expand("%:t:r") . "\\.h"<CR>:cs find f <C-R>=g:word<CR><CR>
+
 
 " Cycle through windows
 nnoremap <F5> <C-w>W

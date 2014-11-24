@@ -7,5 +7,5 @@ prompt = ~/hg-prompt/prompt.py
 color = 
 graphlog = 
 shelve = 
-hgwatchman = /home/asj1pal/toys/hgwatchman/hgwatchman
+hgwatchman = /home/asj1pal/hgwatchman/hgwatchman
 
