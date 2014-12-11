@@ -26,7 +26,8 @@ if [[ $? != 0 ]]; then
                     export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}; \
                     export PATH=$(rospack find gnome_utilities)/scripts:$(rospack find mercurial_tools)/scripts:$(rospack find bag_scripts):${PATH}; \
                     alias bash='bash --rcfile ${temporary_bashrc}'; \
-                    alias term='gnome-terminal --command=\"bash --rcfile ${temporary_bashrc}\"'"
+                    alias term='gnome-terminal --command=\"bash --rcfile ${temporary_bashrc}\"'; \
+                    alias pane='tmux split-window -v \"bash --rcfile ${temporary_bashrc} -i\"'"
     cd_command="cd ${working_dir}"
 
     # build temp bashrc file
