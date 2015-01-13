@@ -122,5 +122,5 @@ source ~/bin/upcd.bash
 # ADTF, ROS, etc
 export ADTF2_DIR=/opt/ADTF/2.9.0
 source /opt/ros/groovy/setup.bash
-export ROS_LANG_DISABLE=genlisp:genjava
+export ROS_LANG_DISABLE=genlisp:roslisp:genjava:rosjava
 export PARALLEL_JOBS='-j6 -l0.9'

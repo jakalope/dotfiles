@@ -4,6 +4,13 @@ if [[ ${VIMSERVER} == "" ]]; then
     VIMSERVER="VIM"
 fi
 
+# Check if we're being piped some input
+if [[ ! -t 0 && $# == 0 ]]; then
+    echo "Accepting files from stdin..."
+    awk '{print $1}' | awk -F: '{print "vims +"$2 " " $1}' | bash
+    exit
+fi
+
 # VIM
 if [[ $# > 0 ]]; then
     if [[ ${1} == '-p' ]]; then
