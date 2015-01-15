@@ -13,7 +13,7 @@ function add_suffix()
 }
 
 sudo apt-get install mercurial vim-gtk cscope exuberant-ctags libevent-dev \
-    chromium-browser
+    chromium-browser xsel clang
 
 tmux_version=$(tmux -V)
 if [[ $? != 0 || "${tmux_version}" != "tmux 1.8" ]]; then

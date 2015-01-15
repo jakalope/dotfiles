@@ -123,4 +123,13 @@ source ~/bin/upcd.bash
 export ADTF2_DIR=/opt/ADTF/2.9.0
 source /opt/ros/groovy/setup.bash
 export ROS_LANG_DISABLE=genlisp:genjava
-export PARALLEL_JOBS='-j6 -l0.9'
+export PARALLEL_JOBS='-j7'
+
+# Laptop specific details
+if [[ $(uname -n | tr '[:upper:]' '[:lower:]') == "pale4e7a2" ]]
+then
+    export ROS_PACKAGE_PATH=/home/asj1pal/workspace/pjfa:${ROS_PACKAGE_PATH}
+    export CMAKE_PREFIX_PATH=$(rospack find OGRE):$(rospack find rviz):${CMAKE_PREFIX_PATH}
+    export PARALLEL_JOBS='-j5'
+fi
+
