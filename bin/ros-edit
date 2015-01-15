@@ -39,7 +39,7 @@ if [[ $? != 0 ]]; then
     vim_command="${export_command}; ${cd_command}; vims"
 
     # start up a tmux session
-    tmux new-session -s $WORKSPACE -n VIM -d "${vim_command}"
+    tmux new-session -s $WORKSPACE -n ${WORKSPACE} -d "${vim_command}"
     tmux split-window -h "bash --rcfile ${temporary_bashrc} -i"
     tmux split-window -v "bash --rcfile ${temporary_bashrc} -i"
     tmux resize-pane -L 10

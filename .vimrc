@@ -1,6 +1,7 @@
 " pathogen
 call pathogen#infect()
 let g:session_autosave = 'yes'
+let g:session_autoload = 'no'
 filetype on
 filetype plugin on
 syntax on
@@ -27,13 +28,28 @@ set expandtab
 
 autocmd FileType vim call SetVimOptions()
 autocmd FileType tex call SetTexOptions()
+autocmd FileType xml call SetHtmlOptions()
+autocmd FileType html call SetHtmlOptions()
 
 autocmd FileType sh call SetPythonOptions()
 autocmd FileType bash call SetPythonOptions()
+autocmd FileType yaml call SetPythonOptions()
 autocmd FileType python call SetPythonOptions()
 
 autocmd FileType c call SetCPPOptions()
 autocmd FileType cpp call SetCPPOptions()
+
+function SetHtmlOptions()
+    set cc=80
+    set shiftwidth=4
+    set tabstop=4
+    set softtabstop=4
+    set expandtab
+    vnoremap _> :s:^\(.*\)$:<!--\1-->:g<CR>
+    vnoremap _< :s:^<!--\(.*\)-->$:\1:g<CR>
+    nnoremap _> :s:^\(.*\)$:<!--\1-->:g<CR>
+    nnoremap _< :s:^<!--\(.*\)-->$:\1:g<CR>
+endfunction
 
 function SetVimOptions()
     set cc=80
@@ -85,6 +101,9 @@ endfunction
 
 " ctags
 set tags=tags;/
+
+" gvim
+colorscheme slate
 
 " taglist
 "let Tlist_Auto_Open=1

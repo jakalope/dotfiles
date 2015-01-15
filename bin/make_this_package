@@ -6,10 +6,10 @@ do
     cd ..
 done
 
-if [ ! -e .clang_complete ]
-then
-    gen_clang_complete.bash "$1"
-else
+#if [ ! -e .clang_complete ]
+#then
+#    gen_clang_complete.bash "$1"
+#else
     make -j
-fi
+#fi
 
