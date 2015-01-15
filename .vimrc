@@ -1,6 +1,7 @@
 " pathogen
 call pathogen#infect()
 let g:session_autosave = 'yes'
+let g:session_autoload = 'no'
 filetype on
 filetype plugin on
 syntax on
@@ -100,6 +101,9 @@ endfunction
 
 " ctags
 set tags=tags;/
+
+" gvim
+colorscheme slate
 
 " taglist
 "let Tlist_Auto_Open=1
