@@ -1,9 +1,17 @@
 #!/bin/bash
 
+find_in_dir()
+{
+    2>/dev/null find "${1}" -regex ".*\.\(h\|c\|hpp\|cpp\|cx\|tpp\)$" -print
+}
+
 if [[ $# > 0 ]]; then
-    dir=$1
+    while [[ $# != 0 ]]; do
+        find_in_dir "${1}"
+        shift
+    done
 else
-    dir='./'
+    find_in_dir ./
 fi
 
-2>/dev/null find ${dir} -regex ".*\.\(h\|c\|hpp\|cpp\|cx\)$" -print
+    

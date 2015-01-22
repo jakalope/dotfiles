@@ -9,6 +9,9 @@ fi
 WORKSPACE=$(echo $WORKSPACE | sed 's:/$::g') # Remove trailing slash
 working_dir=$(pwd)/${WORKSPACE}
 
+# convert to uppercase for compatibility with vim servernames
+WORKSPACE=${WORKSPACE^^} 
+
 export ROS_EDIT=1
 
 tmux has-session -t $WORKSPACE &> /dev/null
