@@ -132,3 +132,5 @@ then
     export CMAKE_PREFIX_PATH=$(rospack find OGRE):$(rospack find rviz):${CMAKE_PREFIX_PATH}
     export PARALLEL_JOBS='-j5'
 fi
+
+source ~/workspace/utils/setup.sh
