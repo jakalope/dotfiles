@@ -63,7 +63,10 @@ pushd ~/workspace
 echo 'cloning...'
 if [[ ! -d pjfa ]]; then
     ssh-copy-id pjfa.pal.us.bosch.com
+    ssh-copy-id abthadrepo03.de.bosch.com
     hg clone ssh://asj1pal@pjfa.pal.us.bosch.com///repos/pjfa
+    hg clone ssh://asj1pal@pjfa.pal.us.bosch.com///repos/utils
 fi
 popd
 
+echo "source $(pwd)/setup.sh" >> ~/.bashrc && . ~/.bashrc
