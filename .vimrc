@@ -103,7 +103,9 @@ endfunction
 set tags=tags;/
 
 " gvim
-colorscheme slate
+if has("gui_running")
+    colorscheme slate
+endif
 
 " taglist
 "let Tlist_Auto_Open=1
@@ -218,7 +220,7 @@ vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
 nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".line(".")."\" \| xsel --clipboard --input"<CR>:redraw!<CR>
 
 " Find all files that include this file, in this directory
-nnoremap _csi :let g:cmd=system("echo ".expand('%')." \| awk -F/ '{print $(NF-1)\"/\"$NF}'")<CR>:cs find i <C-R>=g:cmd<CR><CR>
+nnoremap _down :let g:cmd=system("echo ".expand('%')." \| awk -F/ '{print $(NF-1)\"/\"$NF}'")<CR>:cs find i <C-R>=g:cmd<CR><CR>
 
 " Open compainion file, if it exists (e.g. test.h -> test.cpp)
 nnoremap <C-C> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:vsp<CR>:cs find f <C-R>=g:word<CR><CR>

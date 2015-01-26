@@ -83,10 +83,12 @@ endfunction
 function! ToggleCollapse()
     if exists('g:collapsed')
         unlet g:collapsed
+        exe "silent !tmux resize-pane -t ".v:servername." -Z"
         exe "silent !tmux source-file ".s:path."/enable_pane_switching.conf"
         call SplitsToTabs()
     else
         let g:collapsed = 1
+        exe "silent !tmux resize-pane -t ".v:servername." -Z"
         exe "silent !tmux source-file ".s:path."/disable_pane_switching.conf"
         call TabsToSplits()
     endif
