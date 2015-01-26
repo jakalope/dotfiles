@@ -12,9 +12,15 @@ function add_suffix()
     done
 }
 
+# install dependencies
 sudo apt-get install mercurial vim-gtk cscope exuberant-ctags libevent-dev \
     chromium-browser xsel clang virtualbox-4.3
 
+# setup Chris' close-branch hg extension
+cd ~/.hgext
+git clone http://github.pal.us.bosch.com/MAC1PAL/close-branch.git
+
+# setup specific tmux version
 tmux_version=$(tmux -V)
 if [[ $? != 0 || "${tmux_version}" != "tmux 1.8" ]]; then
     gunzip -c tmux_1.8.orig.tar.gz | tar xvf -
@@ -26,6 +32,7 @@ if [[ $? != 0 || "${tmux_version}" != "tmux 1.8" ]]; then
     rm -r tmux-1.8
 fi
 
+# setup facebook's watchman
 watchman_version=$(watchman --version)
 if [[ $? != 0 ]]; then
     pushd watchman
@@ -54,10 +61,12 @@ rm -rf .astylerc .bashrc bin .gdbinit .gitconfig hg-prompt \
     .hgrc hgwatchman .rviz .tmux.conf .vim .vimrc
 popd
 
+# setup symlinks
 echo 'linking...'
 ln --symbolic --target ${HOME} \
     $(pwd)/{.astylerc,.bashrc,bin,.gdbinit,.gitconfig,hg-prompt,.hgrc,hgwatchman,.tmux.conf,.rviz,.vim,.vimrc}
 
+# clone hg workspace
 mkdir -p ~/workspace
 pushd ~/workspace
 echo 'cloning...'
