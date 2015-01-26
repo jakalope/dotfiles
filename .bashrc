@@ -133,4 +133,4 @@ then
     export PARALLEL_JOBS='-j5'
 fi
 
-source ~/workspace/utils/setup.sh
+source /home/asj1pal/workspace/utils/setup.sh
