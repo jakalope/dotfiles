@@ -19,7 +19,7 @@ if [[ $? != 0 ]]; then
     ROS_PACKAGE_PATH=''
     CMAKE_PREFIX_PATH=''
     source /opt/ros/groovy/setup.bash
-    source ~/workspace/tools/setup.sh
+    source ~/workspace/utils/setup.sh
     export temporary_bashrc=$(mktemp)
     chmod 0600 ${temporary_bashrc} # make it secure
     ROS_PACKAGE_PATH=${working_dir}:${ROS_PACKAGE_PATH}
