@@ -1,0 +1,14 @@
+/\.clang_complete$
+^\.clang_complete$
+.*\.swp$
+/cscope\.files$
+/cscope\.in\.out
+/cscope\.out
+/cscope\.po\.out
+^cscope\.files$
+^cscope\.in\.out
+^cscope\.out
+^cscope\.po\.out
+/tags$
+^tags$
+
