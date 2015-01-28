@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [[ $# < 1 ]]; then
-    count=5
-else
-    count=$1
-fi
-
-hg log -b $(hg branch) -l $count
