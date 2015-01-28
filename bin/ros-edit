@@ -7,7 +7,7 @@ else
 fi
 
 WORKSPACE=$(echo $WORKSPACE | sed 's:/$::g') # Remove trailing slash
-working_dir=$(pwd)/${WORKSPACE}
+WORKSPACE_DIR=$(pwd)/${WORKSPACE}
 
 # convert to uppercase for compatibility with vim servernames
 WORKSPACE=${WORKSPACE^^} 
@@ -22,17 +22,17 @@ if [[ $? != 0 ]]; then
     source ~/workspace/utils/setup.sh
     export temporary_bashrc=$(mktemp)
     chmod 0600 ${temporary_bashrc} # make it secure
-    ROS_PACKAGE_PATH=${working_dir}:${ROS_PACKAGE_PATH}
+    ROS_PACKAGE_PATH=${WORKSPACE_DIR}:${ROS_PACKAGE_PATH}
     CMAKE_PREFIX_PATH=$(rospack find rviz):$(rospack find OGRE):${CMAKE_PREFIX_PATH}
     export_command="export CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}; \
                     export WORKSPACE=${WORKSPACE}; \
+                    export WORKSPACE_DIR=${WORKSPACE}; \
                     export VIMSERVER=${WORKSPACE}; \
                     export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}; \
-                    export PATH=$(rospack find gnome_utilities)/scripts:$(rospack find mercurial_tools)/scripts:$(rospack find bag_scripts):${PATH}; \
                     alias bash='bash --rcfile ${temporary_bashrc}'; \
                     alias term='gnome-terminal --command=\"bash --rcfile ${temporary_bashrc}\"'; \
                     alias pane='tmux split-window -v \"bash --rcfile ${temporary_bashrc} -i\"'"
-    cd_command="cd ${working_dir}"
+    cd_command="cd ${WORKSPACE_DIR}"
 
     # build temp bashrc file
     cp ~/.bashrc $temporary_bashrc
@@ -50,7 +50,7 @@ if [[ $? != 0 ]]; then
     tmux resize-pane -D 25
     tmux select-pane -t 0
 
-    cd ${working_dir}
+    cd ${WORKSPACE_DIR}
     gen_cscope_db.bash ${WORKSPACE} &
     gen_ctags_db.bash ${WORKSPACE} &
 fi
