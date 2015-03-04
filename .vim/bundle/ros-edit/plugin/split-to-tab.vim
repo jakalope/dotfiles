@@ -120,6 +120,7 @@ endfunction
 nnoremap ;l :call ToggleCollapse()<CR>
 nnoremap ;p :call RunInPane('1', 'cd '.system('printf "%s" "$(pwd)"').'/'.system('dirname '.shellescape(expand('%'))))<CR>
 nnoremap ;m :w<CR>:call RunInPane('1', 'make_this_package '.expand('%'))<CR>
+nnoremap ;n :w<CR>:call RunInPane('1', 'make_this_package_abridged '.expand('%'))<CR>
 nnoremap ;c :call RunInPane('1', 'gen_clang_complete.bash '.expand('%'))<CR>
 nnoremap ;r :call RunInPane('1', 'rosmake perception')<CR>
 nnoremap ;v :call RunInPane('2', 'visualize_perception.sh')<CR>
