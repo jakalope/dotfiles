@@ -26,18 +26,18 @@ set tabstop=4
 set softtabstop=4
 set expandtab
 
-autocmd FileType vim call SetVimOptions()
-autocmd FileType tex call SetTexOptions()
-autocmd FileType xml call SetHtmlOptions()
-autocmd FileType html call SetHtmlOptions()
+autocmd BufNewFile,BufRead *.vim call SetVimOptions()
+autocmd BufNewFile,BufRead *.tex call SetTexOptions()
+autocmd BufNewFile,BufRead *.xml call SetHtmlOptions()
+autocmd BufNewFile,BufRead *.html call SetHtmlOptions()
 
-autocmd FileType sh call SetPythonOptions()
-autocmd FileType bash call SetPythonOptions()
-autocmd FileType yaml call SetPythonOptions()
-autocmd FileType python call SetPythonOptions()
+autocmd BufNewFile,BufRead *.sh call SetPythonOptions()
+autocmd BufNewFile,BufRead *.bash call SetPythonOptions()
+autocmd BufNewFile,BufRead *.yaml call SetPythonOptions()
+autocmd BufNewFile,BufRead *.python call SetPythonOptions()
 
-autocmd FileType c call SetCPPOptions()
-autocmd FileType cpp call SetCPPOptions()
+autocmd BufNewFile,BufRead *.c call SetCPPOptions()
+autocmd BufNewFile,BufRead *.cpp call SetCPPOptions()
 
 function SetHtmlOptions()
     set cc=80
@@ -248,9 +248,16 @@ nnoremap <C-F6> :tn<CR>
 " Get some clipboard functionality
 nnoremap _v "+p
 vnoremap _x "+y
+vnoremap _c "+y
 
 " Remove all buffers
 command Clear :0,10000bd
+
+" Break up this multi-var definition into two lines
+nnoremap _n 0wyWf,i;	pdf,0
+
+" Reload all windows in all tabs
+nnoremap _reload :tabdo exec 'windo e'<CR>
 
 " Move to beginning of next word, skipping non-word characters
 function! NextWord() range

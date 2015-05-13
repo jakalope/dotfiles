@@ -119,7 +119,7 @@ endfunction
 
 nnoremap ;l :call ToggleCollapse()<CR>
 nnoremap ;p :call RunInPane('1', 'cd '.system('printf "%s" "$(pwd)"').'/'.system('dirname '.shellescape(expand('%'))))<CR>
-nnoremap ;m :w<CR>:call RunInPane('1', 'make_this_package '.expand('%'))<CR>
+nnoremap ;m :w<CR>:call RunInPane('1', 'q')<CR>:call RunInPane('1', 'make_this_package '.expand('%'))<CR>
 nnoremap ;n :w<CR>:call RunInPane('1', 'make_this_package_abridged '.expand('%'))<CR>
 nnoremap ;c :call RunInPane('1', 'gen_clang_complete.bash '.expand('%'))<CR>
 nnoremap ;r :call RunInPane('1', 'rosmake perception')<CR>
@@ -128,3 +128,5 @@ nnoremap ;v :call RunInPane('2', 'visualize_perception.sh')<CR>
 " TODO: see if mapping <c-a><c-a> in vim and unmapping it in tmux works -- use when in collapsed state
 " TODO: remember what file we were editing and navigate back there after ;l
 " TODO: handle CTRL-F7, CTRL-F8 for toggling collapse
+
+" TODO: use -L after all tmux commands to specifiy which ros-edit to apply change to

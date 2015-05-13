@@ -1,4 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_cnt =4
 let g:netrw_dirhist_1='/opt/ros/groovy/lib/python2.7/dist-packages/std_msgs'
 let g:netrw_dirhist_2='/home/asj1pal/workspace/pjfa/vehicles/acura02_ty2a_6003/launch'
+let g:netrw_dirhist_3='/home/asj1pal/workspace/pjfa/common/gcc_flags_profile_use'
+let g:netrw_dirhist_4='/home/asj1pal/workspace/pjfa/perception/perception/params/sensors'
