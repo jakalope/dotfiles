@@ -1,24 +1,8 @@
 #!/bin/bash
 
-function add_suffix()
-{
-    suffix="${1}"
-    shift
-    while [[ $# > 0 ]]; do
-        if [[ -e "${1}" && ! -L "${1}" ]]; then
-            mv "${1}" "${1}_${suffix}"
-        fi
-        shift
-    done
-}
-
 # install dependencies
 sudo apt-get install mercurial vim-gtk cscope exuberant-ctags libevent-dev \
-    chromium-browser xsel clang virtualbox-4.3
-
-# setup Chris' close-branch hg extension
-cd ~/.hgext
-git clone http://github.pal.us.bosch.com/MAC1PAL/close-branch.git
+    chromium-browser xsel virtualbox-4.3 autoconf
 
 # setup specific tmux version
 tmux_version=$(tmux -V)
@@ -53,12 +37,12 @@ fi
 
 pushd ~
 stamp=$(date +%Y-%m-%d-%H-%M-%S)
-echo 'backing up old files...'
-add_suffix "_${stamp}" .astylerc .bashrc bin .gdbinit .gitconfig hg-prompt \
-    .hgrc hgwatchman .rviz .tmux.conf .vim .vimrc
-echo 'removing old files...'
-rm -rf .astylerc .bashrc bin .gdbinit .gitconfig hg-prompt \
-    .hgrc hgwatchman .rviz .tmux.conf .vim .vimrc
+mkdir -p $stamp
+echo "backing up old files to ~/${stamp}..."
+for file in ".astylerc .bashrc bin .gdbinit .gitconfig hg-prompt .hgignore .hgrc hgwatchman .hgext .rviz .tmux.conf .vim .vimrc"
+do
+    mv $file $stamp
+done
 popd
 
 # setup symlinks
@@ -69,8 +53,8 @@ ln --symbolic --target ${HOME} \
 # clone hg workspace
 mkdir -p ~/workspace
 pushd ~/workspace
-echo 'cloning...'
 if [[ ! -d pjfa ]]; then
+    echo 'cloning...'
     ssh-copy-id pjfa.pal.us.bosch.com
     ssh-copy-id abthadrepo03.de.bosch.com
     hg clone ssh://asj1pal@pjfa.pal.us.bosch.com///repos/pjfa
@@ -78,4 +62,4 @@ if [[ ! -d pjfa ]]; then
 fi
 popd
 
-echo "source $(pwd)/setup.sh" >> ~/.bashrc && . ~/.bashrc
+#echo "source $(pwd)/setup.sh" >> ~/.bashrc && . ~/.bashrc

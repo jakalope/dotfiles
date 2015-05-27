@@ -2,49 +2,63 @@
 call pathogen#infect()
 let g:session_autosave = 'yes'
 let g:session_autoload = 'no'
+let g:AutoPairsShortcutToggle = '_ap'
 filetype on
 filetype plugin on
+filetype indent on
 syntax on
+set paste
 set nocompatible
 set showmode
 set title
-set ai
 set viminfo='20,\"50
 set history=50
 set bs=2
-
+set ruler
 set nohlsearch
-nnoremap <F3> :noh<CR><CR>
 
 set encoding=utf-8 
 set fileencoding=utf-8 
 
 " Indentation settings for using hard tabs for indent. Display tabs as
 " two characters wide.
+set expandtab
 set shiftwidth=4
 set tabstop=4
 set softtabstop=4
-set expandtab
+set autoindent
+set smartindent
 
-autocmd BufNewFile,BufRead *.vim call SetVimOptions()
-autocmd BufNewFile,BufRead *.tex call SetTexOptions()
-autocmd BufNewFile,BufRead *.xml call SetHtmlOptions()
-autocmd BufNewFile,BufRead *.html call SetHtmlOptions()
+augroup configgroup
+    autocmd!
+    autocmd BufNewFile,BufRead *.vim call SetVimOptions()
+    autocmd BufNewFile,BufRead *.tex call SetTexOptions()
+    autocmd BufNewFile,BufRead *.xml call SetHtmlOptions()
+    autocmd BufNewFile,BufRead *.html call SetHtmlOptions()
+    autocmd BufNewFile,BufRead *.launch call SetHtmlOptions()
 
-autocmd BufNewFile,BufRead *.sh call SetPythonOptions()
-autocmd BufNewFile,BufRead *.bash call SetPythonOptions()
-autocmd BufNewFile,BufRead *.yaml call SetPythonOptions()
-autocmd BufNewFile,BufRead *.python call SetPythonOptions()
+    autocmd BufNewFile,BufRead *.sh call SetPythonOptions()
+    autocmd BufNewFile,BufRead *.bash call SetPythonOptions()
+    autocmd BufNewFile,BufRead *.yaml call SetPythonOptions()
+    autocmd BufNewFile,BufRead *.python call SetPythonOptions()
 
-autocmd BufNewFile,BufRead *.c call SetCPPOptions()
-autocmd BufNewFile,BufRead *.cpp call SetCPPOptions()
+    autocmd BufNewFile,BufRead *.c call SetCPPOptions()
+    autocmd BufNewFile,BufRead *.cc call SetCPPOptions()
+    autocmd BufNewFile,BufRead *.cx call SetCPPOptions()
+    autocmd BufNewFile,BufRead *.cpp call SetCPPOptions()
+    autocmd BufNewFile,BufRead *.h call SetCPPOptions()
+    autocmd BufNewFile,BufRead *.hpp call SetCPPOptions()
+
+    autocmd BufNewFile,BufRead CMakeLists.txt call SetCMakeOptions()
+augroup end
 
 function SetHtmlOptions()
     set cc=80
     set shiftwidth=4
     set tabstop=4
     set softtabstop=4
-    set expandtab
+    set autoindent
+    set smartindent
     vnoremap _> :s:^\(.*\)$:<!--\1-->:g<CR>
     vnoremap _< :s:^<!--\(.*\)-->$:\1:g<CR>
     nnoremap _> :s:^\(.*\)$:<!--\1-->:g<CR>
@@ -56,7 +70,8 @@ function SetVimOptions()
     set shiftwidth=4
     set tabstop=4
     set softtabstop=4
-    set expandtab
+    set autoindent
+    set smartindent
     vnoremap _> :s:^:"<CR>
     vnoremap _< :s:^":<CR>
     nnoremap _> :s:^:"<CR>
@@ -68,7 +83,8 @@ function SetTexOptions()
     set shiftwidth=2
     set tabstop=2
     set softtabstop=2
-    set expandtab
+    set autoindent
+    set smartindent
     vnoremap _> :s:^:%<CR>
     vnoremap _< :s:^%:<CR>
     nnoremap _> :s:^:%<CR>
@@ -80,7 +96,21 @@ function SetPythonOptions()
     set shiftwidth=4
     set tabstop=4
     set softtabstop=4
-    set expandtab
+    set autoindent
+    set smartindent
+    vnoremap _> :s:^:#<CR>
+    vnoremap _< :s:^#:<CR>
+    nnoremap _> :s:^:#<CR>
+    nnoremap _< :s:^#:<CR>
+endfunction
+
+function SetCMakeOptions()
+    set cc=100
+    set shiftwidth=2
+    set tabstop=2
+    set softtabstop=2
+    set autoindent
+    set smartindent
     vnoremap _> :s:^:#<CR>
     vnoremap _< :s:^#:<CR>
     nnoremap _> :s:^:#<CR>
@@ -92,7 +122,9 @@ function SetCPPOptions()
     set shiftwidth=2
     set tabstop=2
     set softtabstop=2
-    set expandtab
+    set autoindent
+    set smartindent
+    set cindent
     vnoremap _> :s:^://<CR>
     vnoremap _< :s:^//:<CR>
     nnoremap _> :s:^://<CR>
@@ -169,8 +201,6 @@ set cmdheight=2
 
 " Display line numbers on the left
 set number
-
-set paste
 
 set incsearch
 set scrolloff=2

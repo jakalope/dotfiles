@@ -90,6 +90,7 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias cm='catkin_make'
 alias valgrind_check='valgrind --tool=memcheck --track-origins=yes --leak-check=full --show-reachable=yes'
 
 # Add an "alert" alias for long running commands.  Use like so:
@@ -120,18 +121,17 @@ fi
 EDITOR=vim
 source ~/bin/upcd.bash
 
-# ADTF, ROS, etc
-export ADTF2_DIR=/opt/ADTF/2.9.0
-source /opt/ros/groovy/setup.bash
+export ros_dist=jade
+source /opt/ros/${ros_dist}/setup.bash
+export ROS_PACKAGE_PATH=/home/asj1pal/workspace/pjfa:${ROS_PACKAGE_PATH}
+export CMAKE_PREFIX_PATH=$(rospack find OGRE):$(rospack find rviz):${CMAKE_PREFIX_PATH}
 export ROS_LANG_DISABLE=genlisp:genjava
 export PARALLEL_JOBS='-j7'
 
 # Laptop specific details
 if [[ $(uname -n | tr '[:upper:]' '[:lower:]') == "pale4e7a2" ]]
 then
-    export ROS_PACKAGE_PATH=/home/asj1pal/workspace/pjfa:${ROS_PACKAGE_PATH}
-    export CMAKE_PREFIX_PATH=$(rospack find OGRE):$(rospack find rviz):${CMAKE_PREFIX_PATH}
     export PARALLEL_JOBS='-j5'
 fi
 
-source /home/asj1pal/workspace/utils/setup.sh
+source /home/asj1pal/workspace/utils_ws/src/utils/setup.sh
