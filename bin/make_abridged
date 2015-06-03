@@ -1,0 +1,2 @@
+#!/bin/bash
+make -j 2>&1 | grep -B1 error: | head | grep -B1 error:

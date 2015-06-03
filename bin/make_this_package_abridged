@@ -1,10 +1,5 @@
 #!/bin/bash
 
-cd ${WORKSPACE_DIR}/$(dirname $1)
-while [[ ! -f manifest.xml && $(pwd) != "/" ]]
-do
-    cd ..
-done
-
-make -j 2>&1 | grep -B1 error: | head | grep -B1 error:
+MAKE=make_abridged
+make_this_package
 

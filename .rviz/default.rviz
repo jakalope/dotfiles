@@ -60,10 +60,21 @@ Visualization Manager:
       Style: Billboards
       Topic: /driving/velodyne/projected_spin
       Value: true
+    - Class: driving_rviz_plugins/Vehicle
+      Color: 77; 77; 77
+      Enabled: true
+      Name: Vehicle
+      Position Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Value: true
+      Vehicle Origin: /vehicle_origin
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: /vehicle_origin
+    Fixed Frame: vehicle_origin
+    Frame Rate: 30
   Name: root
   Tools:
     - Class: rviz/Interact
@@ -83,17 +94,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 37.6334
+      Distance: 24.4031
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.06
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
       Focal Point:
         X: 0
         Y: 0
         Z: 0
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.555398
+      Pitch: 0.495398
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.6904
+      Yaw: 2.55
     Saved: ~
 Window Geometry:
   Displays:
@@ -111,5 +127,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 2097
-  X: 165
-  Y: 70
+  X: 135
+  Y: 40

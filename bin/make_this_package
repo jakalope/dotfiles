@@ -1,15 +1,36 @@
 #!/bin/bash
 
-cd ${WORKSPACE_DIR}/$(dirname $1)
-while [[ ! -f manifest.xml && $(pwd) != "/" ]]
+cd ${SOURCE_DIR}/$(dirname $1)
+while [[ ! -f package.xml && ! -f manifest.xml && $(pwd) != "/" ]]
 do
     cd ..
 done
 
-#if [ ! -e .clang_complete ]
-#then
-#    gen_clang_complete.bash "$1"
-#else
-    make -j
-#fi
+if [[ ${MAKE} == "" ]]; then
+    MAKE='make -j'
+fi
+
+if [[ -f package.xml ]]; then
+    # this is a catkin package; find accompanying build folder
+    # extract the name of the package
+    package=$(pwd)         # get current directory
+    package=${package##*/} # /foo/bar/too -> too
+    # search for root of build system, as it contains build/${package}/build_env.sh
+    build_env="build/${package}/build_env.sh"
+    while [[ ! -e ${build_env} ]]; do
+        if [[ $(pwd) == "/" ]]; then
+            echo "Failed to find a directory containing ${build_env}"
+            exit 1
+        fi
+        cd ..
+    done
+    # enter the build package folder
+    cd build/${package}
+    ${MAKE}
+elif [[ -f manifest.xml ]]; then
+    # this is a rosbuild package
+    ${MAKE}
+else
+    echo "No package found" 1>&2
+fi
 
