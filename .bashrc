@@ -118,11 +118,12 @@ then
     export PATH=${PATH}:/home/asj1pal/bin
 fi
 
-EDITOR=vim
+export EDITOR=vims
 source ~/bin/upcd.bash
 
 export ros_dist=jade
 source /opt/ros/${ros_dist}/setup.bash
+source /home/asj1pal/workspace/pjfa/devel/setup.bash
 export ROS_PACKAGE_PATH=/home/asj1pal/workspace/pjfa:${ROS_PACKAGE_PATH}
 export CMAKE_PREFIX_PATH=$(rospack find rviz):${CMAKE_PREFIX_PATH}
 export ROS_LANG_DISABLE=genlisp:genjava

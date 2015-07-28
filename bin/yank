@@ -1,0 +1,9 @@
+#!/bin/bash
+# original author = Alex Teichmann
+# http://www.alexteichman.com/octo/
+
+while read line
+do
+    echo "${line}" | grep "^\s*$@\s" | awk '{print $2}' | sed 's/-\([0-9]*\)-/:\1:/g' | awk -F: '{print $1 " +" $2}' | awk '{print $2 " " $1}' | xargs ${EDITOR:?EDITOR must be set.}
+done
+
