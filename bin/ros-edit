@@ -25,20 +25,20 @@ if [[ $? != 0 ]]; then
     source /opt/ros/${ros_dist}/setup.bash
     BASIC_ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH
     source ${WORKSPACE_DIR}/devel/setup.bash
-    ROS_PACKAGE_PATH=$BASIC_ROS_PACKAGE_PATH:${SOURCE_DIR}
-    CMAKE_PREFIX_PATH=$(rospack find rviz):${CMAKE_PREFIX_PATH}
+    ROS_PACKAGE_PATH=${SOURCE_DIR}:$BASIC_ROS_PACKAGE_PATH
 
     source ~/workspace/utils_ws/src/utils/setup.sh
     export_command="export CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}; \
+                    export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}; \
                     export WORKSPACE=${WORKSPACE}; \
                     export WORKSPACE_DIR=${WORKSPACE_DIR}; \
                     export SOURCE_DIR=${SOURCE_DIR}; \
                     export VIMSERVER=${WORKSPACE}; \
-                    export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}; \
                     alias bash='bash --rcfile ${temporary_bashrc}'; \
                     alias term='gnome-terminal --command=\"bash --rcfile ${temporary_bashrc}\"'; \
                     alias pane='tmux split-window -v \"bash --rcfile ${temporary_bashrc} -i\"'; \
-                    alias wcd='cd ${WORKSPACE_DIR}'"
+                    alias wcd='cd ${WORKSPACE_DIR}'; \
+                    alias scd='cd ${SOURCE_DIR}'"
     cd_command="cd ${WORKSPACE_DIR}"
 
     # build temp bashrc file

@@ -50,6 +50,7 @@ augroup configgroup
     autocmd BufNewFile,BufRead *.hpp call SetCPPOptions()
 
     autocmd BufNewFile,BufRead CMakeLists.txt call SetCMakeOptions()
+    autocmd BufNewFile,BufRead *.cmake call SetCMakeOptions()
 augroup end
 
 function SetHtmlOptions()
@@ -89,6 +90,7 @@ function SetTexOptions()
     vnoremap _< :s:^%:<CR>
     nnoremap _> :s:^:%<CR>
     nnoremap _< :s:^%:<CR>
+    command! Build :!pdflatex % && evince '%:r'.pdf
 endfunction
 
 function SetPythonOptions()
@@ -129,6 +131,7 @@ function SetCPPOptions()
     vnoremap _< :s:^//:<CR>
     nnoremap _> :s:^://<CR>
     nnoremap _< :s:^//:<CR>
+    command! Build :make
 endfunction
 
 " ctags
