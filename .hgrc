@@ -8,7 +8,7 @@ color =
 graphlog = 
 shelve = 
 #hgwatchman = /home/asj1pal/hgwatchman/hgwatchman
-close = ~/.hgext/close-branch/close-branch.py
+#close = ~/.hgext/close-branch/close-branch.py
 
 [merge-tools]
 meld.args = $local $other

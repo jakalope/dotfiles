@@ -27,7 +27,7 @@ if [[ $? != 0 ]]; then
     source ${WORKSPACE_DIR}/devel/setup.bash
     ROS_PACKAGE_PATH=${SOURCE_DIR}:$BASIC_ROS_PACKAGE_PATH
 
-    source ~/workspace/utils_ws/src/utils/setup.sh
+    source ~/workspace/utils/setup.sh
     export_command="export CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}; \
                     export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}; \
                     export WORKSPACE=${WORKSPACE}; \
