@@ -30,7 +30,8 @@ popd
 # setup symlinks
 echo 'linking...'
 ln --symbolic --target ${HOME} \
-    $(pwd)/{.astylerc,.bashrc,bin,.gdbinit,.gitconfig,hg-prompt,.hgignore,.hgrc,.hgext,.tmux.conf,.rviz,.vim,.vimrc,.clang-format}
+    $(pwd)/{.astylerc,.bashrc,bin,.gdbinit,.gitconfig,hg-prompt,.hgignore,.hgrc,.hgext,.tmux.conf,.rviz,.vim,.vimrc}
+cp $(pwd)/.clang-format ${HOME}
 
 # clone hg workspace
 mkdir -p ~/workspace
