@@ -53,7 +53,7 @@ augroup configgroup
     autocmd BufNewFile,BufRead *.cmake call SetCMakeOptions()
 augroup end
 
-function SetHtmlOptions()
+function! SetHtmlOptions()
     set cc=80
     set shiftwidth=4
     set tabstop=4
@@ -66,7 +66,7 @@ function SetHtmlOptions()
     nnoremap _< :s:^<!--\(.*\)-->$:\1:g<CR>
 endfunction
 
-function SetVimOptions()
+function! SetVimOptions()
     set cc=80
     set shiftwidth=4
     set tabstop=4
@@ -79,7 +79,7 @@ function SetVimOptions()
     nnoremap _< :s:^":<CR>
 endfunction
 
-function SetTexOptions()
+function! SetTexOptions()
     set cc=120
     set shiftwidth=2
     set tabstop=2
@@ -93,7 +93,7 @@ function SetTexOptions()
     command! Build :!pdflatex % && evince '%:r'.pdf
 endfunction
 
-function SetPythonOptions()
+function! SetPythonOptions()
     set cc=80
     set shiftwidth=4
     set tabstop=4
@@ -106,7 +106,7 @@ function SetPythonOptions()
     nnoremap _< :s:^#:<CR>
 endfunction
 
-function SetCMakeOptions()
+function! SetCMakeOptions()
     set cc=100
     set shiftwidth=2
     set tabstop=2
@@ -119,7 +119,7 @@ function SetCMakeOptions()
     nnoremap _< :s:^#:<CR>
 endfunction
 
-function SetCPPOptions()
+function! SetCPPOptions()
     set cc=120
     set shiftwidth=2
     set tabstop=2
@@ -243,8 +243,9 @@ nnoremap _align ywmvV}:s/<C-r>"/`<C-r>"/g<CR>V'v:!column -ts \`<CR>
 nnoremap _t :tabnew %<CR>:tabprev<CR><C-t>
 
 " Restyle source code
-nnoremap _style :%!astyle<CR>
 vnoremap _style :!astyle<CR>
+nnoremap _style :%!astyle<CR>
+command! Style :%!astyle
 
 " Convert Structure-Of-Arrays to Array-Of-Structures
 vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
@@ -284,7 +285,7 @@ vnoremap _x "+y
 vnoremap _c "+y
 
 " Remove all buffers
-command Clear :0,10000bd
+command! Clear :0,10000bd
 
 " Break up this multi-var definition into two lines
 nnoremap _n 0wyWf,i;	pdf,0
