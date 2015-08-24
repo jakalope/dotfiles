@@ -3,7 +3,7 @@
 # install dependencies
 sudo apt-get install mercurial vim-gtk cscope exuberant-ctags libevent-dev \
     chromium-browser xsel virtualbox-4.3 autoconf python-catkin-tools \
-    gfortran ubuntu-restricted-extras
+    gfortran ubuntu-restricted-extras clang-format-3.6
 
 # setup specific tmux version
 tmux_version=$(tmux -V)
@@ -21,7 +21,7 @@ pushd ~
 stamp=$(date +%Y-%m-%d-%H-%M-%S)
 mkdir -p $stamp
 echo "backing up old files to ~/${stamp}..."
-for file in ".astylerc .bashrc bin .gdbinit .gitconfig hg-prompt .hgignore .hgrc .hgext .rviz .tmux.conf .vim .vimrc"
+for file in ".astylerc .bashrc bin .gdbinit .gitconfig hg-prompt .hgignore .hgrc .hgext .rviz .tmux.conf .vim .vimrc .clang-format"
 do
     mv $file $stamp
 done
@@ -31,6 +31,7 @@ popd
 echo 'linking...'
 ln --symbolic --target ${HOME} \
     $(pwd)/{.astylerc,.bashrc,bin,.gdbinit,.gitconfig,hg-prompt,.hgignore,.hgrc,.hgext,.tmux.conf,.rviz,.vim,.vimrc}
+cp $(pwd)/.clang-format ${HOME}
 
 # clone hg workspace
 mkdir -p ~/workspace

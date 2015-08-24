@@ -92,6 +92,7 @@ alias la='ls -A'
 alias l='ls -CF'
 alias cm='catkin_make'
 alias valgrind_check='valgrind --tool=memcheck --track-origins=yes --leak-check=full --show-reachable=yes'
+alias cwd='pwd | xsel -ib'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -123,9 +124,10 @@ source ~/bin/upcd.bash
 
 export ros_dist=jade
 source /opt/ros/${ros_dist}/setup.bash
-BASIC_ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}
+BASIC_PKG_PATH=${ROS_PACKAGE_PATH}
 source /home/asj1pal/workspace/pjfa/devel/setup.bash
-export ROS_PACKAGE_PATH=/home/asj1pal/workspace/pjfa:${BASIC_ROS_PACKAGE_PATH}
+export ROS_PACKAGE_PATH=/home/asj1pal/workspace/pjfa:${BASIC_PKG_PATH}
+source /home/asj1pal/workspace/utils/setup.sh
 export ROS_LANG_DISABLE=genlisp:genjava
 export PARALLEL_JOBS='-j7'
 
@@ -134,5 +136,3 @@ if [[ $(uname -n | tr '[:upper:]' '[:lower:]') == "pale4e7a2" ]]
 then
     export PARALLEL_JOBS='-j5'
 fi
-
-source /home/asj1pal/workspace/utils/setup.sh

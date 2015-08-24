@@ -1,0 +1,4 @@
+#!/bin/bash
+
+hg diff -U0 -I **.h -I **.hpp -I **.inl -I **.c -I **.cpp -I **.cxx -I **.cc -I **.C > .hg/tmp_diff_for_clang_format
+cat .hg/tmp_diff_for_clang_format | clang-format-diff-3.6 -p1 -style=file -i
