@@ -291,7 +291,7 @@ command! Clear :0,10000bd
 nnoremap _n 0wyWf,i;	pdf,0
 
 " Reload all windows in all tabs
-nnoremap _reload :tabdo exec 'windo e'<CR>
+command! Reload :tabdo exec 'windo e'
 
 " Move to beginning of next word, skipping non-word characters
 function! NextWord() range

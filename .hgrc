@@ -14,5 +14,5 @@ shelve =
 meld.args = $local $other
 meld.premerge = False
 
-[hooks]
-precommit = clang_format_precommit
+#[hooks]
+#precommit = clang_format_precommit
