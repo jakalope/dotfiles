@@ -123,9 +123,9 @@ source ~/bin/upcd.bash
 
 export ros_dist=jade
 source /opt/ros/${ros_dist}/setup.bash
+BASIC_ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}
 source /home/asj1pal/workspace/pjfa/devel/setup.bash
-export ROS_PACKAGE_PATH=/home/asj1pal/workspace/pjfa:${ROS_PACKAGE_PATH}
-export CMAKE_PREFIX_PATH=$(rospack find rviz):${CMAKE_PREFIX_PATH}
+export ROS_PACKAGE_PATH=/home/asj1pal/workspace/pjfa:${BASIC_ROS_PACKAGE_PATH}
 export ROS_LANG_DISABLE=genlisp:genjava
 export PARALLEL_JOBS='-j7'
 
