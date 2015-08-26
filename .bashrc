@@ -135,4 +135,8 @@ export PARALLEL_JOBS='-j7'
 if [[ $(uname -n | tr '[:upper:]' '[:lower:]') == "pale4e7a2" ]]
 then
     export PARALLEL_JOBS='-j5'
+    export WORKSPACE_DIR=/home/asj1pal/workspace/pjfa
+    export SOURCE_DIR=${WORKSPACE_DIR}/src
+    alias wcd='cd ${WORKSPACE_DIR}'
+    alias scd='cd ${SOURCE_DIR}'
 fi
