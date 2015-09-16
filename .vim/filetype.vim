@@ -34,10 +34,6 @@ function! SetHtmlOptions()
     set softtabstop=4
     set autoindent
     set smartindent
-    vnoremap _> :s:^\(.*\)$:<!--\1-->:g<CR>
-    vnoremap _< :s:^<!--\(.*\)-->$:\1:g<CR>
-    nnoremap _> :s:^\(.*\)$:<!--\1-->:g<CR>
-    nnoremap _< :s:^<!--\(.*\)-->$:\1:g<CR>
 endfunction
 
 function! SetXmlOptions()
@@ -48,10 +44,6 @@ function! SetXmlOptions()
     set softtabstop=4
     set autoindent
     set smartindent
-    vnoremap _> :s:^\(.*\)$:<!--\1-->:g<CR>
-    vnoremap _< :s:^<!--\(.*\)-->$:\1:g<CR>
-    nnoremap _> :s:^\(.*\)$:<!--\1-->:g<CR>
-    nnoremap _< :s:^<!--\(.*\)-->$:\1:g<CR>
 endfunction
 
 function! SetVimOptions()
@@ -62,10 +54,6 @@ function! SetVimOptions()
     set softtabstop=4
     set autoindent
     set smartindent
-    vnoremap _> :s:^:"<CR>
-    vnoremap _< :s:^":<CR>
-    nnoremap _> :s:^:"<CR>
-    nnoremap _< :s:^":<CR>
 endfunction
 
 function! SetTexOptions()
@@ -76,10 +64,6 @@ function! SetTexOptions()
     set softtabstop=2
     set autoindent
     set smartindent
-    vnoremap _> :s:^:%<CR>
-    vnoremap _< :s:^%:<CR>
-    nnoremap _> :s:^:%<CR>
-    nnoremap _< :s:^%:<CR>
     command! Build :!pdflatex % && evince '%:r'.pdf
 endfunction
 
@@ -91,10 +75,6 @@ function! SetPythonOptions()
     set softtabstop=4
     set autoindent
     set smartindent
-    vnoremap _> :s:^:#<CR>
-    vnoremap _< :s:^#:<CR>
-    nnoremap _> :s:^:#<CR>
-    nnoremap _< :s:^#:<CR>
 endfunction
 
 function! SetCMakeOptions()
@@ -105,14 +85,11 @@ function! SetCMakeOptions()
     set softtabstop=2
     set autoindent
     set smartindent
-    vnoremap _> :s:^:#<CR>
-    vnoremap _< :s:^#:<CR>
-    nnoremap _> :s:^:#<CR>
-    nnoremap _< :s:^#:<CR>
 endfunction
 
 function! SetCPPOptions()
     set filetype=cpp
+    setlocal commentstring=//\ %s
     set cc=120
     set shiftwidth=2
     set tabstop=2
@@ -120,10 +97,6 @@ function! SetCPPOptions()
     set autoindent
     set smartindent
     set cindent
-    vnoremap _> :s:^://<CR>
-    vnoremap _< :s:^//:<CR>
-    nnoremap _> :s:^://<CR>
-    nnoremap _< :s:^//:<CR>
     command! Build :make
 endfunction
 

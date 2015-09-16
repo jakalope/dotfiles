@@ -47,8 +47,9 @@ endif
 "cabbrev vdiff VCSDiff
 "cabbrev vblame VCSAnnotate
 
-nnoremap <C-k> :exec "!gen_cscope_db.bash " . v:servername . " &"<CR>
-nnoremap <C-l> :exec "!gen_ctags_db.bash " . v:servername . " &"<CR>
+nnoremap <C-k> :exec "!gen_cscope_db.bash &"<CR>
+nnoremap <C-l> :exec "!gen_ctags_db.bash &"<CR>
+nnoremap <C-j> :exec "!2>/dev/null gtags -q &"<CR>
 
 set nowrap
 
