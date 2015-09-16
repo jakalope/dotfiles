@@ -160,6 +160,17 @@ if has("cscope")
     "
     "set ttimeoutlen=100
 
+    "GTAGS
+    set csprg=gtags-cscope
+    if filereadable("GTAGS")
+        cs add GTAGS
+    endif
+
+    nnoremap <leader>gg :execute 'Unite gtags/def:'.expand('<cword>')<CR>
+    nnoremap <leader>gc :execute 'Unite gtags/context'<CR>
+    nnoremap <leader>gr :execute 'Unite gtags/ref'<CR>
+    nnoremap <leader>ge :execute 'Unite gtags/grep'<CR>
+    vnoremap <leader>gg <ESC>:execute 'Unite gtags/def:'.GetVisualSelection()<CR>
 endif
 
 

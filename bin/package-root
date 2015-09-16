@@ -1,15 +1,15 @@
 #!/bin/bash
 
 if [[ $# > 0 ]]; then
-    cd $1
+    cd $SOURCE_DIR/$(dirname $1)
 fi
 
-while [[ ! -e manifest.xml && $(pwd) != "/" ]]
+while [[ ! -e package.xml && ! -e manifest.xml && $(pwd) != "/" ]]
 do
     cd ..
 done
 
 if [[ $(pwd) != "/" ]]; then
-    pwd
+    basename $(pwd)
 fi
 

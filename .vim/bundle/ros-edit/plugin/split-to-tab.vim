@@ -118,11 +118,10 @@ function! RunInPane(pane, ...)
 endfunction
 
 nnoremap ;l :call ToggleCollapse()<CR>
-nnoremap ;p :call RunInPane('1', 'cd '.system('printf "%s" "$(pwd)"').'/'.system('dirname '.shellescape(expand('%'))))<CR>
 nnoremap ;m :w<CR>:call RunInPane('1', 'q')<CR>:call RunInPane('1', 'make_this_package '.expand('%'))<CR>
 nnoremap ;n :w<CR>:call RunInPane('1', 'make_this_package_abridged '.expand('%'))<CR>
-nnoremap ;c :call RunInPane('1', 'gen_clang_complete.bash '.expand('%'))<CR>
-nnoremap ;r :call RunInPane('1', 'rosmake perception')<CR>
+nnoremap ;c :w<CR>:call RunInPane('1', 'catkin build $(package-root '.expand('%').')')<CR>
+nnoremap ;t :w<CR>:call RunInPane('1', 'catkin run_tests --no-deps $(package-root '.expand('%').')')<CR>
 nnoremap ;v :call RunInPane('2', 'visualize_perception.sh')<CR>
 
 " TODO: see if mapping <c-a><c-a> in vim and unmapping it in tmux works -- use when in collapsed state

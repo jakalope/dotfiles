@@ -29,111 +29,6 @@ set softtabstop=4
 set autoindent
 set smartindent
 
-augroup configgroup
-    autocmd!
-    autocmd BufNewFile,BufRead *.vim call SetVimOptions()
-    autocmd BufNewFile,BufRead *.tex call SetTexOptions()
-    autocmd BufNewFile,BufRead *.xml call SetHtmlOptions()
-    autocmd BufNewFile,BufRead *.html call SetHtmlOptions()
-    autocmd BufNewFile,BufRead *.launch call SetHtmlOptions()
-
-    autocmd BufNewFile,BufRead *.sh call SetPythonOptions()
-    autocmd BufNewFile,BufRead *.bash call SetPythonOptions()
-    autocmd BufNewFile,BufRead *.yaml call SetPythonOptions()
-    autocmd BufNewFile,BufRead *.python call SetPythonOptions()
-
-    autocmd BufNewFile,BufRead *.c call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.cc call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.cx call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.cpp call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.h call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.hpp call SetCPPOptions()
-
-    autocmd BufNewFile,BufRead CMakeLists.txt call SetCMakeOptions()
-    autocmd BufNewFile,BufRead *.cmake call SetCMakeOptions()
-augroup end
-
-function! SetHtmlOptions()
-    set cc=80
-    set shiftwidth=4
-    set tabstop=4
-    set softtabstop=4
-    set autoindent
-    set smartindent
-    vnoremap _> :s:^\(.*\)$:<!--\1-->:g<CR>
-    vnoremap _< :s:^<!--\(.*\)-->$:\1:g<CR>
-    nnoremap _> :s:^\(.*\)$:<!--\1-->:g<CR>
-    nnoremap _< :s:^<!--\(.*\)-->$:\1:g<CR>
-endfunction
-
-function! SetVimOptions()
-    set cc=80
-    set shiftwidth=4
-    set tabstop=4
-    set softtabstop=4
-    set autoindent
-    set smartindent
-    vnoremap _> :s:^:"<CR>
-    vnoremap _< :s:^":<CR>
-    nnoremap _> :s:^:"<CR>
-    nnoremap _< :s:^":<CR>
-endfunction
-
-function! SetTexOptions()
-    set cc=120
-    set shiftwidth=2
-    set tabstop=2
-    set softtabstop=2
-    set autoindent
-    set smartindent
-    vnoremap _> :s:^:%<CR>
-    vnoremap _< :s:^%:<CR>
-    nnoremap _> :s:^:%<CR>
-    nnoremap _< :s:^%:<CR>
-    command! Build :!pdflatex % && evince '%:r'.pdf
-endfunction
-
-function! SetPythonOptions()
-    set cc=80
-    set shiftwidth=4
-    set tabstop=4
-    set softtabstop=4
-    set autoindent
-    set smartindent
-    vnoremap _> :s:^:#<CR>
-    vnoremap _< :s:^#:<CR>
-    nnoremap _> :s:^:#<CR>
-    nnoremap _< :s:^#:<CR>
-endfunction
-
-function! SetCMakeOptions()
-    set cc=100
-    set shiftwidth=2
-    set tabstop=2
-    set softtabstop=2
-    set autoindent
-    set smartindent
-    vnoremap _> :s:^:#<CR>
-    vnoremap _< :s:^#:<CR>
-    nnoremap _> :s:^:#<CR>
-    nnoremap _< :s:^#:<CR>
-endfunction
-
-function! SetCPPOptions()
-    set cc=120
-    set shiftwidth=2
-    set tabstop=2
-    set softtabstop=2
-    set autoindent
-    set smartindent
-    set cindent
-    vnoremap _> :s:^://<CR>
-    vnoremap _< :s:^//:<CR>
-    nnoremap _> :s:^://<CR>
-    nnoremap _< :s:^//:<CR>
-    command! Build :make
-endfunction
-
 " ctags
 set tags=tags;/
 
@@ -156,9 +51,6 @@ nnoremap <C-k> :exec "!gen_cscope_db.bash " . v:servername . " &"<CR>
 nnoremap <C-l> :exec "!gen_ctags_db.bash " . v:servername . " &"<CR>
 
 set nowrap
-
-" ROS: Pretend launch files are xml files
-au BufNewFile,BufRead *.launch set filetype=xml
 
 " Allows you to switch from an
 " unsaved buffer without saving it first. Also allows you to keep an undo
@@ -292,6 +184,8 @@ nnoremap _n 0wyWf,i;	pdf,0
 
 " Reload all windows in all tabs
 command! Reload :tabdo exec 'windo e'
+
+nnoremap >> 0i<TAB><ESC>
 
 " Move to beginning of next word, skipping non-word characters
 function! NextWord() range

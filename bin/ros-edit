@@ -8,6 +8,7 @@ fi
 
 WORKSPACE=$(echo $WORKSPACE | sed 's:/$::g') # Remove trailing slash
 WORKSPACE_DIR=$(pwd)/${WORKSPACE}
+GTAGSROOT=${WORKSPACE_ROOT}
 
 # convert to uppercase for compatibility with vim servernames
 WORKSPACE=${WORKSPACE^^} 
@@ -32,6 +33,7 @@ if [[ $? != 0 ]]; then
                     export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}; \
                     export WORKSPACE=${WORKSPACE}; \
                     export WORKSPACE_DIR=${WORKSPACE_DIR}; \
+                    export GTAGSROOT=${WORKSPACE_DIR}; \
                     export SOURCE_DIR=${SOURCE_DIR}; \
                     export VIMSERVER=${WORKSPACE}; \
                     alias bash='bash --rcfile ${temporary_bashrc}'; \
