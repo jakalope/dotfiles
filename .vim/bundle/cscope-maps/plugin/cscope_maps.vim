@@ -161,10 +161,11 @@ if has("cscope")
     "set ttimeoutlen=100
 
     "GTAGS
-    set csprg=gtags-cscope
-    if filereadable("GTAGS")
-        cs add GTAGS
-    endif
+
+    " set csprg=gtags-cscope
+    " if filereadable("GTAGS")
+    "     cs add GTAGS
+    " endif
 
     nnoremap <leader>gg :execute 'Unite gtags/def:'.expand('<cword>')<CR>
     nnoremap <leader>gc :execute 'Unite gtags/context'<CR>

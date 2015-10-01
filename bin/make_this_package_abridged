@@ -1,5 +1,5 @@
 #!/bin/bash
 
 MAKE=make_abridged
-make_this_package
+make_this_package "${@}"
 

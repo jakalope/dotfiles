@@ -11,5 +11,7 @@ done
 
 if [[ $(pwd) != "/" ]]; then
     basename $(pwd)
+else
+    echo 'Could not find package.xml or manifest.xml'
 fi
 

@@ -120,7 +120,7 @@ endfunction
 nnoremap ;l :call ToggleCollapse()<CR>
 nnoremap ;m :w<CR>:call RunInPane('1', 'q')<CR>:call RunInPane('1', 'make_this_package '.expand('%'))<CR>
 nnoremap ;n :w<CR>:call RunInPane('1', 'make_this_package_abridged '.expand('%'))<CR>
-nnoremap ;c :w<CR>:call RunInPane('1', 'catkin build $(package-root '.expand('%').')')<CR>
+nnoremap ;c :w<CR>:call RunInPane('1', 'catkin build --workspace ${WORKSPACE_DIR} $(package-root '.expand('%').')')<CR>
 nnoremap ;t :w<CR>:call RunInPane('1', 'catkin run_tests --no-deps $(package-root '.expand('%').')')<CR>
 nnoremap ;v :call RunInPane('2', 'visualize_perception.sh')<CR>
 
