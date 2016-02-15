@@ -132,6 +132,7 @@ export ROS_PACKAGE_PATH=${WORKSPACE_DIR}:${BASIC_PKG_PATH}
 source /home/asj1pal/workspace/utils/setup.sh
 export ROS_LANG_DISABLE=genlisp:genjava
 export PARALLEL_JOBS='-j7'
+alias rosbag='rosbag_pjfa'
 
 # Laptop specific details
 if [[ $(uname -n | tr '[:upper:]' '[:lower:]') == "pale4e7a2" ]]

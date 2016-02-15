@@ -1,6 +1,9 @@
 #!/bin/bash
 
-cd ${SOURCE_DIR}/$(dirname $1)
+if [[ $# != 0 ]]; then
+    cd ${SOURCE_DIR}/$(dirname $1)
+fi
+
 while [[ ! -f package.xml && ! -f manifest.xml && $(pwd) != "/" ]]
 do
     cd ..
@@ -9,6 +12,8 @@ done
 if [[ ${MAKE} == "" ]]; then
     MAKE='make -j'
 fi
+
+echo $MAKE
 
 if [[ -f package.xml ]]; then
     # this is a catkin package; find accompanying build folder

@@ -167,11 +167,11 @@ if has("cscope")
     "     cs add GTAGS
     " endif
 
-    nnoremap <leader>gg :execute 'Unite gtags/def:'.expand('<cword>')<CR>
-    nnoremap <leader>gc :execute 'Unite gtags/context'<CR>
-    nnoremap <leader>gr :execute 'Unite gtags/ref'<CR>
-    nnoremap <leader>ge :execute 'Unite gtags/grep'<CR>
-    vnoremap <leader>gg <ESC>:execute 'Unite gtags/def:'.GetVisualSelection()<CR>
+    nnoremap <leader>gg :tabnew %<CR>:tabp<CR>:execute 'Unite gtags/def:'.expand('<cword>')<CR>
+    nnoremap <leader>gc :tabnew %<CR>:tabp<CR>:execute 'Unite gtags/context'<CR>
+    nnoremap <leader>gr :tabnew %<CR>:tabp<CR>:execute 'Unite gtags/ref'<CR>
+    nnoremap <leader>ge :tabnew %<CR>:tabp<CR>:execute 'Unite gtags/grep'<CR>
+    vnoremap <leader>gg <ESC>:tabnew %<CR>:tabp<CR>:execute 'Unite gtags/def:'.GetVisualSelection()<CR>
 endif
 
 

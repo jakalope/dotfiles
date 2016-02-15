@@ -51,6 +51,11 @@ nnoremap <C-k> :exec "!gen_cscope_db.bash &"<CR>
 nnoremap <C-l> :exec "!gen_ctags_db.bash &"<CR>
 nnoremap <C-j> :exec "!2>/dev/null gtags -q &"<CR>
 
+nnoremap <C-s> :Unite buffer -input=
+nnoremap <C-e> :echo "asdf"<CR>
+
+nnoremap <C-b> <C-a>
+
 set nowrap
 
 " Allows you to switch from an
@@ -118,6 +123,7 @@ nnoremap = mao<esc>`a
 nnoremap <C-}> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 nnoremap tab mo:tabnew %<CR>`o<C-]>
 nnoremap tib mo:tabnew %<CR>`o<C-\>f
+nnoremap _g :grep! "\b<C-R><C-W>\b" *<CR>
 
 map! <F1> <ESC>
 "map <F1> dwWbi <ESC>px  
@@ -140,6 +146,9 @@ vnoremap _style :!astyle<CR>
 nnoremap _style :%!astyle<CR>
 command! Style :%!astyle
 
+command! W :w
+command! Wa :wa
+
 " Convert Structure-Of-Arrays to Array-Of-Structures
 vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
 
@@ -154,7 +163,6 @@ nnoremap <C-C> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:vsp<CR>:cs find 
 nnoremap <C-H> :let g:word="\\/" . expand("%:t:r") . "\\.h"<CR>:vsp<CR>:cs find f <C-R>=g:word<CR><CR>
 nnoremap <C-c> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:cs find f <C-R>=g:word<CR><CR>
 nnoremap <C-h> :let g:word="\\/" . expand("%:t:r") . "\\.h"<CR>:cs find f <C-R>=g:word<CR><CR>
-
 
 " Cycle through windows
 nnoremap <F5> <C-w>W
@@ -185,6 +193,7 @@ nnoremap _n 0wyWf,i;	pdf,0
 
 " Reload all windows in all tabs
 command! Reload :tabdo exec 'windo e'
+command! Detect :tabdo exec 'filetype detect'
 
 nnoremap >> 0i<TAB><ESC>
 
@@ -195,6 +204,14 @@ function! NextWord() range
     endfor
 endfunction
 noremap <silent> Y :call NextWord()<CR>
+
+" 
+command! -nargs=1 Tnb call s:Tnb(<f-args>)
+function! s:Tnb(arg)
+    tabnew
+    let cmd = 'Unite -input='.a:arg.' buffer'
+    execute cmd
+endfunction
 
 " Converters for hex and decimal numbers
 command! -nargs=? -range Dec2hex call s:Dec2hex(<line1>, <line2>, '<args>')
@@ -232,3 +249,6 @@ function! s:Hex2dec(line1, line2, arg) range
     echo (a:arg =~? '^0x') ? a:arg + 0 : ('0x'.a:arg) + 0
   endif
 endfunction
+
+Detect
+
