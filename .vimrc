@@ -247,6 +247,9 @@ vnoremap _style :!astyle<CR>
 nnoremap _style :%!astyle<CR>
 command! Style :%!astyle
 
+"
+nnoremap _c :!catkin build $(local_package_name %)<CR>
+
 " Convert Structure-Of-Arrays to Array-Of-Structures
 vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
 

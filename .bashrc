@@ -140,3 +140,5 @@ then
     alias wcd='cd ${WORKSPACE_DIR}'
     alias scd='cd ${SOURCE_DIR}'
 fi
+
+export ROS_MASTER_URI=http://pale4d970:11311/
