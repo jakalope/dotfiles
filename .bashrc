@@ -125,11 +125,14 @@ source ~/bin/upcd.bash
 export ros_dist=jade
 source /opt/ros/${ros_dist}/setup.bash
 BASIC_PKG_PATH=${ROS_PACKAGE_PATH}
+export WORKSPACE_DIR=/home/asj1pal/workspace/pjfa
+export GTAGSROOT=${WORKSPACE_ROOT}
 source /home/asj1pal/workspace/pjfa/devel/setup.bash
-export ROS_PACKAGE_PATH=/home/asj1pal/workspace/pjfa:${BASIC_PKG_PATH}
+export ROS_PACKAGE_PATH=${WORKSPACE_DIR}:${BASIC_PKG_PATH}
 source /home/asj1pal/workspace/utils/setup.sh
 export ROS_LANG_DISABLE=genlisp:genjava
 export PARALLEL_JOBS='-j7'
+alias rosbag='rosbag_pjfa'
 
 # Laptop specific details
 if [[ $(uname -n | tr '[:upper:]' '[:lower:]') == "pale4e7a2" ]]

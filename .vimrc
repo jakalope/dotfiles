@@ -29,111 +29,6 @@ set softtabstop=4
 set autoindent
 set smartindent
 
-augroup configgroup
-    autocmd!
-    autocmd BufNewFile,BufRead *.vim call SetVimOptions()
-    autocmd BufNewFile,BufRead *.tex call SetTexOptions()
-    autocmd BufNewFile,BufRead *.xml call SetHtmlOptions()
-    autocmd BufNewFile,BufRead *.html call SetHtmlOptions()
-    autocmd BufNewFile,BufRead *.launch call SetHtmlOptions()
-
-    autocmd BufNewFile,BufRead *.sh call SetPythonOptions()
-    autocmd BufNewFile,BufRead *.bash call SetPythonOptions()
-    autocmd BufNewFile,BufRead *.yaml call SetPythonOptions()
-    autocmd BufNewFile,BufRead *.python call SetPythonOptions()
-
-    autocmd BufNewFile,BufRead *.c call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.cc call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.cx call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.cpp call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.h call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.hpp call SetCPPOptions()
-
-    autocmd BufNewFile,BufRead CMakeLists.txt call SetCMakeOptions()
-    autocmd BufNewFile,BufRead *.cmake call SetCMakeOptions()
-augroup end
-
-function! SetHtmlOptions()
-    set cc=80
-    set shiftwidth=4
-    set tabstop=4
-    set softtabstop=4
-    set autoindent
-    set smartindent
-    vnoremap _> :s:^\(.*\)$:<!--\1-->:g<CR>
-    vnoremap _< :s:^<!--\(.*\)-->$:\1:g<CR>
-    nnoremap _> :s:^\(.*\)$:<!--\1-->:g<CR>
-    nnoremap _< :s:^<!--\(.*\)-->$:\1:g<CR>
-endfunction
-
-function! SetVimOptions()
-    set cc=80
-    set shiftwidth=4
-    set tabstop=4
-    set softtabstop=4
-    set autoindent
-    set smartindent
-    vnoremap _> :s:^:"<CR>
-    vnoremap _< :s:^":<CR>
-    nnoremap _> :s:^:"<CR>
-    nnoremap _< :s:^":<CR>
-endfunction
-
-function! SetTexOptions()
-    set cc=120
-    set shiftwidth=2
-    set tabstop=2
-    set softtabstop=2
-    set autoindent
-    set smartindent
-    vnoremap _> :s:^:%<CR>
-    vnoremap _< :s:^%:<CR>
-    nnoremap _> :s:^:%<CR>
-    nnoremap _< :s:^%:<CR>
-    command! Build :!pdflatex % && evince '%:r'.pdf
-endfunction
-
-function! SetPythonOptions()
-    set cc=80
-    set shiftwidth=4
-    set tabstop=4
-    set softtabstop=4
-    set autoindent
-    set smartindent
-    vnoremap _> :s:^:#<CR>
-    vnoremap _< :s:^#:<CR>
-    nnoremap _> :s:^:#<CR>
-    nnoremap _< :s:^#:<CR>
-endfunction
-
-function! SetCMakeOptions()
-    set cc=100
-    set shiftwidth=2
-    set tabstop=2
-    set softtabstop=2
-    set autoindent
-    set smartindent
-    vnoremap _> :s:^:#<CR>
-    vnoremap _< :s:^#:<CR>
-    nnoremap _> :s:^:#<CR>
-    nnoremap _< :s:^#:<CR>
-endfunction
-
-function! SetCPPOptions()
-    set cc=120
-    set shiftwidth=2
-    set tabstop=2
-    set softtabstop=2
-    set autoindent
-    set smartindent
-    set cindent
-    vnoremap _> :s:^://<CR>
-    vnoremap _< :s:^//:<CR>
-    nnoremap _> :s:^://<CR>
-    nnoremap _< :s:^//:<CR>
-    command! Build :make
-endfunction
-
 " ctags
 set tags=tags;/
 
@@ -152,13 +47,16 @@ endif
 "cabbrev vdiff VCSDiff
 "cabbrev vblame VCSAnnotate
 
-nnoremap <C-k> :exec "!gen_cscope_db.bash " . v:servername . " &"<CR>
-nnoremap <C-l> :exec "!gen_ctags_db.bash " . v:servername . " &"<CR>
+nnoremap <C-k> :exec "!gen_cscope_db.bash &"<CR>
+nnoremap <C-l> :exec "!gen_ctags_db.bash &"<CR>
+nnoremap <C-j> :exec "!2>/dev/null gtags -q &"<CR>
+
+nnoremap <C-s> :Unite buffer -input=
+nnoremap <C-e> :echo "asdf"<CR>
+
+nnoremap <C-b> <C-a>
 
 set nowrap
-
-" ROS: Pretend launch files are xml files
-au BufNewFile,BufRead *.launch set filetype=xml
 
 " Allows you to switch from an
 " unsaved buffer without saving it first. Also allows you to keep an undo
@@ -225,6 +123,7 @@ nnoremap = mao<esc>`a
 nnoremap <C-}> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 nnoremap tab mo:tabnew %<CR>`o<C-]>
 nnoremap tib mo:tabnew %<CR>`o<C-\>f
+nnoremap _g :grep! "\b<C-R><C-W>\b" *<CR>
 
 map! <F1> <ESC>
 "map <F1> dwWbi <ESC>px  
@@ -249,6 +148,8 @@ command! Style :%!astyle
 
 "
 nnoremap _c :!catkin build $(local_package_name %)<CR>
+command! W :w
+command! Wa :wa
 
 " Convert Structure-Of-Arrays to Array-Of-Structures
 vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
@@ -264,7 +165,6 @@ nnoremap <C-C> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:vsp<CR>:cs find 
 nnoremap <C-H> :let g:word="\\/" . expand("%:t:r") . "\\.h"<CR>:vsp<CR>:cs find f <C-R>=g:word<CR><CR>
 nnoremap <C-c> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:cs find f <C-R>=g:word<CR><CR>
 nnoremap <C-h> :let g:word="\\/" . expand("%:t:r") . "\\.h"<CR>:cs find f <C-R>=g:word<CR><CR>
-
 
 " Cycle through windows
 nnoremap <F5> <C-w>W
@@ -295,6 +195,9 @@ nnoremap _n 0wyWf,i;	pdf,0
 
 " Reload all windows in all tabs
 command! Reload :tabdo exec 'windo e'
+command! Detect :tabdo exec 'filetype detect'
+
+nnoremap >> 0i<TAB><ESC>
 
 " Move to beginning of next word, skipping non-word characters
 function! NextWord() range
@@ -303,6 +206,14 @@ function! NextWord() range
     endfor
 endfunction
 noremap <silent> Y :call NextWord()<CR>
+
+" 
+command! -nargs=1 Tnb call s:Tnb(<f-args>)
+function! s:Tnb(arg)
+    tabnew
+    let cmd = 'Unite -input='.a:arg.' buffer'
+    execute cmd
+endfunction
 
 " Converters for hex and decimal numbers
 command! -nargs=? -range Dec2hex call s:Dec2hex(<line1>, <line2>, '<args>')
@@ -340,3 +251,6 @@ function! s:Hex2dec(line1, line2, arg) range
     echo (a:arg =~? '^0x') ? a:arg + 0 : ('0x'.a:arg) + 0
   endif
 endfunction
+
+Detect
+

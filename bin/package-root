@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ $# > 0 ]]; then
-    cd "$1"
+    cd $SOURCE_DIR/$(dirname $1)
 fi
 
 while [[ ! -e package.xml && ! -e manifest.xml && $(pwd) != "/" ]]
@@ -10,6 +10,8 @@ do
 done
 
 if [[ $(pwd) != "/" ]]; then
-    pwd
+    basename $(pwd)
+else
+    echo 'Could not find package.xml or manifest.xml'
 fi
 

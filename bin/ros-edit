@@ -12,11 +12,18 @@ WORKSPACE_DIR=$(pwd)/${WORKSPACE}
 # convert to uppercase for compatibility with vim servernames
 WORKSPACE=${WORKSPACE^^} 
 SOURCE_DIR=${WORKSPACE_DIR}/src
+GTAGSROOT=${SOURCE_DIR}
+
+echo $WORKSPACE
+echo $WORKSPACE_DIR
+echo $GTAGSROOT
+echo $SOURCE_DIR
 
 export ROS_EDIT=1
 
-tmux has-session -t $WORKSPACE &> /dev/null
-if [[ $? != 0 ]]; then
+session_exists=$(tmux list-sessions | awk -F: '{print $1}' | grep -x "${WORKSPACE}" | wc -l)
+if [[ $session_exists == 0 ]]; then
+    echo "No existing session found."
     ROS_PACKAGE_PATH=''
     CMAKE_PREFIX_PATH=''
     export temporary_bashrc=$(mktemp)
@@ -28,17 +35,19 @@ if [[ $? != 0 ]]; then
     ROS_PACKAGE_PATH=${SOURCE_DIR}:$BASIC_ROS_PACKAGE_PATH
 
     source ~/workspace/utils/setup.sh
-    export_command="export CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}; \
-                    export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}; \
-                    export WORKSPACE=${WORKSPACE}; \
-                    export WORKSPACE_DIR=${WORKSPACE_DIR}; \
-                    export SOURCE_DIR=${SOURCE_DIR}; \
-                    export VIMSERVER=${WORKSPACE}; \
-                    alias bash='bash --rcfile ${temporary_bashrc}'; \
-                    alias term='gnome-terminal --command=\"bash --rcfile ${temporary_bashrc}\"'; \
-                    alias pane='tmux split-window -v \"bash --rcfile ${temporary_bashrc} -i\"'; \
-                    alias wcd='cd ${WORKSPACE_DIR}'; \
-                    alias scd='cd ${SOURCE_DIR}'"
+    export_command="
+export CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH};
+export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH};
+export WORKSPACE=${WORKSPACE};
+export WORKSPACE_DIR=${WORKSPACE_DIR};
+export GTAGSROOT=${GTAGSROOT};
+export SOURCE_DIR=${SOURCE_DIR};
+export VIMSERVER=${WORKSPACE};
+alias bash='bash --rcfile ${temporary_bashrc}';
+alias term='gnome-terminal --command=\"bash --rcfile ${temporary_bashrc}\"';
+alias pane='tmux split-window -v \"bash --rcfile ${temporary_bashrc} -i\"';
+alias wcd='cd ${WORKSPACE_DIR}';
+alias scd='cd ${SOURCE_DIR}'"
     cd_command="cd ${WORKSPACE_DIR}"
 
     # build temp bashrc file
@@ -51,6 +60,7 @@ if [[ $? != 0 ]]; then
 
     # start up a tmux session
     tmux new-session -s $WORKSPACE -n ${WORKSPACE} -d "${vim_command}"
+    echo "tmux new-session -s $WORKSPACE -n ${WORKSPACE} -d \"${vim_command}\""
     tmux split-window -h "bash --rcfile ${temporary_bashrc} -i"
     tmux split-window -v "bash --rcfile ${temporary_bashrc} -i"
     tmux resize-pane -L 10
@@ -60,6 +70,11 @@ if [[ $? != 0 ]]; then
     cd ${SOURCE_DIR}
     gen_cscope_db.bash ${WORKSPACE} &
     gen_ctags_db.bash ${WORKSPACE} &
+    if [[ ! -e GTAGS ]]; then
+        notify-send "$(2>/dev/null gtags -q | echo 'GTAGS created!')" &
+    else
+        notify-send "$(2>/dev/null global -uq | echo 'GTAGS updated!')" &
+    fi
     cd ${WORKSPACE_DIR}
 fi
 

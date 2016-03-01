@@ -3,7 +3,7 @@
 # install dependencies
 sudo apt-get install mercurial vim-gtk cscope exuberant-ctags libevent-dev \
     chromium-browser xsel virtualbox-4.3 autoconf python-catkin-tools \
-    gfortran ubuntu-restricted-extras clang-format-3.6
+    gfortran ubuntu-restricted-extras clang-format-3.6 global
 
 # setup specific tmux version
 tmux_version=$(tmux -V)
