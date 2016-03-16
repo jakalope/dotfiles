@@ -146,6 +146,8 @@ vnoremap _style :!astyle<CR>
 nnoremap _style :%!astyle<CR>
 command! Style :%!astyle
 
+"
+nnoremap _c :!catkin build $(local_package_name %)<CR>
 command! W :w
 command! Wa :wa
 

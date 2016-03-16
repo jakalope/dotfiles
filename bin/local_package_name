@@ -1,0 +1,5 @@
+#!/bin/bash
+
+package_root=$(package-root $(dirname "$1"))
+package=${package_root##*/} # /foo/bar/too -> too
+echo $package
