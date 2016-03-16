@@ -123,6 +123,7 @@ nnoremap ;n :w<CR>:call RunInPane('1', 'make_this_package_abridged '.expand('%')
 nnoremap ;c :w<CR>:call RunInPane('1', 'catkin build --workspace ${WORKSPACE_DIR} $(package-root '.expand('%').')')<CR>
 nnoremap ;t :w<CR>:call RunInPane('1', 'catkin run_tests --no-deps $(package-root '.expand('%').')')<CR>
 nnoremap ;v :call RunInPane('2', 'visualize_perception.sh')<CR>
+nnoremap ;T :w<CR>:call RunInPane('1', 'test_output_head '.expand('%'))<CR>
 
 " TODO: see if mapping <c-a><c-a> in vim and unmapping it in tmux works -- use when in collapsed state
 " TODO: remember what file we were editing and navigate back there after ;l
