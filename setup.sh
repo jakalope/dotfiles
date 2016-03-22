@@ -24,7 +24,12 @@ sudo apt-get install \
 	python-dev \
 	python3-dev \
 	build-essential \
-	cmake 
+	cmake \
+    indicator-multiload \
+    unity-tweak-tool
+
+# run indicator multiload for the first time
+indicator-multiload &
 
 # build YouCompleteMe
 pushd .vim/bundle/YouCompleteMe
