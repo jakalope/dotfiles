@@ -1,9 +1,42 @@
 #!/bin/bash
 
 # install dependencies
-sudo apt-get install mercurial vim-gtk cscope exuberant-ctags libevent-dev \
-    chromium-browser xsel virtualbox-4.3 autoconf python-catkin-tools \
-    gfortran ubuntu-restricted-extras clang-format-3.6 global
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install \
+	git \
+	mercurial \
+	vim-gtk \
+	cscope \
+	exuberant-ctags \
+	libevent-dev \
+	chromium-browser \
+	xsel \
+	xclip \
+	autoconf \
+	python-catkin-tools \
+	gfortran \
+	ubuntu-restricted-extras \
+	clang-3.6 \
+	clang-format-3.6 \
+	global \
+	oracle-java8-installer \
+	python-dev \
+	python3-dev \
+	build-essential \
+	cmake 
+
+# build YouCompleteMe
+pushd .vim/bundle/YouCompleteMe
+git submodule update --init --recursive
+./install.py --clang-completer
+popd
+
+# setup bazel
+pushd ~/Downloads
+wget https://github.com/bazelbuild/bazel/releases/download/0.2.0/bazel-0.2.0-installer-linux-x86_64.sh
+sudo bash bazel-0.2.0-installer-linux-x86_64.sh
+popd
 
 # setup specific tmux version
 tmux_version=$(tmux -V)
@@ -17,6 +50,7 @@ if [[ $? != 0 || "${tmux_version}" != "tmux 1.8" ]]; then
     rm -r tmux-1.8
 fi
 
+# create backups
 pushd ~
 stamp=$(date +%Y-%m-%d-%H-%M-%S)
 mkdir -p $stamp
@@ -35,15 +69,5 @@ cp $(pwd)/.clang-format ${HOME}
 
 # clone hg workspace
 mkdir -p ~/workspace
-pushd ~/workspace
-if [[ ! -d pjfa ]]; then
-    echo 'cloning...'
-    hg clone ssh://asj1pal@pjfa.pal.us.bosch.com///repos/utils
-    mkdir pjfa
-    cd pjfa
-    ssh-copy-id pjfa.pal.us.bosch.com
-    ssh-copy-id abthadrepo03.de.bosch.com
-    hg clone ssh://asj1pal@pjfa.pal.us.bosch.com///repos/pjfa src
-fi
-popd
+cd workspace
 
