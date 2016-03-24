@@ -101,7 +101,7 @@ endfunction
 function! SetCPPOptions()
     set filetype=cpp
     setlocal commentstring=//\ %s
-    set cc=120
+    set cc=80
     set shiftwidth=2
     set tabstop=2
     set softtabstop=2
