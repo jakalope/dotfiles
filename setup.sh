@@ -14,7 +14,6 @@ sudo apt-get install \
 	xsel \
 	xclip \
 	autoconf \
-	python-catkin-tools \
 	gfortran \
 	ubuntu-restricted-extras \
 	clang-3.6 \
@@ -74,7 +73,6 @@ cp $(pwd)/.clang-format ${HOME}
 
 # clone hg workspace
 mkdir -p ~/workspace
-cd workspace
 
 if [[ ! -e ~/.ssh/id_rsa ]]; then
     echo 'Looks like you need to run the following:'
