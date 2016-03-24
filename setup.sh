@@ -7,8 +7,6 @@ sudo apt-get install \
 	git \
 	mercurial \
 	vim-gtk \
-	cscope \
-	exuberant-ctags \
 	libevent-dev \
 	chromium-browser \
 	xsel \
@@ -18,7 +16,6 @@ sudo apt-get install \
 	ubuntu-restricted-extras \
 	clang-3.6 \
 	clang-format-3.6 \
-	global \
 	oracle-java8-installer \
 	python-dev \
 	python3-dev \
