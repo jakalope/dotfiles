@@ -142,7 +142,7 @@ nnoremap _sig >>Wd2f:A;<ESC>0w
 nnoremap _align ywmvV}:s/<C-r>"/`<C-r>"/g<CR>V'v:!column -ts \`<CR>
 
 " Open previous tag in new tab
-nnoremap _t :tabnew %<CR>:tabprev<CR><C-t>
+nnoremap _t :tabnew %<CR>:tabprev<CR><C-o>
 
 " Restyle source code
 vnoremap _style :!astyle<CR>
