@@ -49,8 +49,8 @@ noremap <Plug>(smartword-basic-b)  b
 noremap <Plug>(smartword-basic-e)  e
 noremap <Plug>(smartword-basic-ge)  ge
 
-map w  <Plug>(smartword-w)
-map b  <Plug>(smartword-b)
+map L  <Plug>(smartword-w)
+map H  <Plug>(smartword-b)
 map e  <Plug>(smartword-e)
 map ge  <Plug>(smartword-ge)
 

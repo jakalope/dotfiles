@@ -6,24 +6,31 @@ fi
 
 # Check if we're being piped some input
 if [[ ! -t 0 && $# == 0 ]]; then
-    echo "Accepting files from stdin..."
+    # If so, expect it in "[filename]:[linenumber] [garbage]" format, 
+    # separated by newlines and open each file in a separate tab by calling
+    # this script recursively
     awk '{print $1}' | awk -F: '{print "vims +"$2 " " $1}' | bash
-    exit
-fi
-
-# VIM
-if [[ $# > 0 ]]; then
+# Check if we have some arguments
+elif [[ $# > 0 ]]; then
     if [[ ${1} == '-p' ]]; then
+        # tell the vim server to open the file
         vim --servername $VIMSERVER --remote $(xsel --clipboard --output | awk -F: '{print $1}')
-        sleep 0.1  # wait for vim to open the file
+        # wait for vim to open the file
+        sleep 0.1 
+        # move the to appropriate line
         vim --servername $VIMSERVER --remote-send +$(xsel --clipboard --output | awk -F: '{print ":" $2 "<CR>"}')
     elif [[ ${1} == '-t' ]]; then
+        # tell the vim server to open the file
         vim --servername $VIMSERVER --remote-tab-silent $(xsel --clipboard --output | awk -F: '{print $1}')
-        sleep 0.1  # wait for vim to open the file
+        # wait for vim to open the file
+        sleep 0.1 
+        # move the to appropriate line
         vim --servername $VIMSERVER --remote-send +$(xsel --clipboard --output | awk -F: '{print ":" $2 "<CR>"}')
     else
+        # tell the vim server to open the file
         vim --servername $VIMSERVER --remote-tab-silent "$@"
     fi  
+# Nothing from stdin, no arguemnts, so start a server
 else
     vim --servername $VIMSERVER
 fi

@@ -3,6 +3,7 @@ call pathogen#infect()
 let g:session_autosave = 'yes'
 let g:session_autoload = 'no'
 let g:AutoPairsShortcutToggle = '_ap'
+let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 filetype on
 filetype plugin on
 filetype indent on
