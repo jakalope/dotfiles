@@ -22,7 +22,8 @@ sudo apt-get install \
 	build-essential \
 	cmake \
     indicator-multiload \
-    unity-tweak-tool
+    unity-tweak-tool \
+    tree
 
 # run indicator multiload for the first time
 indicator-multiload &
