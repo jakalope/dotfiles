@@ -48,14 +48,16 @@ endif
 "cabbrev vdiff VCSDiff
 "cabbrev vblame VCSAnnotate
 
-nnoremap <C-k> :exec "!gen_cscope_db.bash &"<CR>
-nnoremap <C-l> :exec "!gen_ctags_db.bash &"<CR>
-nnoremap <C-j> :exec "!2>/dev/null gtags -q &"<CR>
+" nnoremap <C-k> :exec "!gen_cscope_db.bash &"<CR>
+" nnoremap <C-l> :exec "!gen_ctags_db.bash &"<CR>
+" nnoremap <C-j> :exec "!2>/dev/null gtags -q &"<CR>
 
 nnoremap <C-s> :Unite buffer -input=
-nnoremap <C-e> :echo "asdf"<CR>
-
 nnoremap <C-b> <C-a>
+
+nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
+nnoremap <C-f> :YcmCompleter GoToInclude<CR>
+nnoremap <C-t> :YcmCompleter GetType<CR>
 
 set nowrap
 
