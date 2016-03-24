@@ -134,6 +134,7 @@ then
     export PATH=${PATH}:/home/jake/bin
 fi
 
+set -o vi
 export EDITOR=vim
 source ~/bin/upcd.bash
 export WORKSPACE_DIR=/home/jake/workspace/driving
