@@ -2,7 +2,6 @@
 call pathogen#infect()
 let g:session_autosave = 'yes'
 let g:session_autoload = 'no'
-let g:AutoPairsShortcutToggle = '_ap'
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 filetype on
 filetype plugin on
@@ -48,18 +47,16 @@ endif
 "cabbrev vdiff VCSDiff
 "cabbrev vblame VCSAnnotate
 
-" nnoremap <C-k> :exec "!gen_cscope_db.bash &"<CR>
-" nnoremap <C-l> :exec "!gen_ctags_db.bash &"<CR>
-" nnoremap <C-j> :exec "!2>/dev/null gtags -q &"<CR>
-
 nnoremap <C-s> :Unite buffer -input=
-nnoremap <C-b> <C-a>
+
+" for tmux:
+" nnoremap <C-b> <C-a>
 
 nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
 nnoremap <C-f> :YcmCompleter GoToInclude<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 
-set nowrap
+" set nowrap
 
 " Allows you to switch from an
 " unsaved buffer without saving it first. Also allows you to keep an undo
@@ -190,15 +187,18 @@ nnoremap _v "+p
 vnoremap _x "+y
 vnoremap _c "+y
 
-" Remove all buffers
-command! Clear :0,10000bd
-
 " Break up this multi-var definition into two lines
 nnoremap _n 0wyWf,i;	pdf,0
 
 " Reload all windows in all tabs
 command! Reload :tabdo exec 'windo e'
+
+" Detect filetype in each tab
 command! Detect :tabdo exec 'filetype detect'
+
+" Remove all buffers
+command! Clear :0,10000bd
+
 
 nnoremap >> 0i<TAB><ESC>
 
