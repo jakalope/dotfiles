@@ -52,6 +52,7 @@ nnoremap <C-s> :Unite buffer -input=
 " for tmux:
 " nnoremap <C-b> <C-a>
 
+nnoremap <C-\> :YcmCompleter GoToDefinition<CR>
 nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
 nnoremap <C-f> :YcmCompleter GoToInclude<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
@@ -147,7 +148,8 @@ nnoremap _style :%!astyle<CR>
 command! Style :%!astyle
 
 "
-nnoremap _c :!catkin build $(local_package_name %)<CR>
+" nnoremap _c :!catkin build $(local_package_name %)<CR>
+nnoremap _c :!bazel build //
 command! W :w
 command! Wa :wa
 
@@ -181,11 +183,6 @@ nnoremap <S-F8> :bn<CR>
 " Cycle through tags
 nnoremap <C-F5> :tp<CR>
 nnoremap <C-F6> :tn<CR>
-
-" Get some clipboard functionality
-nnoremap _v "+p
-vnoremap _x "+y
-vnoremap _c "+y
 
 " Break up this multi-var definition into two lines
 nnoremap _n 0wyWf,i;	pdf,0

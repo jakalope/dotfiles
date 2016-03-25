@@ -1,102 +1,71 @@
-# Partially stolen from https://bitbucket.org/mblum/libgp/src/2537ea7329ef/.ycm_extra_conf.py
+import itertools
 import os
-import ycm_core
+import rospkg
+rospack = rospkg.RosPack()
 
-# These are the compilation flags that will be used in case there's no
-# compilation database set (by default, one is not set).
-# CHANGE THIS LIST OF FLAGS. YES, THIS IS THE DROID YOU HAVE BEEN LOOKING FOR.
-flags = [
-    '-Wall',
-    '-Wextra',
-    '-Werror',
-    '-Wno-long-long',
-    '-Wno-variadic-macros',
-    '-fexceptions',
-    # THIS IS IMPORTANT! Without a "-std=<something>" flag, clang won't know which
-    # language to use when compiling headers. So it will guess. Badly. So C++
-    # headers will be compiled as C headers. You don't want that so ALWAYS specify
-    # a "-std=<something>".
-    # For a C project, you would set this to something like 'c99' instead of
-    # 'c++11'.
-    '-std=c++11',
-    # ...and the same thing goes for the magic -x option which specifies the
-    # language that the files to be compiled are written in. This is mostly
-    # relevant for c++ headers.
-    # For a C project, you would set this to 'c' instead of 'c++'.
-    '-x', 'c++',
-    # This path will only work on OS X, but extra paths that don't exist are not
-    # harmful
-    '-isystem', '/System/Library/Frameworks/Python.framework/Headers',
-    '-isystem', '/usr/include',
-    '-isystem', '/usr/include/eigen3',
-    '-isystem', '/usr/local/include',
-    '-isystem', '/usr/local/include/eigen3',
-    '-I', 'include',
-    '-I.',
-    '-I', os.environ['WORKSPACE_DIR']
-]
+def getDefaultFlags():
+    return [
+        '-Wall',
+        '-Wextra',
+        '-Wno-unused-result',
+        '-Weffc++',
+        '--pipe',
+        '-std=c++11',
+        '-x', 'c++',
+    ]
 
-# Set this to the absolute path to the folder (NOT the file!) containing the
-# compile_commands.json file to use that instead of 'flags'. See here for
-# more details: http://clang.llvm.org/docs/JSONCompilationDatabase.html
-#
-# Most projects will NOT need to set this to anything; you can just change the
-# 'flags' list of compilation flags. Notice that YCM itself uses that approach.
-compilation_database_folder = ''
+def getSystemIncludeFlags():
+    return getIncludePaths('-isystem', [
+        '/usr/include',
+        '/usr/local/include',
+        '/usr/include/eigen3',
+    ])
 
-if compilation_database_folder:
-  database = ycm_core.CompilationDatabase( compilation_database_folder )
-else:
-  database = None
+def getRosIncludeFlags():
+    paths = []
 
+    ros_workspace = os.path.expandvars('$ROS_WORKSPACE') + '/devel/include'
+    if os.path.isdir(ros_workspace):
+        paths += [ros_workspace]
 
-def DirectoryOfThisScript():
-  return os.path.dirname( os.path.abspath( __file__ ) )
+    paths += [rospack.get_path(path) + '/include' for path in rospack.list()]
 
+    if os.path.isdir('/opt/ros'):
+        paths += [
+                path + '/include'
+                for path in reversed(os.listdir('/opt/ros'))
+                    if os.path.isdir(path) and os.path.isdir(path + '/include')
+                ]
 
-def MakeRelativePathsInFlagsAbsolute( flags, working_directory ):
-  if not working_directory:
-    return list( flags )
-  new_flags = []
-  make_next_absolute = False
-  path_flags = [ '-isystem', '-I', '-iquote', '--sysroot=' ]
-  for flag in flags:
-    new_flag = flag
+    return getIncludePaths('-isystem', paths)
 
-    if make_next_absolute:
-      make_next_absolute = False
-      if not flag.startswith( '/' ):
-        new_flag = os.path.join( working_directory, flag )
+def getBazelWorkspace(current):
+    while len(current) > 0: 
+        current = os.path.dirname(current)
+        if os.path.exists(os.path.join(current, 'WORKSPACE')):
+            return current
+    return None
 
-    for path_flag in path_flags:
-      if flag == path_flag:
-        make_next_absolute = True
-        break
+def getLocalIncludeFlags(filename):
+    return getIncludePaths('-I', [
+        '.',
+        './include',
+        getBazelWorkspace(filename),
+        os.path.join(getBazelWorkspace(filename), 'bazel-genfiles'),
+    ])
 
-      if flag.startswith( path_flag ):
-        path = flag[ len( path_flag ): ]
-        new_flag = path_flag + os.path.join( working_directory, path )
-        break
+def getIncludePaths(prefix, paths):
+    paths = filter(lambda path: os.path.exists(path), set(paths))
+    return list(itertools.chain.from_iterable(
+     itertools.izip([prefix] * len(paths), paths)))
 
-    if new_flag:
-      new_flags.append( new_flag )
-  return new_flags
+def IsHeaderFile(filename):
+    extension = os.path.splitext(filename)[1]
+    return extension in ['.hpp', '.hxx', '.hh', '.h', '.inl', '.impl']
 
-
-def FlagsForFile( filename ):
-  if database:
-    # Bear in mind that compilation_info.compiler_flags_ does NOT return a
-    # python list, but a "list-like" StringVec object
-    compilation_info = database.GetCompilationInfoForFile( filename )
-    final_flags = MakeRelativePathsInFlagsAbsolute(
-      compilation_info.compiler_flags_,
-      compilation_info.compiler_working_dir_ )
-  else:
-    # relative_to = DirectoryOfThisScript()
-    relative_to = os.path.dirname(os.path.abspath(filename))
-    final_flags = MakeRelativePathsInFlagsAbsolute( flags, relative_to )
-
-  return {
-    'flags': final_flags,
-    'do_cache': True
-  }
+def FlagsForFile(filename, **kwargs):
+    return {
+        'flags': getDefaultFlags() + getSystemIncludeFlags() + \
+                 getRosIncludeFlags() + getLocalIncludeFlags(filename),
+        'do_cache': True
+    }
