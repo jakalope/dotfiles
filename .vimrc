@@ -57,6 +57,8 @@ nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
 nnoremap <C-f> :YcmCompleter GoToInclude<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 
+nnoremap _w :!git clang-format -f<CR>
+
 " set nowrap
 
 " Allows you to switch from an
@@ -149,7 +151,7 @@ command! Style :%!astyle
 
 "
 " nnoremap _c :!catkin build $(local_package_name %)<CR>
-nnoremap _c :!bazel build //
+nnoremap _c :!>/dev/null bazel test --test_verbose_timeout_warnings //vehicle/... 2> $(cat ~/use-me-tty) &<CR>
 command! W :w
 command! Wa :wa
 
