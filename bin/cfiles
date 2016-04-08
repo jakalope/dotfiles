@@ -4,4 +4,4 @@ if [[ $# > 0 ]]; then
 else
     dir="."
 fi
-2>/dev/null find "${dir}" -regex '.*\.\(c\|cpp\|h\|hpp\|cx\|cc\)'
+2>/dev/null find "${dir}" -regex '.*\.\(c\|cpp\|h\|hpp\|cx\|cxx\|cc\)'
