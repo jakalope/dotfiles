@@ -1,10 +1,11 @@
 #!/bin/bash
 
+cwd=$(pwd)
 if [[ $# != 0 ]]; then
-    cd ${SOURCE_DIR}/$(dirname $1)
+    cd ${WORKSPACE_DIR}/$(dirname $1)
 fi
 
-while [[ ! -f package.xml && ! -f manifest.xml && $(pwd) != "/" ]]
+while [[ ! -f BUILD && ! -f package.xml && ! -f manifest.xml && $(pwd) != "/" ]]
 do
     cd ..
 done
@@ -35,7 +36,9 @@ if [[ -f package.xml ]]; then
 elif [[ -f manifest.xml ]]; then
     # this is a rosbuild package
     ${MAKE}
+elif [[ -f BUILD ]]; then
+    ${MAKE} ...
 else
-    echo "No package found" 1>&2
+    echo "No package found below $cwd" 1>&2
 fi
 
