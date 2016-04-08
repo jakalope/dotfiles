@@ -151,7 +151,8 @@ command! Style :%!astyle
 
 "
 " nnoremap _c :!catkin build $(local_package_name %)<CR>
-nnoremap _c :!>/dev/null bazel test --test_verbose_timeout_warnings //vehicle/... 2> $(cat ~/use-me-tty) &<CR>
+nnoremap _c :!>/dev/null make_this_package % 2> $(cat ~/use-me-tty) &<CR>
+nnoremap _f :!>/dev/null bazel test //vehicle/... % 2> $(cat ~/use-me-tty) &<CR>
 command! W :w
 command! Wa :wa
 

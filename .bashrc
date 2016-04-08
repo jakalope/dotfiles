@@ -134,9 +134,14 @@ then
     export PATH=${PATH}:/home/jake/bin
 fi
 
+# use vi key bindings in bash
 set -o vi
-export EDITOR=vim
-source ~/bin/upcd.bash
-export WORKSPACE_DIR=/home/jake/workspace/driving
 
-source ${HOME}/workspace/driving/scripts/shell/***REMOVED***rc.sh
+# set some development environment variables
+export EDITOR=vim
+export MAKE='bazel test --test_verbose_timeout_warnings'
+source ~/bin/upcd.bash
+export WORKSPACE_DIR=${HOME}/workspace/driving
+export SOURCE_DIR="${WORKSPACE_DIR}"
+
+source ${WORKSPACE_DIR}/scripts/shell/***REMOVED***rc.sh
