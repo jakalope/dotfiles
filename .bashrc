@@ -141,6 +141,8 @@ set -o vi
 export EDITOR=vim
 export MAKE='bazel test --test_verbose_timeout_warnings'
 source ~/bin/upcd.bash
+source ~/bin/wcd.bash
+source ~/bin/scd.bash
 export WORKSPACE_DIR=${HOME}/workspace/driving
 export SOURCE_DIR="${WORKSPACE_DIR}"
 
