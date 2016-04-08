@@ -1,3 +1,6 @@
 #!/bin/bash
 
-cd "${WORKSPACE_DIR}"
+function wcd()
+{
+    cd "${WORKSPACE_DIR}"
+}

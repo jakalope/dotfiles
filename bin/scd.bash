@@ -1,3 +1,6 @@
 #!/bin/bash
 
-cd "${SOURCE_DIR}"
+function scd()
+{
+    cd "${SOURCE_DIR}"
+}
