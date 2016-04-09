@@ -24,20 +24,29 @@ sudo apt-get install \
     indicator-multiload \
     unity-tweak-tool \
     tree
+    pkg-config \
+    zip \
+    g++ \
+    zlib1g-dev \
+    unzip
 
 # run indicator multiload for the first time
 indicator-multiload &
 
 # build YouCompleteMe
 pushd .vim/bundle/YouCompleteMe
+git submodule add https://github.com/ross/requests-futures third_party/requests-futures
+git submodule add https://github.com/Valloric/ycmd third_party/ycmd
 git submodule update --init --recursive
 ./install.py --clang-completer
 popd
 
 # setup bazel
 pushd ~/Downloads
-wget https://github.com/bazelbuild/bazel/releases/download/0.2.0/bazel-0.2.0-installer-linux-x86_64.sh
-sudo bash bazel-0.2.0-installer-linux-x86_64.sh
+if [[ ! -e bazel_0.2.0-linux-x86_64.deb ]]; then
+    wget https://github.com/bazelbuild/bazel/releases/download/0.2.0/bazel_0.2.0-linux-x86_64.deb
+fi
+sudo dpkg --install bazel_0.2.0-linux-x86_64.deb 
 popd
 
 # setup specific tmux version
