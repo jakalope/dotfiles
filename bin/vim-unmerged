@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd $WORKSPACE_DIR
+#2>/dev/null hg diff -r default | grep '^+++' | sed 's:^+++ b/::g' | vims
+2>/dev/null git diff origin/master | grep '^+++' | sed 's:^+++ b/::g' | vims

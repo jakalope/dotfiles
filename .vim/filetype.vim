@@ -10,8 +10,8 @@ augroup filetypedetect
     autocmd BufNewFile,BufRead *.html call SetHtmlOptions()
     autocmd BufNewFile,BufRead *.launch call SetXmlOptions()
 
-    autocmd BufNewFile,BufRead *.sh call SetPythonOptions()
-    autocmd BufNewFile,BufRead *.bash call SetPythonOptions()
+    autocmd BufNewFile,BufRead *.sh call SetBashOptions()
+    autocmd BufNewFile,BufRead *.bash call SetBashOptions()
     autocmd BufNewFile,BufRead *.yaml call SetPythonOptions()
     autocmd BufNewFile,BufRead *.python call SetPythonOptions()
 
@@ -77,8 +77,19 @@ function! SetPythonOptions()
     set smartindent
 endfunction
 
+function! SetBashOptions()
+    set filetype=sh
+    set cc=80
+    set shiftwidth=4
+    set tabstop=4
+    set softtabstop=4
+    set autoindent
+    set smartindent
+endfunction
+
 function! SetCMakeOptions()
     set filetype=cmake
+    setlocal commentstring=#\ %s
     set cc=100
     set shiftwidth=2
     set tabstop=2
@@ -90,7 +101,7 @@ endfunction
 function! SetCPPOptions()
     set filetype=cpp
     setlocal commentstring=//\ %s
-    set cc=120
+    set cc=80
     set shiftwidth=2
     set tabstop=2
     set softtabstop=2

@@ -2,7 +2,7 @@
 call pathogen#infect()
 let g:session_autosave = 'yes'
 let g:session_autoload = 'no'
-let g:AutoPairsShortcutToggle = '_ap'
+let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 filetype on
 filetype plugin on
 filetype indent on
@@ -47,11 +47,19 @@ endif
 "cabbrev vdiff VCSDiff
 "cabbrev vblame VCSAnnotate
 
-nnoremap <C-k> :exec "!gen_cscope_db.bash &"<CR>
-nnoremap <C-l> :exec "!gen_ctags_db.bash &"<CR>
-nnoremap <C-j> :exec "!2>/dev/null gtags -q &"<CR>
+nnoremap <C-s> :Unite buffer -input=
 
-set nowrap
+" for tmux:
+" nnoremap <C-b> <C-a>
+
+nnoremap <C-\> :YcmCompleter GoToDefinition<CR>
+nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
+nnoremap <C-f> :YcmCompleter GoToInclude<CR>
+nnoremap <C-t> :YcmCompleter GetType<CR>
+
+nnoremap _w :!git clang-format -f<CR>
+
+" set nowrap
 
 " Allows you to switch from an
 " unsaved buffer without saving it first. Also allows you to keep an undo
@@ -118,6 +126,7 @@ nnoremap = mao<esc>`a
 nnoremap <C-}> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 nnoremap tab mo:tabnew %<CR>`o<C-]>
 nnoremap tib mo:tabnew %<CR>`o<C-\>f
+nnoremap _g :grep! "\b<C-R><C-W>\b" *<CR>
 
 map! <F1> <ESC>
 "map <F1> dwWbi <ESC>px  
@@ -133,12 +142,19 @@ nnoremap _sig >>Wd2f:A;<ESC>0w
 nnoremap _align ywmvV}:s/<C-r>"/`<C-r>"/g<CR>V'v:!column -ts \`<CR>
 
 " Open previous tag in new tab
-nnoremap _t :tabnew %<CR>:tabprev<CR><C-t>
+nnoremap _t :tabnew %<CR>:tabprev<CR><C-o>
 
 " Restyle source code
 vnoremap _style :!astyle<CR>
 nnoremap _style :%!astyle<CR>
 command! Style :%!astyle
+
+"
+" nnoremap _c :!catkin build $(local_package_name %)<CR>
+nnoremap _c :!>/dev/null make_this_package % 2> $(cat ~/use-me-tty) &<CR>
+nnoremap _f :!>/dev/null bazel test //vehicle/... % 2> $(cat ~/use-me-tty) &<CR>
+command! W :w
+command! Wa :wa
 
 " Convert Structure-Of-Arrays to Array-Of-Structures
 vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
@@ -154,7 +170,6 @@ nnoremap <C-C> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:vsp<CR>:cs find 
 nnoremap <C-H> :let g:word="\\/" . expand("%:t:r") . "\\.h"<CR>:vsp<CR>:cs find f <C-R>=g:word<CR><CR>
 nnoremap <C-c> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:cs find f <C-R>=g:word<CR><CR>
 nnoremap <C-h> :let g:word="\\/" . expand("%:t:r") . "\\.h"<CR>:cs find f <C-R>=g:word<CR><CR>
-
 
 " Cycle through windows
 nnoremap <F5> <C-w>W
@@ -172,19 +187,18 @@ nnoremap <S-F8> :bn<CR>
 nnoremap <C-F5> :tp<CR>
 nnoremap <C-F6> :tn<CR>
 
-" Get some clipboard functionality
-nnoremap _v "+p
-vnoremap _x "+y
-vnoremap _c "+y
-
-" Remove all buffers
-command! Clear :0,10000bd
-
 " Break up this multi-var definition into two lines
 nnoremap _n 0wyWf,i;	pdf,0
 
 " Reload all windows in all tabs
 command! Reload :tabdo exec 'windo e'
+
+" Detect filetype in each tab
+command! Detect :tabdo exec 'filetype detect'
+
+" Remove all buffers
+command! Clear :0,10000bd
+
 
 nnoremap >> 0i<TAB><ESC>
 
@@ -195,6 +209,14 @@ function! NextWord() range
     endfor
 endfunction
 noremap <silent> Y :call NextWord()<CR>
+
+" 
+command! -nargs=1 Tnb call s:Tnb(<f-args>)
+function! s:Tnb(arg)
+    tabnew
+    let cmd = 'Unite -input='.a:arg.' buffer'
+    execute cmd
+endfunction
 
 " Converters for hex and decimal numbers
 command! -nargs=? -range Dec2hex call s:Dec2hex(<line1>, <line2>, '<args>')
@@ -232,3 +254,6 @@ function! s:Hex2dec(line1, line2, arg) range
     echo (a:arg =~? '^0x') ? a:arg + 0 : ('0x'.a:arg) + 0
   endif
 endfunction
+
+Detect
+

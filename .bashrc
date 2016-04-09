@@ -37,11 +37,6 @@ case "$TERM" in
     xterm-color) color_prompt=yes;;
 esac
 
-# hg-prompt
-hg_ps1() {
-    hg prompt "{{branch}}{@{bookmark}}:" 2> /dev/null
-}
-
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
@@ -58,12 +53,12 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-if [ "$color_prompt" = yes ]; then
-    PS1='$(hg_ps1)${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
+# if [ "$color_prompt" = yes ]; then
+#     PS1='$(hg_ps1)${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+# else
+#     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+# fi
+# unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -73,6 +68,26 @@ xterm*|rxvt*)
 *)
     ;;
 esac
+
+# hg-prompt
+function hg_ps1() {
+    hg prompt "{{branch}}{@{bookmark}}:" 2> /dev/null
+}
+function parse_git_dirty {
+  [[ $(git status 2> /dev/null | tail -n1) == "nothing to commit (working directory clean)" ]] && echo "*"
+}
+function parse_git_branch {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+}
+
+if [ "$color_prompt" = yes ]; then
+    # PS1='$(hg_ps1)${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+    export PS1='$(hg_ps1)\u@\h:$(tty):\[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)$ '
+else
+    # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    export PS1='$(hg_ps1)\u@\h\w\$(parse_git_branch)$ '
+fi
+unset color_prompt force_color_prompt
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -114,27 +129,21 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-if [[ ! ${PATH} == */home/asj1pal/bin* ]]
+if [[ ! ${PATH} == */home/jake/bin* ]]
 then
-    export PATH=${PATH}:/home/asj1pal/bin
+    export PATH=${PATH}:/home/jake/bin
 fi
 
-export EDITOR=vims
+# use vi key bindings in bash
+set -o vi
+
+# set some development environment variables
+export EDITOR=vim
+export MAKE='bazel test --test_verbose_timeout_warnings'
 source ~/bin/upcd.bash
+source ~/bin/wcd.bash
+source ~/bin/scd.bash
+export WORKSPACE_DIR=${HOME}/workspace/driving
+export SOURCE_DIR="${WORKSPACE_DIR}"
 
-export ros_dist=jade
-source /opt/ros/${ros_dist}/setup.bash
-BASIC_PKG_PATH=${ROS_PACKAGE_PATH}
-export WORKSPACE_DIR=/home/asj1pal/workspace/pjfa
-export GTAGSROOT=${WORKSPACE_ROOT}
-source /home/asj1pal/workspace/pjfa/devel/setup.bash
-export ROS_PACKAGE_PATH=${WORKSPACE_DIR}:${BASIC_PKG_PATH}
-source /home/asj1pal/workspace/utils/setup.sh
-export ROS_LANG_DISABLE=genlisp:genjava
-export PARALLEL_JOBS='-j7'
-
-# Laptop specific details
-if [[ $(uname -n | tr '[:upper:]' '[:lower:]') == "pale4e7a2" ]]
-then
-    export PARALLEL_JOBS='-j5'
-fi
+source ${WORKSPACE_DIR}/scripts/shell/***REMOVED***rc.sh
