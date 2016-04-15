@@ -138,4 +138,8 @@ export EDITOR=vims
 source ~/bin/upcd.bash
 export WORKSPACE_DIR=/home/jake/workspace/driving
 
-source ${HOME}/workspace/driving/scripts/shell/***REMOVED***rc.sh
+source /usr/local/lib/bazel/bin/bazel-complete.bash
+
+if [[ -e ${HOME}/workspace/driving/scripts/shell/***REMOVED***rc.sh ]]; then
+    source ${HOME}/workspace/driving/scripts/shell/***REMOVED***rc.sh
+fi
