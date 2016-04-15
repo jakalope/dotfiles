@@ -3,6 +3,8 @@ call pathogen#infect()
 let g:session_autosave = 'yes'
 let g:session_autoload = 'no'
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+" let g:ycm_register_as_syntastic_checker = 0
+let g:ycm_always_populate_location_list = 1
 filetype on
 filetype plugin on
 filetype indent on
@@ -34,7 +36,7 @@ set tags=tags;/
 
 " gvim
 if has("gui_running")
-    colorscheme slate
+    colorscheme default
 endif
 
 " taglist
@@ -47,7 +49,7 @@ endif
 "cabbrev vdiff VCSDiff
 "cabbrev vblame VCSAnnotate
 
-nnoremap <C-s> :Unite buffer -input=
+" nnoremap <C-s> :Unite buffer -input=
 
 " for tmux:
 " nnoremap <C-b> <C-a>
@@ -57,7 +59,7 @@ nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
 nnoremap <C-f> :YcmCompleter GoToInclude<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 
-nnoremap _w :!git clang-format -f<CR>
+nnoremap _w :w<CR>:!git clang-format -f<CR>
 
 " set nowrap
 
@@ -151,8 +153,7 @@ command! Style :%!astyle
 
 "
 " nnoremap _c :!catkin build $(local_package_name %)<CR>
-nnoremap _c :!>/dev/null make_this_package % 2> $(cat ~/use-me-tty) &<CR>
-nnoremap _f :!>/dev/null bazel test //vehicle/... % 2> $(cat ~/use-me-tty) &<CR>
+nnoremap _c :!make_this_package % 2>$(cat ~/use-me-tty) >$(cat ~/use-me-tty) &<CR>
 command! W :w
 command! Wa :wa
 

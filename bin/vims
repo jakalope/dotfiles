@@ -1,5 +1,7 @@
 #!/bin/bash
 
+VIMEXEC='vim'
+
 if [[ ${VIMSERVER} == "" ]]; then
     VIMSERVER="VIM"
 fi
@@ -14,39 +16,39 @@ if [[ ! -t 0 && $# == 0 ]]; then
 elif [[ $# > 0 ]]; then
     if [[ ${1} == '-p' ]]; then
         # tell the vim server to open the file
-        vim --servername $VIMSERVER --remote $(xsel --clipboard --output | awk -F: '{print $1}')
+        "$VIMEXEC" --servername $VIMSERVER --remote $(xsel --clipboard --output | awk -F: '{print $1}')
         # wait for vim to open the file
         sleep 0.1 
         # move the to appropriate line
-        vim --servername $VIMSERVER --remote-send +$(xsel --clipboard --output | awk -F: '{print ":" $2 "<CR>"}')
+        "$VIMEXEC" --servername $VIMSERVER --remote-send +$(xsel --clipboard --output | awk -F: '{print ":" $2 "<CR>"}')
     elif [[ ${1} == '-v' ]]; then
         # remove the -v
         shift
         # tell the vim server to open the file in a new tab
-        vim --servername $VIMSERVER --remote-tab "$1"
+        "$VIMEXEC" --servername $VIMSERVER --remote-tab "$1"
         # wait for vim to open the file
         sleep 0.1 
         # open a new v-split
-        vim --servername $VIMSERVER --remote-send ':vsp<CR>'
+        "$VIMEXEC" --servername $VIMSERVER --remote-send ':vsp<CR>'
         # wait for the new v-split to open
         sleep 0.1 
         # remove the first file from the argument list
         shift
         # open the second file in the new vsplit
-        vim --servername $VIMSERVER --remote "$1"
+        "$VIMEXEC" --servername $VIMSERVER --remote "$1"
     elif [[ ${1} == '-t' ]]; then
         # tell the vim server to open the file
-        vim --servername $VIMSERVER --remote-tab-silent $(xsel --clipboard --output | awk -F: '{print $1}')
+        "$VIMEXEC" --servername $VIMSERVER --remote-tab-silent $(xsel --clipboard --output | awk -F: '{print $1}')
         # wait for vim to open the file
         sleep 0.1 
         # move the to appropriate line
-        vim --servername $VIMSERVER --remote-send +$(xsel --clipboard --output | awk -F: '{print ":" $2 "<CR>"}')
+        "$VIMEXEC" --servername $VIMSERVER --remote-send +$(xsel --clipboard --output | awk -F: '{print ":" $2 "<CR>"}')
     else
         # tell the vim server to open the file
-        vim --servername $VIMSERVER --remote-tab-silent "$@"
+        "$VIMEXEC" --servername $VIMSERVER --remote-tab-silent "$@"
     fi  
 # Nothing from stdin, no arguemnts, so start a server
 else
-    vim --servername $VIMSERVER
+    "$VIMEXEC" --servername $VIMSERVER
 fi
 

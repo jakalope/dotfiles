@@ -139,7 +139,7 @@ set -o vi
 
 # set some development environment variables
 export EDITOR=vim
-export MAKE='bazel test --test_verbose_timeout_warnings'
+#export MAKE='bazel test --test_verbose_timeout_warnings'
 source ~/bin/upcd.bash
 source ~/bin/wcd.bash
 source ~/bin/scd.bash
