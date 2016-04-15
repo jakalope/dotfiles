@@ -82,7 +82,7 @@ function parse_git_branch {
 
 if [ "$color_prompt" = yes ]; then
     # PS1='$(hg_ps1)${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
-    export PS1='$(hg_ps1)\u@\h \[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)$ '
+    export PS1='$(hg_ps1)\u@\h:$(tty):\[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)$ '
 else
     # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
     export PS1='$(hg_ps1)\u@\h\w\$(parse_git_branch)$ '
@@ -129,17 +129,27 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-if [[ ! ${PATH} == */home/jake/bin* ]]
+if [[ ! ${PATH} == *"${HOME}/bin"* ]]
 then
-    export PATH=${PATH}:/home/jake/bin
+    export PATH=${PATH}:"${HOME}/bin"
 fi
 
-export EDITOR=vims
+# use vi key bindings in bash
+set -o vi
+
+# set some development environment variables
+export EDITOR=vim
+#export MAKE='bazel test --test_verbose_timeout_warnings'
 source ~/bin/upcd.bash
-export WORKSPACE_DIR=/home/jake/workspace/driving
+source ~/bin/wcd.bash
+source ~/bin/scd.bash
+export WORKSPACE_DIR=${HOME}/workspace/driving
+export SOURCE_DIR="${WORKSPACE_DIR}"
 
-source /usr/local/lib/bazel/bin/bazel-complete.bash
+if [[ -e /usr/local/lib/bazel/bin/bazel-complete.bash ]]; then
+    source /usr/local/lib/bazel/bin/bazel-complete.bash
+fi
 
-if [[ -e ${HOME}/workspace/driving/scripts/shell/***REMOVED***rc.sh ]]; then
-    source ${HOME}/workspace/driving/scripts/shell/***REMOVED***rc.sh
+if [[ -e ${WORKSPACE_DIR}/scripts/shell/***REMOVED***rc.sh ]]; then
+    source ${WORKSPACE_DIR}/scripts/shell/***REMOVED***rc.sh
 fi

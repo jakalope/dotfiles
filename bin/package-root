@@ -4,7 +4,7 @@ if [[ $# > 0 ]]; then
     cd $SOURCE_DIR/$(dirname $1)
 fi
 
-while [[ ! -e package.xml && ! -e manifest.xml && $(pwd) != "/" ]]
+while [[ ! -e BUILD && ! -e package.xml && ! -e manifest.xml && $(pwd) != "/" ]]
 do
     cd ..
 done
