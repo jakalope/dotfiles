@@ -1,5 +1,5 @@
 [ui]
-username = Jake Askeland <jake.askeland@us.bosch.com>
+username = Jake Askeland <jake.askeland@gmail.com>
 ignore = ~/.hgignore
 
 [extensions]
@@ -17,3 +17,12 @@ meld.premerge = False
 
 #[hooks]
 #precommit = clang_format_precommit
+
+
+[hostfingerprints]
+redmine.somnarus.tklapp.com = 29:23:15:65:6F:60:2D:FF:C5:3B:8E:27:3A:85:10:BE:53:D6:9D:E2
+
+[auth]
+foo.prefix = redmine.somnarus.tklapp.com
+foo.username = jake.askeland
+foo.schemes =  https

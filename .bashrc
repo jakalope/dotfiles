@@ -129,9 +129,9 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-if [[ ! ${PATH} == */home/jake/bin* ]]
+if [[ ! ${PATH} == *"${HOME}/bin"* ]]
 then
-    export PATH=${PATH}:/home/jake/bin
+    export PATH=${PATH}:"${HOME}/bin"
 fi
 
 # use vi key bindings in bash
@@ -146,4 +146,10 @@ source ~/bin/scd.bash
 export WORKSPACE_DIR=${HOME}/workspace/driving
 export SOURCE_DIR="${WORKSPACE_DIR}"
 
-source ${WORKSPACE_DIR}/scripts/shell/***REMOVED***rc.sh
+if [[ -e /usr/local/lib/bazel/bin/bazel-complete.bash ]]; then
+    source /usr/local/lib/bazel/bin/bazel-complete.bash
+fi
+
+if [[ -e ${WORKSPACE_DIR}/scripts/shell/***REMOVED***rc.sh ]]; then
+    source ${WORKSPACE_DIR}/scripts/shell/***REMOVED***rc.sh
+fi

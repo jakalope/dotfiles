@@ -152,7 +152,6 @@ nnoremap _style :%!astyle<CR>
 command! Style :%!astyle
 
 "
-" nnoremap _c :!catkin build $(local_package_name %)<CR>
 nnoremap _c :!make_this_package % 2>$(cat ~/use-me-tty) >$(cat ~/use-me-tty) &<CR>
 command! W :w
 command! Wa :wa

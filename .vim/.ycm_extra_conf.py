@@ -64,8 +64,14 @@ def IsHeaderFile(filename):
     return extension in ['.hpp', '.hxx', '.hh', '.h', '.inl', '.impl']
 
 def FlagsForFile(filename, **kwargs):
+    ros_flags=None
+    try:
+        ros_flags=getRosIncludeFlags()
+    except:
+        pass
+
     return {
         'flags': getDefaultFlags() + getSystemIncludeFlags() + \
-                 getRosIncludeFlags() + getLocalIncludeFlags(filename),
+                 ros_flags + getLocalIncludeFlags(filename),
         'do_cache': True
     }
