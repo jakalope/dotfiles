@@ -59,7 +59,7 @@ nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
 nnoremap <C-f> :YcmCompleter GoToInclude<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 
-nnoremap _w :w<CR>:!git clang-format -f<CR>
+nnoremap _w :wa<CR>:!git clang-format -f<CR>:Reload<CR>
 
 " set nowrap
 
