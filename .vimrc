@@ -39,27 +39,12 @@ if has("gui_running")
     colorscheme default
 endif
 
-" taglist
-"let Tlist_Auto_Open=1
-"let Tlist_Exit_OnlyWindow=1
-"nnoremap <silent> <F8> :TlistToggle<CR>
-
-" vcscommand
-"cabbrev vlog VCSLog
-"cabbrev vdiff VCSDiff
-"cabbrev vblame VCSAnnotate
-
-" nnoremap <C-s> :Unite buffer -input=
-
-" for tmux:
-" nnoremap <C-b> <C-a>
-
 nnoremap <C-\> :YcmCompleter GoToDefinition<CR>
 nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
 nnoremap <C-f> :YcmCompleter GoToInclude<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 
-nnoremap _w :wa<CR>:!git clang-format -f<CR>:Reload<CR>
+command! Format silent wa | silent !git clang-format -f | silent Reload
 
 " set nowrap
 
@@ -152,7 +137,7 @@ nnoremap _style :%!astyle<CR>
 command! Style :%!astyle
 
 "
-nnoremap _c :!make_this_package % 2>$(cat ~/use-me-tty) >$(cat ~/use-me-tty) &<CR>
+nnoremap _c :exe "silent !make_this_package % 2>$(cat ~/use-me-tty) >$(cat ~/use-me-tty) &"<CR><C-L>
 command! W :w
 command! Wa :wa
 
