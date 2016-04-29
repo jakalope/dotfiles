@@ -1,5 +1,34 @@
-" pathogen
-call pathogen#infect()
+"""""""""" Vundle
+set nocompatible              " be iMproved, required
+filetype off                  " required
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-commentary'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'kana/vim-smartword'
+Plugin 'rhysd/vim-clang-format'
+Plugin 'kana/vim-operator-user'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+"""""""""" Script opts
+let g:clang_format#command = 'clang-format-3.6'
+let g:clang_format#detect_style_file = 1
+
 let g:session_autosave = 'yes'
 let g:session_autoload = 'no'
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
@@ -18,6 +47,8 @@ set history=50
 set bs=2
 set ruler
 set nohlsearch
+set noautoread
+set nofoldenable
 
 set encoding=utf-8 
 set fileencoding=utf-8 
@@ -39,12 +70,21 @@ if has("gui_running")
     colorscheme default
 endif
 
-nnoremap <C-\> :YcmCompleter GoToDefinition<CR>
-nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
-nnoremap <C-f> :YcmCompleter GoToInclude<CR>
+nnoremap <C-\> :tab YcmCompleter GoToDefinition<CR>
+nnoremap <C-]> :tab YcmCompleter GoToImprecise<CR>
+nnoremap <C-f> :tab YcmCompleter GoToInclude<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 
-command! Format silent wa | silent !git clang-format -f | silent Reload
+" nnoremap <C-b> :CtrlPBuffer<CR>
+nnoremap <C-c> :tab CtrlPMRU<CR>
+
+" map to <Leader>cf in C++ code
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+" if you install vim-operator-user
+autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
+" Toggle auto formatting:
+nmap <Leader>C :ClangFormatAutoToggle<CR>
 
 " set nowrap
 
@@ -148,35 +188,50 @@ vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
 nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".line(".")."\" \| xsel --clipboard --input"<CR>:redraw!<CR>
 
 " Find all files that include this file, in this directory
-nnoremap _down :let g:cmd=system("echo ".expand('%')." \| awk -F/ '{print $(NF-1)\"/\"$NF}'")<CR>:cs find i <C-R>=g:cmd<CR><CR>
+" nnoremap _down :let g:cmd=system("echo ".expand('%')." \| awk -F/ '{print $(NF-1)\"/\"$NF}'")<CR>:cs find i <C-R>=g:cmd<CR><CR>
 
 " Open compainion file, if it exists (e.g. test.h -> test.cpp)
-nnoremap <C-C> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:vsp<CR>:cs find f <C-R>=g:word<CR><CR>
-nnoremap <C-H> :let g:word="\\/" . expand("%:t:r") . "\\.h"<CR>:vsp<CR>:cs find f <C-R>=g:word<CR><CR>
-nnoremap <C-c> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:cs find f <C-R>=g:word<CR><CR>
-nnoremap <C-h> :let g:word="\\/" . expand("%:t:r") . "\\.h"<CR>:cs find f <C-R>=g:word<CR><CR>
+" nnoremap <C-C> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:vsp<CR>:cs find f <C-R>=g:word<CR><CR>
+" nnoremap <C-H> :let g:word="\\/" . expand("%:t:r") . "\\.h"<CR>:vsp<CR>:cs find f <C-R>=g:word<CR><CR>
+" nnoremap <C-c> :let g:word="\\/" . expand("%:t:r") . "\\.c"<CR>:cs find f <C-R>=g:word<CR><CR>
+" nnoremap <C-h> :let g:word="\\/" . expand("%:t:r") . "\\.h"<CR>:cs find f <C-R>=g:word<CR><CR>
 
 " Cycle through windows
-nnoremap <F5> <C-w>W
-nnoremap <F6> <C-w>w
-
 " Cycle through tabs
-nnoremap <F7> :tabprev<CR>
-nnoremap <F8> :tabnext<CR>
+nnoremap <F5> :tabp<CR>
+nnoremap <F6> :bp<CR>
+nnoremap <F7> :bn<CR>
+nnoremap <F8> :tabn<CR>
 
+nnoremap <C-b> :tab CtrlPBuffer<CR>
 " Cycle through buffers in the current window
-nnoremap <S-F7> :bp<CR>
-nnoremap <S-F8> :bn<CR>
+" nnoremap <S-F7> :bp<CR>
+" nnoremap <S-F8> :bn<CR>
 
 " Cycle through tags
-nnoremap <C-F5> :tp<CR>
-nnoremap <C-F6> :tn<CR>
+" nnoremap <C-F5> :tp<CR>
+" nnoremap <C-F6> :tn<CR>
 
 " Break up this multi-var definition into two lines
 nnoremap _n 0wyWf,i;	pdf,0
 
-" Reload all windows in all tabs
-command! Reload :tabdo exec 'windo e'
+" Reload all windows, tabs, buffers, etc.
+command! Reload :call s:Reload()
+function! s:Reload()
+    setlocal autoread
+    checktime
+    set autoread<
+endfunction
+
+nnoremap <C-d> :Format<CR>
+command! Format :call s:Format()
+function! s:Format()
+    setlocal autoread
+    silent wa 
+    silent !git clang-format -f
+    Reload
+    set autoread<
+endfunction
 
 " Detect filetype in each tab
 command! Detect :tabdo exec 'filetype detect'
@@ -184,24 +239,7 @@ command! Detect :tabdo exec 'filetype detect'
 " Remove all buffers
 command! Clear :0,10000bd
 
-
-nnoremap >> 0i<TAB><ESC>
-
-" Move to beginning of next word, skipping non-word characters
-function! NextWord() range
-    for i in range(1,v:count1)
-        call search('\W*\<\w', 'eW')
-    endfor
-endfunction
-noremap <silent> Y :call NextWord()<CR>
-
-" 
-command! -nargs=1 Tnb call s:Tnb(<f-args>)
-function! s:Tnb(arg)
-    tabnew
-    let cmd = 'Unite -input='.a:arg.' buffer'
-    execute cmd
-endfunction
+" nnoremap >> 0i<TAB><ESC>
 
 " Converters for hex and decimal numbers
 command! -nargs=? -range Dec2hex call s:Dec2hex(<line1>, <line2>, '<args>')

@@ -37,7 +37,7 @@ elif [[ -f manifest.xml ]]; then
     # this is a rosbuild package
     ${MAKE}
 elif [[ -f BUILD ]]; then
-    bazel test --test_output=errors ...
+    bazel test --compilation_mode=dbg --test_output=errors ...
 else
     echo "No package found below $cwd" 1>&2
 fi

@@ -8,7 +8,7 @@ fi
 
 # Check if we're being piped some input
 if [[ ! -t 0 && $# == 0 ]]; then
-    # If so, expect it in "[filename]:[linenumber] [garbage]" format, 
+    # If so, expect it in "<filename>[:linenumber[:garbage]]" format, 
     # separated by newlines and open each file in a separate tab by calling
     # this script recursively
     awk '{print $1}' | awk -F: '{print "vims +"$2 " " $1}' | bash
