@@ -14,14 +14,9 @@ if [[ ! -t 0 && $# == 0 ]]; then
     awk '{print $1}' | awk -F: '{print "vims +"$2 " " $1}' | bash
 # Check if we have some arguments
 elif [[ $# > 0 ]]; then
-    if [[ ${1} == '-p' ]]; then
-        # tell the vim server to open the file
-        "$VIMEXEC" --servername $VIMSERVER --remote $(xsel --clipboard --output | awk -F: '{print $1}')
-        # wait for vim to open the file
-        sleep 0.1 
-        # move the to appropriate line
-        "$VIMEXEC" --servername $VIMSERVER --remote-send +$(xsel --clipboard --output | awk -F: '{print ":" $2 "<CR>"}')
-    elif [[ ${1} == '-v' ]]; then
+    # get the current working directory of the vim server
+    cwd=$("$VIMEXEC" --servername $VIMSERVER --remote-expr 'getcwd()')
+    if [[ ${1} == '-v' ]]; then
         # remove the -v
         shift
         # tell the vim server to open the file in a new tab
@@ -38,14 +33,18 @@ elif [[ $# > 0 ]]; then
         "$VIMEXEC" --servername $VIMSERVER --remote "$1"
     elif [[ ${1} == '-t' ]]; then
         # tell the vim server to open the file
-        "$VIMEXEC" --servername $VIMSERVER --remote-tab-silent $(xsel --clipboard --output | awk -F: '{print $1}')
+        file=$(readlink -f "${cwd}/$(xsel --clipboard --output | awk -F: '{print $1}')")
+        "$VIMEXEC" --servername $VIMSERVER --remote-tab-silent "${file}"
         # wait for vim to open the file
         sleep 0.1 
         # move the to appropriate line
-        "$VIMEXEC" --servername $VIMSERVER --remote-send +$(xsel --clipboard --output | awk -F: '{print ":" $2 "<CR>"}')
+        "$VIMEXEC" --servername $VIMSERVER --remote-send $(xsel --clipboard --output | awk -F: '{print ":" $2 "<CR>"}')
     else
         # tell the vim server to open the file
-        "$VIMEXEC" --servername $VIMSERVER --remote-tab-silent "$@"
+        while ((${#@})); do
+            "$VIMEXEC" --servername $VIMSERVER --remote-tab-silent $(readlink -f "$(pwd)/${1}")
+            shift
+        done
     fi  
 # Nothing from stdin, no arguemnts, so start a server
 else

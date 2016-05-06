@@ -109,5 +109,6 @@ function! SetCPPOptions()
     set smartindent
     set cindent
     command! Build :make
+    au bufenter * silent! ClangFormatAutoEnable
 endfunction
 

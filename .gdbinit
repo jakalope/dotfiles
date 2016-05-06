@@ -3,6 +3,11 @@ set print object on
 set print static-members on
 set print vtbl on
 set print demangle on
+
+# the backtrace command will only show argument values 
+# for scalar arguments (including pointers and C strings)
+set print frame-arguments scalar
+
 set demangle-style gnu-v3
 set print sevenbit-strings off
 set data-directory "/home/jake/.gdb/"
