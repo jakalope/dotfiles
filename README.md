@@ -29,12 +29,16 @@ GDB
 VIM Plugins
 -----------
 
+### Git
+* `;c` Open companion cpp file in new vertical split.
+* `;h` Open companion h file in new vertical split.
+
 ### CtrlP
 
 * `<C-p>`
 * `<C-b>`
 * `<C-c>`
-* `;;` Clear cache NOW (normally <F5>)
+* `;;` Clear CtrlP cache NOW (normally <F5>).
 
 ### YouCompleteMe
 

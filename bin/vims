@@ -6,6 +6,26 @@ if [[ ${VIMSERVER} == "" ]]; then
     VIMSERVER="VIM"
 fi
 
+# If a vimserver has already been started, make sure we're in its CWD.
+# Otherwise, cleanup any old files related to this check.
+if [[ -e "${HOME}/${VIMSERVER}" ]]; then
+    if [[ $# == 0 ]]; then
+        rm "${HOME}/${VIMSERVER}"
+    else
+        cwd=$(cat "${HOME}/${VIMSERVER}")
+        "$VIMEXEC" --servername $VIMSERVER --remote-send "cd ${cwd}"
+    fi
+
+fi
+
+function open_in_tab() {
+    while [[ $# > 0 ]]; do
+        echo "$VIMEXEC" --servername $VIMSERVER --remote-tab-silent "${1}"
+        "$VIMEXEC" --servername $VIMSERVER --remote-tab-silent "${1}"
+        shift
+    done
+}
+
 # Check if we're being piped some input
 if [[ ! -t 0 && $# == 0 ]]; then
     # If so, expect it in "<filename>[:linenumber[:garbage]]" format, 
@@ -15,7 +35,6 @@ if [[ ! -t 0 && $# == 0 ]]; then
 # Check if we have some arguments
 elif [[ $# > 0 ]]; then
     # get the current working directory of the vim server
-    cwd=$("$VIMEXEC" --servername $VIMSERVER --remote-expr 'getcwd()')
     if [[ ${1} == '-v' ]]; then
         # remove the -v
         shift
@@ -33,21 +52,46 @@ elif [[ $# > 0 ]]; then
         "$VIMEXEC" --servername $VIMSERVER --remote "$1"
     elif [[ ${1} == '-t' ]]; then
         # tell the vim server to open the file
-        file=$(readlink -f "${cwd}/$(xsel --clipboard --output | awk -F: '{print $1}')")
-        "$VIMEXEC" --servername $VIMSERVER --remote-tab-silent "${file}"
-        # wait for vim to open the file
-        sleep 0.1 
-        # move the to appropriate line
-        "$VIMEXEC" --servername $VIMSERVER --remote-send $(xsel --clipboard --output | awk -F: '{print ":" $2 "<CR>"}')
+        # first try 
+        raw=$(xsel --clipboard --output | awk -F: '{print $1}')
+        vim_cwd_file=$(readlink -f "${cwd}/$raw")
+        cmd_cwd_file=$(readlink -f "$(pwd)/$raw")
+        line=$(xsel --clipboard --output | awk -F: '{print ":" $2 "<CR>"}')
+        if [[ -e "$raw" ]]; then
+            echo RAW >> ${HOME}/vims_usage
+            open_in_tab "${raw}"
+            # wait for vim to open the file
+            sleep 0.1 
+            # move the to appropriate line
+            "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
+        elif [[ -e "$vim_cwd_file" ]]; then
+            echo VIM_CWD >> ${HOME}/vims_usage
+            open_in_tab "${vim_cwd_file}"
+            # wait for vim to open the file
+            sleep 0.1 
+            # move the to appropriate line
+            "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
+        elif [[ -e "$cmd_cwd_file" ]]; then
+            echo CMD_CWD >> ${HOME}/vims_usage
+            open_in_tab "${cmd_cwd_file}"
+            # wait for vim to open the file
+            sleep 0.1 
+            # move the to appropriate line
+            "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
+        else
+            echo "Couldn't find either of the following:"
+            echo "  $raw"
+            echo "  ${cwd}/$raw"
+            echo "  $(pwd)/$raw"
+            exit
+        fi
     else
         # tell the vim server to open the file
-        while ((${#@})); do
-            "$VIMEXEC" --servername $VIMSERVER --remote-tab-silent $(readlink -f "$(pwd)/${1}")
-            shift
-        done
+        open_in_tab "${@}"
     fi  
 # Nothing from stdin, no arguemnts, so start a server
 else
+    pwd > ~/${VIMSERVER}
     "$VIMEXEC" --servername $VIMSERVER
 fi
 

@@ -4,31 +4,31 @@
 sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update
 sudo apt-get install \
-	git \
-	mercurial \
-	vim-gtk \
-	libevent-dev \
-	chromium-browser \
-	xsel \
-	xclip \
-	autoconf \
-	gfortran \
-	ubuntu-restricted-extras \
-	clang-3.6 \
-	clang-format-3.6 \
-	oracle-java8-installer \
-	python-dev \
-	python3-dev \
-	build-essential \
-	cmake \
-    indicator-multiload \
-    unity-tweak-tool \
-    tree
-    pkg-config \
-    zip \
+    autoconf \
+    build-essential \
+    chromium-browser \
+    clang-3.6 \
+    clang-format-3.6 \
+    cmake \
     g++ \
-    zlib1g-dev \
+    gfortran \
+    git \
+    indicator-multiload \
+    libevent-dev \
+    mercurial \
+    oracle-java8-installer \
+    pkg-config \
+    python-dev \
+    python3-dev \
+    tree
+    ubuntu-restricted-extras \
+    unity-tweak-tool \
     unzip
+    vim-gtk \
+    xclip \
+    xsel \
+    zip \
+    zlib1g-dev \
 
 # run indicator multiload for the first time
 indicator-multiload &

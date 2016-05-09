@@ -45,6 +45,7 @@ filetype plugin indent on    " required
 set viewoptions=cursor,folds,slash,unix
 
 filetype on
+filetype plugin on
 syntax on
 
 set autoindent
@@ -61,7 +62,7 @@ set nofoldenable
 set nohlsearch
 set number
 set paste
-set scrolloff=2
+set scrolloff=999
 set shiftwidth=4
 set showcmd " Show partial commands in the last line of the screen
 set showmode
@@ -131,6 +132,8 @@ nnoremap tab mo:tabnew %<CR>`o<C-]>
 nnoremap tib mo:tabnew %<CR>`o<C-\>f
 nnoremap _g :grep! "\b<C-R><C-W>\b" *<CR>
 
+nnoremap ;y :let @"=@%<CR>
+
 map! <F1> <ESC>
 
 " convert a 1-line CPP function definition signature to a declaration signature
@@ -162,8 +165,8 @@ nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".line(".")."\" \| xse
 " nnoremap _down :let g:cmd=system("echo ".expand('%')." \| awk -F/ '{print $(NF-1)\"/\"$NF}'")<CR>:cs find i <C-R>=g:cmd<CR><CR>
 
 " Open compainion file, if it exists (e.g. test.h -> test.cpp)
-nnoremap ;c :let g:word=system("git ls-files --full-name */<C-R>=expand("%:t:r")<CR>.cpp")<CR>:vsp <C-R>=g:word<CR><CR>
-nnoremap ;h :let g:word=system("git ls-files --full-name */<C-R>=expand("%:t:r")<CR>.h")<CR>:vsp <C-R>=g:word<CR><CR>
+nnoremap ;c :let g:word=system("git ls-files --full-name <C-R>=expand("%:r")<CR>.cpp")<CR>:vsp <C-R>=g:word<CR><CR>
+nnoremap ;h :let g:word=system("git ls-files --full-name <C-R>=expand("%:r")<CR>.h")<CR>:vsp <C-R>=g:word<CR><CR>
 
 " Cycle through windows
 " Cycle through tabs
@@ -206,38 +209,39 @@ command! Clear :0,10000bd
 " Converters for hex and decimal numbers
 command! -nargs=? -range Dec2hex call s:Dec2hex(<line1>, <line2>, '<args>')
 function! s:Dec2hex(line1, line2, arg) range
-  if empty(a:arg)
-    if histget(':', -1) =~# "^'<,'>" && visualmode() !=# 'V'
-      let cmd = 's/\%V\<\d\+\>/\=printf("0x%x",submatch(0)+0)/g'
+    if empty(a:arg)
+        if histget(':', -1) =~# "^'<,'>" && visualmode() !=# 'V'
+            let cmd = 's/\%V\<\d\+\>/\=printf("0x%x",submatch(0)+0)/g'
+        else
+            let cmd = 's/\<\d\+\>/\=printf("0x%x",submatch(0)+0)/g'
+        endif
+        try
+            execute a:line1 . ',' . a:line2 . cmd
+        catch
+            echo 'Error: No decimal number found'
+        endtry
     else
-      let cmd = 's/\<\d\+\>/\=printf("0x%x",submatch(0)+0)/g'
+        echo printf('%x', a:arg + 0)
     endif
-    try
-      execute a:line1 . ',' . a:line2 . cmd
-    catch
-      echo 'Error: No decimal number found'
-    endtry
-  else
-    echo printf('%x', a:arg + 0)
-  endif
 endfunction
 
 command! -nargs=? -range Hex2dec call s:Hex2dec(<line1>, <line2>, '<args>')
 function! s:Hex2dec(line1, line2, arg) range
-  if empty(a:arg)
-    if histget(':', -1) =~# "^'<,'>" && visualmode() !=# 'V'
-      let cmd = 's/\%V0x\x\+/\=submatch(0)+0/g'
+    if empty(a:arg)
+        if histget(':', -1) =~# "^'<,'>" && visualmode() !=# 'V'
+            let cmd = 's/\%V0x\x\+/\=submatch(0)+0/g'
+        else
+            let cmd = 's/0x\x\+/\=submatch(0)+0/g'
+        endif
+        try
+            execute a:line1 . ',' . a:line2 . cmd
+        catch
+            echo 'Error: No hex number starting "0x" found'
+        endtry
     else
-      let cmd = 's/0x\x\+/\=submatch(0)+0/g'
+        echo (a:arg =~? '^0x') ? a:arg + 0 : ('0x'.a:arg) + 0
     endif
-    try
-      execute a:line1 . ',' . a:line2 . cmd
-    catch
-      echo 'Error: No hex number starting "0x" found'
-    endtry
-  else
-    echo (a:arg =~? '^0x') ? a:arg + 0 : ('0x'.a:arg) + 0
-  endif
 endfunction
 
 Detect
+filetype plugin on

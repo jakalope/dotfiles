@@ -2,7 +2,7 @@
 
 cwd=$(pwd)
 if [[ $# != 0 ]]; then
-    cd ${WORKSPACE_DIR}/$(dirname $1)
+    cd $(readlink -f $(dirname $1))
 fi
 
 while [[ ! -f BUILD && ! -f package.xml && ! -f manifest.xml && $(pwd) != "/" ]]
@@ -13,8 +13,6 @@ done
 if [[ ${MAKE} == "" ]]; then
     MAKE='make -j'
 fi
-
-echo $MAKE
 
 if [[ -f package.xml ]]; then
     # this is a catkin package; find accompanying build folder
