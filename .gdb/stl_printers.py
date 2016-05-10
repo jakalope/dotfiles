@@ -129,7 +129,7 @@ class UniquePointerPrinter:
     def to_string (self):
         v = self.val['_M_t']['_M_head_impl']
         return ('std::unique_ptr<%s> containing %s' % (str(v.type.target()),
-                                                       str(v)))
+                                                       str(v)), v.dereference())
 
 def get_value_from_list_node(node):
     """Returns the value held in an _List_node<_Val>"""
