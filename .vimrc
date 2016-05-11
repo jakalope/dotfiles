@@ -150,8 +150,11 @@ vnoremap _style :!astyle<CR>
 nnoremap _style :%!astyle<CR>
 command! Style :%!astyle
 
-"
-nnoremap _c :exe "silent !make_this_package % 2>$(cat ~/use-me-tty) >$(cat ~/use-me-tty) &"<CR><C-L>
+" TODO: only use compilation_mode when build system is bazel
+nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt 2>$(cat ~/use-me-tty) >$(cat ~/use-me-tty) &"<CR><C-L>
+nnoremap _f :exe "silent !make_this_package % --compilation_mode=opt 2>$(cat ~/use-me-tty) >$(cat ~/use-me-tty) &"<CR><C-L>
+nnoremap _d :exe "silent !make_this_package % --compilation_mode=dbg 2>$(cat ~/use-me-tty) >$(cat ~/use-me-tty) &"<CR><C-L>
+
 command! W :w
 command! Wa :wa
 

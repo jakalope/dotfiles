@@ -23,6 +23,7 @@ function open_in_tab() {
         echo "$VIMEXEC" --servername $VIMSERVER --remote-tab-silent "${1}"
         "$VIMEXEC" --servername $VIMSERVER --remote-tab-silent "${1}"
         shift
+        sleep 0.1
     done
 }
 
@@ -91,6 +92,7 @@ elif [[ $# > 0 ]]; then
     fi  
 # Nothing from stdin, no arguemnts, so start a server
 else
+    #TODO Check if a server is already running under this name
     pwd > ~/${VIMSERVER}
     "$VIMEXEC" --servername $VIMSERVER
 fi

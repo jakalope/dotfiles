@@ -144,6 +144,8 @@ export EDITOR=vim
 source ~/bin/upcd.bash
 source ~/bin/wcd.bash
 source ~/bin/scd.bash
+source ~/bin/code-window
+source ~/bin/bin_dir
 export WORKSPACE_DIR=${HOME}/workspace/driving
 export SOURCE_DIR="${WORKSPACE_DIR}"
 

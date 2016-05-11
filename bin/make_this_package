@@ -3,6 +3,7 @@
 cwd=$(pwd)
 if [[ $# != 0 ]]; then
     cd $(readlink -f $(dirname $1))
+    shift
 fi
 
 while [[ ! -f BUILD && ! -f package.xml && ! -f manifest.xml && $(pwd) != "/" ]]
@@ -35,7 +36,7 @@ elif [[ -f manifest.xml ]]; then
     # this is a rosbuild package
     ${MAKE}
 elif [[ -f BUILD ]]; then
-    bazel test --compilation_mode=dbg --test_output=errors ...
+    bazel test "${@}" --test_output=errors ...
 else
     echo "No package found below $cwd" 1>&2
 fi

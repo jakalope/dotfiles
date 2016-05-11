@@ -60,3 +60,5 @@ Valgrind
 * `valgrind --suppressions=<filename>`
 * `valgrind --db-attach=yes`
 * `valgrind --tool=cachegrind --cache-sim=yes --branch-sim=yes --cachegrind-out-file=<file>`
+* `cg_annotate --auto=yes`
+* `valgrind --tool=callgrind --callgrind-out-file=<file> && kcachegrind <file>`
