@@ -102,7 +102,16 @@ def find_type(orig, name):
 
 class SharedPointerPrinter:
     "Print a shared_ptr or weak_ptr"
-    # TODO(jake): check for cyclic-pointer recursion and break
+
+    _pointer_deref = False
+
+    @property
+    def pointer_deref(self):
+        return type(self)._pointer_deref
+
+    @pointer_deref.setter
+    def pointer_deref(self, val):
+        type(self)._pointer_deref = val
 
     def __init__ (self, typename, val):
         self.typename = typename
@@ -118,18 +127,50 @@ class SharedPointerPrinter:
                 state = 'expired, weak %d' % weakcount
             else:
                 state = 'count %d, weak %d' % (usecount, weakcount - 1)
-        return '%s (%s) %s %s' % (self.typename, state, self.val['_M_ptr'], self.val['_M_ptr'].dereference())
+
+        dereferenced = ''
+        if not self.pointer_deref:
+            self.pointer_deref = True
+            try:
+                dereferenced = str(self.val['_M_ptr'].dereference())
+            except:
+                dereferenced = ''
+            self.pointer_deref = False
+
+        string = '%s (%s) %s %s' % (str(self.val.type.target()), state, self.val['_M_ptr'], dereferenced)
+        return string
 
 class UniquePointerPrinter:
     "Print a unique_ptr"
+
+    _pointer_deref = False
+
+    @property
+    def pointer_deref(self):
+        return type(self)._pointer_deref
+
+    @pointer_deref.setter
+    def pointer_deref(self, val):
+        type(self)._pointer_deref = val
+
 
     def __init__ (self, typename, val):
         self.val = val
 
     def to_string (self):
         v = self.val['_M_t']['_M_head_impl']
-        return ('std::unique_ptr<%s> containing %s' % (str(v.type.target()),
-                                                       str(v)), v.dereference())
+
+        dereferenced = ''
+        if not self.pointer_deref:
+            self.pointer_deref = True
+            try:
+                dereferenced = str(v.dereferenced())
+            except:
+                dereferenced = ''
+            self.pointer_deref = False
+
+        string = 'std::unique_ptr<%s> containing %s %s' % (str(v.type.target()), str(v), dereferenced)
+        return string
 
 def get_value_from_list_node(node):
     """Returns the value held in an _List_node<_Val>"""
