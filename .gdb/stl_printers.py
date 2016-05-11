@@ -137,7 +137,7 @@ class SharedPointerPrinter:
                 dereferenced = ''
             self.pointer_deref = False
 
-        string = '%s (%s) %s %s' % (str(self.val.type.target()), state, self.val['_M_ptr'], dereferenced)
+        string = '%s (%s) %s %s' % (str(self.val.type), state, self.val['_M_ptr'], dereferenced)
         return string
 
 class UniquePointerPrinter:
