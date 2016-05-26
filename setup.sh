@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # install dependencies
-sudo add-apt-repository ppa:webupd8team/java
+sudo add-apt-repository ppa:webupd8team/java      # oracle-java8-installer
+sudo add-apt-repository ppa:kubuntu-ppa/backports # massif-visualizer
 sudo apt-get update
 sudo apt-get install \
     autoconf \
@@ -14,7 +15,9 @@ sudo apt-get install \
     gfortran \
     git \
     indicator-multiload \
+    kcachegrind \
     libevent-dev \
+    massif-visualizer \
     mercurial \
     oracle-java8-installer \
     pkg-config \
@@ -34,12 +37,13 @@ sudo apt-get install \
 indicator-multiload &
 
 # build YouCompleteMe
-pushd .vim/bundle/YouCompleteMe
-git submodule add https://github.com/ross/requests-futures third_party/requests-futures
-git submodule add https://github.com/Valloric/ycmd third_party/ycmd
-git submodule update --init --recursive
-./install.py --clang-completer
-popd
+# TODO: is this necessary with Vundle?
+# pushd .vim/bundle/YouCompleteMe
+# git submodule add https://github.com/ross/requests-futures third_party/requests-futures
+# git submodule add https://github.com/Valloric/ycmd third_party/ycmd
+# git submodule update --init --recursive
+# ./install.py --clang-completer
+# popd
 
 # setup bazel
 pushd ~/Downloads

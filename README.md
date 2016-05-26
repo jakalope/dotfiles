@@ -106,7 +106,9 @@ VIM
 
 ### [vim-abolish](https://github.com/tpope/vim-abolish)
 
-* `:[range]S/[regex]/[string]/g` abolish-substitute
+Automatically handle various cases, such as `snake_case`, `camelCase`, `UPPER_CASE`, and `MixedCase` when doing a search/replace or when you want to change the case of the word under the cursor.
+
+* `:[range]S/[regex]/[string]/g` abolish-subvert
 * `crc`, `crm`, `crs`, `cru` abolish-coercion
 
 ### [vim-easymotion](https://github.com/easymotion/vim-easymotion)
@@ -123,8 +125,9 @@ Valgrind
 * `valgrind --tool=cachegrind --cache-sim=yes --branch-sim=yes` Cache-miss and branch-misprediction profiler.
 * `cg_annotate --auto=yes` 
 * `valgrind --tool=callgrind --callgrind-out-file=<file>` CPU profiler.
-* `kcachegrind <file>` CPU profiler output viewer.
-* `valgrind --tool=massif && massif-visualizer <file>` Memory profiler.
+* `kcachegrind <file>` CPU profile viewer.
+* `valgrind --tool=massif` Memory profiler.
+* `massif-visualizer <file>` Memory profile visualizer.
 
 
 GraphViz
