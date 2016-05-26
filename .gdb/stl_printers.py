@@ -134,10 +134,10 @@ class SharedPointerPrinter:
             try:
                 dereferenced = str(self.val['_M_ptr'].dereference())
             except:
-                dereferenced = ''
+                dereferenced = '[Failed to dereference]'
             self.pointer_deref = False
 
-        string = '%s (%s) %s %s' % (str(self.val.type), state, self.val['_M_ptr'], dereferenced)
+        string = '%s (%s) pointing to %s -> %s' % (str(self.val.type), state, self.val['_M_ptr'], dereferenced)
         return string
 
 class UniquePointerPrinter:
@@ -164,12 +164,12 @@ class UniquePointerPrinter:
         if not self.pointer_deref:
             self.pointer_deref = True
             try:
-                dereferenced = str(v.dereferenced())
+                dereferenced = str(self.val['_M_t'])
             except:
-                dereferenced = ''
+                dereferenced = '[Failed to dereference]'
             self.pointer_deref = False
 
-        string = 'std::unique_ptr<%s> containing %s %s' % (str(v.type.target()), str(v), dereferenced)
+        string = 'std::unique_ptr<%s> pointing to %s -> %s' % (str(v.type.target()), str(v), dereferenced)
         return string
 
 def get_value_from_list_node(node):

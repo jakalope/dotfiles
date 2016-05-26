@@ -7,9 +7,15 @@ let g:clang_format#detect_style_file = 1
 " let g:ycm_register_as_syntastic_checker = 0
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:ycm_always_populate_location_list = 1
+let g:ycm_autoclose_preview_window_after_completion = 1 
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " CtrlP
 let g:ctrlp_clear_cache_on_exit = 1
+let g:ctrlp_regexp = 1
+
+" Airline
+let g:airline#extensions#tabline#enabled = 1
 
 """""""""" Vundle
 set nocompatible              " be iMproved, required
@@ -26,6 +32,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'vim-airline/vim-airline'
 Plugin 'kana/vim-operator-user'
 Plugin 'kana/vim-smartword'
 Plugin 'rhysd/vim-clang-format'
@@ -96,20 +103,19 @@ set t_vb=
 " ctags
 set tags=tags;/
 
-" gvim
-if has("gui_running")
-    colorscheme default
-endif
+" colors
+colorscheme slate
 
 """""""""""""" YCM
-nnoremap <C-\> :tab YcmCompleter GoToDefinition<CR>
-nnoremap <C-]> :tab YcmCompleter GoToImprecise<CR>
-nnoremap <C-f> :tab YcmCompleter GoToInclude<CR>
+nnoremap <C-\> :YcmCompleter GoToDefinition<CR>
+nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
+nnoremap <C-f> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 
 """""""""""""" CtrlP
-" nnoremap <C-b> :CtrlPBuffer<CR>
-nnoremap <C-c> :tab CtrlPMRU<CR>
+nnoremap ;p :CtrlP<CR>
+nnoremap ;b :CtrlPBuffer<CR>
+nnoremap ;m :CtrlPMRU<CR>
 
 """""""""""""" ClangFormat
 " map to <Leader>cf in C++ code
@@ -127,11 +133,14 @@ nnoremap = mao<esc>`a
 
 "------------------------------------------------------------
 
+inoremap jk <Esc>
+
 nnoremap <C-}> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 nnoremap tab mo:tabnew %<CR>`o<C-]>
 nnoremap tib mo:tabnew %<CR>`o<C-\>f
 nnoremap _g :grep! "\b<C-R><C-W>\b" *<CR>
 
+" yank name of current file to system clipboard
 nnoremap ;y :let @"=@%<CR>
 
 map! <F1> <ESC>
@@ -151,12 +160,16 @@ nnoremap _style :%!astyle<CR>
 command! Style :%!astyle
 
 " TODO: only use compilation_mode when build system is bazel
-nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt 2>$(cat ~/use-me-tty) >$(cat ~/use-me-tty) &"<CR><C-L>
-nnoremap _f :exe "silent !make_this_package % --compilation_mode=opt 2>$(cat ~/use-me-tty) >$(cat ~/use-me-tty) &"<CR><C-L>
-nnoremap _d :exe "silent !make_this_package % --compilation_mode=dbg 2>$(cat ~/use-me-tty) >$(cat ~/use-me-tty) &"<CR><C-L>
+nnoremap _e :exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty) &"<CR><C-L>
+nnoremap _f :exe "silent !make_this_package % &>$(cat ~/use-me-tty) &"<CR><C-L>
+nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty) &"<CR><C-L>
+nnoremap _d :exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty) &"<CR><C-L>
 
 command! W :w
 command! Wa :wa
+
+" Stop accidental entry into Ex mode
+nnoremap Q <CR>
 
 " Convert Structure-Of-Arrays to Array-Of-Structures
 vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
@@ -168,8 +181,27 @@ nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".line(".")."\" \| xse
 " nnoremap _down :let g:cmd=system("echo ".expand('%')." \| awk -F/ '{print $(NF-1)\"/\"$NF}'")<CR>:cs find i <C-R>=g:cmd<CR><CR>
 
 " Open compainion file, if it exists (e.g. test.h -> test.cpp)
-nnoremap ;c :let g:word=system("git ls-files --full-name <C-R>=expand("%:r")<CR>.cpp")<CR>:vsp <C-R>=g:word<CR><CR>
-nnoremap ;h :let g:word=system("git ls-files --full-name <C-R>=expand("%:r")<CR>.h")<CR>:vsp <C-R>=g:word<CR><CR>
+function! g:Companion()
+    let l:fn_ext = expand("%:e")
+    let l:fn_root = expand("%:r")
+    if l:fn_ext == "cpp" || l:fn_ext == "c" || l:fn_ext == "cc" || l:fn_ext == "cx" || l:fn_ext == "cxx"
+        " TODO see if this file exists; otherwise try other extensions
+        let l:fn = l:fn_root.".h"
+    elseif l:fn_ext == "h" || l:fn_ext == "hpp"
+        " TODO see if this file exists; otherwise try other extensions
+        let l:fn = l:fn_root.".cpp"
+    else
+        return expand("%")
+    endif
+    let l:git_ls_command = "git ls-files --full-name ".l:fn
+    exec "let l:companion_file = system(\"".l:git_ls_command."\")"
+    return l:companion_file
+endfunction
+
+nnoremap ze :execute 'edit '.g:Companion()<CR>
+nnoremap zt :execute 'tabnew '.g:Companion()<CR>
+nnoremap zv :execute 'vsplit '.g:Companion()<CR>
+nnoremap zs :execute 'split '.g:Companion()<CR>
 
 " Cycle through windows
 " Cycle through tabs

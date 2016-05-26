@@ -6,22 +6,27 @@ if [[ ${VIMSERVER} == "" ]]; then
     VIMSERVER="VIM"
 fi
 
+# See if a CWD file exists for this vimserver.
 # If a vimserver has already been started, make sure we're in its CWD.
-# Otherwise, cleanup any old files related to this check.
-if [[ -e "${HOME}/${VIMSERVER}" ]]; then
-    if [[ $# == 0 ]]; then
-        rm "${HOME}/${VIMSERVER}"
-    else
-        cwd=$(cat "${HOME}/${VIMSERVER}")
-        "$VIMEXEC" --servername $VIMSERVER --remote-send "cd ${cwd}"
-    fi
-
+CWD_FILE="${HOME}/${VIMSERVER}" 
+if [[ -e "${CWD_FILE}" && $# != 0 ]]; then
+    # Otherwise, cleanup any old files related to this check and write a new one.
+    cwd=$(cat "${CWD_FILE}")
+    "$VIMEXEC" --servername $VIMSERVER --remote-send "cd ${cwd}"
+elif [[ $# == 0 ]]; then
+    # If we're starting a new vimserver, make a new CWD file.
+    cwd="$(pwd)"
+    echo "${cwd}" > "${CWD_FILE}"
+else
+    # If by some error, there is no CWD file but the vimserver is already running,
+    # find out what the CWD /should/ be and make a new file.
+    cwd="$("$VIMEXEC" --servername $VIMSERVER --remote-expr 'getcwd()')"
+    echo "${cwd}" > "${CWD_FILE}"
 fi
 
 function open_in_tab() {
     while [[ $# > 0 ]]; do
-        echo "$VIMEXEC" --servername $VIMSERVER --remote-tab-silent "${1}"
-        "$VIMEXEC" --servername $VIMSERVER --remote-tab-silent "${1}"
+        "$VIMEXEC" --servername $VIMSERVER --remote-silent "${1}"
         shift
         sleep 0.1
     done
@@ -80,10 +85,14 @@ elif [[ $# > 0 ]]; then
             # move the to appropriate line
             "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
         else
-            echo "Couldn't find either of the following:"
+            echo "Couldn't find any of the following:"
             echo "  $raw"
             echo "  ${cwd}/$raw"
             echo "  $(pwd)/$raw"
+            echo
+            echo "NOTE: "
+            echo "  pwd => $(pwd)"
+            echo "  cwd => ${cwd}"
             exit
         fi
     else
