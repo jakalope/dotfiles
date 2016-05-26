@@ -1,3 +1,6 @@
+" Remove all autocommands for the current group.
+autocmd!
+
 """""""""" Script opts
 " Clang-Format
 let g:clang_format#command = 'clang-format-3.6'
@@ -60,6 +63,7 @@ set backspace=indent,eol,start " Allow backspacing over autoindent, line breaks 
 set bs=2
 set cmdheight=2
 set encoding=utf-8 
+set equalalways
 set expandtab
 set fileencoding=utf-8 
 set history=50
@@ -206,8 +210,8 @@ nnoremap zs :execute 'split '.g:Companion()<CR>
 " Cycle through windows
 " Cycle through tabs
 nnoremap <F5> :tabp<CR>
-nnoremap <F6> :bp<CR>
-nnoremap <F7> :bn<CR>
+nnoremap <F6> :bp<CR>:AirlineRefresh<CR>
+nnoremap <F7> :bn<CR>:AirlineRefresh<CR>
 nnoremap <F8> :tabn<CR>
 
 nnoremap <C-b> :tab CtrlPBuffer<CR>
