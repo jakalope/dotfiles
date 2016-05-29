@@ -6,6 +6,10 @@ autocmd!
 let g:clang_format#command = 'clang-format-3.6'
 let g:clang_format#detect_style_file = 1
 
+" Autoformat
+let g:formatdef_autopep8 = "'autopep8 - --range '.a:firstline.' '.a:lastline.' --max-line-length=80'"
+let g:formatters_python = ['autopep8']
+
 " YouCompleteMe
 " let g:ycm_register_as_syntastic_checker = 0
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
@@ -33,6 +37,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'Chiel92/vim-autoformat'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'vim-airline/vim-airline'
@@ -108,7 +113,7 @@ set t_vb=
 set tags=tags;/
 
 " colors
-colorscheme slate
+colorscheme desert
 
 """""""""""""" YCM
 nnoremap <C-\> :YcmCompleter GoToDefinition<CR>

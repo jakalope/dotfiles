@@ -42,8 +42,9 @@ watchman/watcher/.dirstamp
 .vim/bundle/vim-operator-user/
 .vim/bundle/vim-sensible/
 .vim/bundle/vim-smartword/
-.vim/colors/
+.vim/bundle/restore_view.vim/
+.vim/bundle/vim-airline/
+.vim/bundle/vim-autoformat/
 .vim/sessions/
-bin/clang-format
 bin/matlab
 bin/mex

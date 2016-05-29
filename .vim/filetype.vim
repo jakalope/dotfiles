@@ -13,7 +13,7 @@ augroup filetypedetect
     autocmd BufNewFile,BufRead *.sh call SetBashOptions()
     autocmd BufNewFile,BufRead *.bash call SetBashOptions()
     autocmd BufNewFile,BufRead *.yaml call SetPythonOptions()
-    autocmd BufNewFile,BufRead *.python call SetPythonOptions()
+    autocmd BufNewFile,BufRead *.py call SetPythonOptions()
 
     autocmd BufNewFile,BufRead *.c call SetCPPOptions()
     autocmd BufNewFile,BufRead *.cc call SetCPPOptions()

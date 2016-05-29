@@ -143,4 +143,5 @@ Todo
 * Consider CTags again, as YCM doesn't work when your code doesn't compile.
 * Proper dereferencing of `unique_ptr` pretty printer in gdb.
 * Figure out how to get `valgrind --db-attach=yes` working.
+* Auto-build YCM with `--clang-completer`
 
