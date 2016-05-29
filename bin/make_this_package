@@ -2,7 +2,8 @@
 
 cwd=$(pwd)
 if [[ $# != 0 ]]; then
-    cd ${WORKSPACE_DIR}/$(dirname $1)
+    cd $(readlink -f $(dirname $1))
+    shift
 fi
 
 while [[ ! -f BUILD && ! -f package.xml && ! -f manifest.xml && $(pwd) != "/" ]]
@@ -13,8 +14,6 @@ done
 if [[ ${MAKE} == "" ]]; then
     MAKE='make -j'
 fi
-
-echo $MAKE
 
 if [[ -f package.xml ]]; then
     # this is a catkin package; find accompanying build folder
@@ -37,7 +36,7 @@ elif [[ -f manifest.xml ]]; then
     # this is a rosbuild package
     ${MAKE}
 elif [[ -f BUILD ]]; then
-    ${MAKE} ...
+    bazel test "${@}" --test_output=errors ...
 else
     echo "No package found below $cwd" 1>&2
 fi

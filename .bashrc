@@ -108,6 +108,7 @@ alias l='ls -CF'
 alias cm='catkin_make'
 alias valgrind_check='valgrind --tool=memcheck --track-origins=yes --leak-check=full --show-reachable=yes'
 alias cwd='pwd | xsel -ib'
+alias gdb='gdb -iex "source ${HOME}/printers.py"'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -143,8 +144,14 @@ export EDITOR=vim
 source ~/bin/upcd.bash
 source ~/bin/wcd.bash
 source ~/bin/scd.bash
+source ~/bin/code-window
+source ~/bin/bin_dir
 export WORKSPACE_DIR=${HOME}/workspace/driving
 export SOURCE_DIR="${WORKSPACE_DIR}"
+
+if [[ -e /usr/local/lib/bazel/bin/bazel-complete.bash ]]; then
+    source /usr/local/lib/bazel/bin/bazel-complete.bash
+fi
 
 if [[ -e ${WORKSPACE_DIR}/scripts/shell/***REMOVED***rc.sh ]]; then
     source ${WORKSPACE_DIR}/scripts/shell/***REMOVED***rc.sh

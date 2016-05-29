@@ -1,0 +1,7 @@
+#!/bin/bash
+
+function bin_dir() {
+    dir=$(pwd)
+    dir=${dir#${SOURCE_DIR}}
+    cd "${SOURCE_DIR}/bazel-bin${dir}"
+}

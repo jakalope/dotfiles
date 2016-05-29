@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# TODO make VIMSERVER_DIR := SOURCE_DIR := pwd for both terminals
+# TODO open vims [SERVER_NAME] in first terminal
+
+function code_window() {
+    gnome-terminal --geometry=173x87+0+0 "$@" &
+    gnome-terminal --geometry=137x87+2218+0 "$@" &
+    exit
+}
