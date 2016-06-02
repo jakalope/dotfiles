@@ -21,6 +21,7 @@ sudo apt-get install \
     mercurial \
     oracle-java8-installer \
     pkg-config \
+    python-autopep8 \
     python-dev \
     python3-dev \
     tree

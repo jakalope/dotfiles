@@ -1,7 +1,5 @@
 import itertools
 import os
-import rospkg
-rospack = rospkg.RosPack()
 
 def getDefaultFlags():
     return [
@@ -66,6 +64,8 @@ def IsHeaderFile(filename):
 def FlagsForFile(filename, **kwargs):
     ros_flags=None
     try:
+        import rospkg
+        rospack = rospkg.RosPack()
         ros_flags=getRosIncludeFlags()
     except:
         pass
