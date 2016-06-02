@@ -6,24 +6,6 @@ if [[ ${VIMSERVER} == "" ]]; then
     VIMSERVER="VIM"
 fi
 
-# See if a CWD file exists for this vimserver.
-# If a vimserver has already been started, make sure we're in its CWD.
-CWD_FILE="${HOME}/${VIMSERVER}" 
-if [[ -e "${CWD_FILE}" && $# != 0 ]]; then
-    # Otherwise, cleanup any old files related to this check and write a new one.
-    cwd=$(cat "${CWD_FILE}")
-    "$VIMEXEC" --servername $VIMSERVER --remote-send "cd ${cwd}"
-elif [[ $# == 0 ]]; then
-    # If we're starting a new vimserver, make a new CWD file.
-    cwd="$(pwd)"
-    echo "${cwd}" > "${CWD_FILE}"
-else
-    # If by some error, there is no CWD file but the vimserver is already running,
-    # find out what the CWD /should/ be and make a new file.
-    cwd="$("$VIMEXEC" --servername $VIMSERVER --remote-expr 'getcwd()')"
-    echo "${cwd}" > "${CWD_FILE}"
-fi
-
 function open_in_tab() {
     while [[ $# > 0 ]]; do
         "$VIMEXEC" --servername $VIMSERVER --remote-silent "${1}"
@@ -32,9 +14,31 @@ function open_in_tab() {
     done
 }
 
+function set_cwd_file() {
+    echo "${1}" > "${CWD_FILE}"
+}
+
+# See if a CWD file exists for this vimserver.
+# If a vimserver has already been started, make sure we're in its CWD.
+CWD_FILE="${HOME}/${VIMSERVER}"
+if [[ -e "${CWD_FILE}" && $# != 0 ]]; then
+    # Otherwise, cleanup any old files related to this check and write a new one.
+    cwd=$(cat "${CWD_FILE}")
+    "$VIMEXEC" --servername $VIMSERVER --remote-send "cd ${cwd}"
+elif [[ $# == 0 ]]; then
+    # If we're starting a new vimserver, make a new CWD file.
+    cwd="$(pwd)"
+    set_cwd_file "$cwd"
+else
+    # If by some error, there is no CWD file but the vimserver is already running,
+    # find out what the CWD /should/ be and make a new file.
+    cwd="$("$VIMEXEC" --servername $VIMSERVER --remote-expr 'getcwd()')"
+    set_cwd_file "$cwd"
+fi
+
 # Check if we're being piped some input
 if [[ ! -t 0 && $# == 0 ]]; then
-    # If so, expect it in "<filename>[:linenumber[:garbage]]" format, 
+    # If so, expect it in "<filename>[:linenumber[:garbage]]" format,
     # separated by newlines and open each file in a separate tab by calling
     # this script recursively
     awk '{print $1}' | awk -F: '{print "vims +"$2 " " $1}' | bash
@@ -47,18 +51,18 @@ elif [[ $# > 0 ]]; then
         # tell the vim server to open the file in a new tab
         "$VIMEXEC" --servername $VIMSERVER --remote-tab "$1"
         # wait for vim to open the file
-        sleep 0.1 
+        sleep 0.1
         # open a new v-split
         "$VIMEXEC" --servername $VIMSERVER --remote-send ':vsp<CR>'
         # wait for the new v-split to open
-        sleep 0.1 
+        sleep 0.1
         # remove the first file from the argument list
         shift
         # open the second file in the new vsplit
         "$VIMEXEC" --servername $VIMSERVER --remote "$1"
     elif [[ ${1} == '-t' ]]; then
         # tell the vim server to open the file
-        # first try 
+        # first try
         raw=$(xsel --clipboard --output | awk -F: '{print $1}')
         vim_cwd_file=$(readlink -f "${cwd}/$raw")
         cmd_cwd_file=$(readlink -f "$(pwd)/$raw")
@@ -67,21 +71,21 @@ elif [[ $# > 0 ]]; then
             echo RAW >> ${HOME}/vims_usage
             open_in_tab "${raw}"
             # wait for vim to open the file
-            sleep 0.1 
+            sleep 0.1
             # move the to appropriate line
             "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
         elif [[ -e "$vim_cwd_file" ]]; then
             echo VIM_CWD >> ${HOME}/vims_usage
             open_in_tab "${vim_cwd_file}"
             # wait for vim to open the file
-            sleep 0.1 
+            sleep 0.1
             # move the to appropriate line
             "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
         elif [[ -e "$cmd_cwd_file" ]]; then
             echo CMD_CWD >> ${HOME}/vims_usage
             open_in_tab "${cmd_cwd_file}"
             # wait for vim to open the file
-            sleep 0.1 
+            sleep 0.1
             # move the to appropriate line
             "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
         else
@@ -98,7 +102,7 @@ elif [[ $# > 0 ]]; then
     else
         # tell the vim server to open the file
         open_in_tab "${@}"
-    fi  
+    fi
 # Nothing from stdin, no arguemnts, so start a server
 else
     #TODO Check if a server is already running under this name

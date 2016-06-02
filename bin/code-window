@@ -1,10 +1,12 @@
 #!/bin/bash
 
-# TODO make VIMSERVER_DIR := SOURCE_DIR := pwd for both terminals
-# TODO open vims [SERVER_NAME] in first terminal
+# TODO fit each window to half the screen, tiled
 
 function code_window() {
-    gnome-terminal --geometry=173x87+0+0 "$@" &
-    gnome-terminal --geometry=137x87+2218+0 "$@" &
+    if [[ "${WORKSPACE_DIR}" == "" ]]; then
+        WORKSPACE_DIR=$(pwd)
+    fi
+    VIMSERVER="VIMS${1}" gnome-terminal --working-directory="${WORKSPACE_DIR}" --command="vims" --geometry=173x87+0+0 "$@" &
+    VIMSERVER="VIMS${1}" gnome-terminal --working-directory="${WORKSPACE_DIR}" --geometry=137x87+2218+0 "$@" &
     exit
 }
