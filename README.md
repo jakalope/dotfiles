@@ -9,10 +9,37 @@ Bash
 * `time <program>`
 
 
+### Useful CLI stuff
+
+* `cfiles` List all c-language related files in the current direction and all sub-directories.
+* `cgrep` Grep through all files listed by `cfiles`.
+* `mfiles` Same as `cfiles`, for Matlab files.
+* `mgrep` Same as `cgrep`, for Matlab files.
+* `pyfiles` Same as `cfiles`, for Python files.
+* `pygrep` Same as `cgrep`, for Python files.
+* `vims` Open a vimserver or open a file in an existing vimserver.
+* `jf` Open the file path in the system clipboard in the existing vimserver.
+* `. most-used` Tell what your most used commands are.
+
+### My most used commands
+
+| Rank | Usage % | Command  |
+|------|---------|----------|
+|1.    |  55.5%  | git      |
+|2.    |  9.2%   |  cd      |
+|3.    |  6.2%   |  jf      |
+|4.    |  4%     |  bcd     |
+|5.    |  2.9%   |  ls      |
+|6.    |  2.8%   |  vims    |
+|7.    |  2.6%   | valgrind |
+|8.    |  2.3%   |  cgrep   |
+|9.    |  2%     |  gdb     |
+|10.   |  1.7%   |  ll      |
+
 Git
 ---
 
-* Typical workflow
+### Typical workflow
 ```
 git fetch origin
 git checkout master
@@ -25,7 +52,7 @@ git fetch origin
 git merge origin/master
 git push origin feature_branch
 ```
-* Squash workflow
+### Squash workflow
 ```
 git checkout feature_branch
 git fetch origin
