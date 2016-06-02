@@ -108,7 +108,7 @@ set t_vb=
 set tags=tags;/
 
 " colors
-colorscheme slate
+colorscheme desert
 
 """""""""""""" YCM
 nnoremap <C-\> :YcmCompleter GoToDefinition<CR>
@@ -137,6 +137,9 @@ nnoremap = mao<esc>`a
 
 "------------------------------------------------------------
 
+command! Src source ~/.vimrc
+
+" alternative ESC key combo ( 'cause <Esc> is too far away :-P )
 inoremap jk <Esc>
 
 nnoremap <C-}> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
@@ -144,8 +147,8 @@ nnoremap tab mo:tabnew %<CR>`o<C-]>
 nnoremap tib mo:tabnew %<CR>`o<C-\>f
 nnoremap _g :grep! "\b<C-R><C-W>\b" *<CR>
 
-" yank name of current file to system clipboard
-nnoremap ;y :let @"=@%<CR>
+" yank name of current file to register 0 and to system clipboard
+nnoremap ;y :let @"=@%<CR>:let @+=@%<CR>
 
 map! <F1> <ESC>
 
@@ -207,17 +210,11 @@ nnoremap zt :execute 'tabnew '.g:Companion()<CR>
 nnoremap zv :execute 'vsplit '.g:Companion()<CR>
 nnoremap zs :execute 'split '.g:Companion()<CR>
 
-" Cycle through windows
-" Cycle through tabs
+" Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
 nnoremap <F6> :bp<CR>:AirlineRefresh<CR>
 nnoremap <F7> :bn<CR>:AirlineRefresh<CR>
 nnoremap <F8> :tabn<CR>
-
-nnoremap <C-b> :tab CtrlPBuffer<CR>
-" Cycle through buffers in the current window
-" nnoremap <S-F7> :bp<CR>
-" nnoremap <S-F8> :bn<CR>
 
 " Reload all windows, tabs, buffers, etc.
 command! Reload :call s:Reload()
@@ -242,45 +239,6 @@ command! Detect :tabdo exec 'filetype detect'
 
 " Remove all buffers
 command! Clear :0,10000bd
-
-" nnoremap >> 0i<TAB><ESC>
-
-" Converters for hex and decimal numbers
-command! -nargs=? -range Dec2hex call s:Dec2hex(<line1>, <line2>, '<args>')
-function! s:Dec2hex(line1, line2, arg) range
-    if empty(a:arg)
-        if histget(':', -1) =~# "^'<,'>" && visualmode() !=# 'V'
-            let cmd = 's/\%V\<\d\+\>/\=printf("0x%x",submatch(0)+0)/g'
-        else
-            let cmd = 's/\<\d\+\>/\=printf("0x%x",submatch(0)+0)/g'
-        endif
-        try
-            execute a:line1 . ',' . a:line2 . cmd
-        catch
-            echo 'Error: No decimal number found'
-        endtry
-    else
-        echo printf('%x', a:arg + 0)
-    endif
-endfunction
-
-command! -nargs=? -range Hex2dec call s:Hex2dec(<line1>, <line2>, '<args>')
-function! s:Hex2dec(line1, line2, arg) range
-    if empty(a:arg)
-        if histget(':', -1) =~# "^'<,'>" && visualmode() !=# 'V'
-            let cmd = 's/\%V0x\x\+/\=submatch(0)+0/g'
-        else
-            let cmd = 's/0x\x\+/\=submatch(0)+0/g'
-        endif
-        try
-            execute a:line1 . ',' . a:line2 . cmd
-        catch
-            echo 'Error: No hex number starting "0x" found'
-        endtry
-    else
-        echo (a:arg =~? '^0x') ? a:arg + 0 : ('0x'.a:arg) + 0
-    endif
-endfunction
 
 Detect
 filetype plugin on

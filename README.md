@@ -80,6 +80,7 @@ VIM
 * `<leader>` => `\`
 * `<C-W> =` Set vim splits to equal size.
 * `g-` Reload to a previous save.
+* `;y` Copy path of current buffer to register 0 and the system clipboard.
 
 ### Plugin Cusomizations
 
@@ -143,4 +144,5 @@ Todo
 * Consider CTags again, as YCM doesn't work when your code doesn't compile.
 * Proper dereferencing of `unique_ptr` pretty printer in gdb.
 * Figure out how to get `valgrind --db-attach=yes` working.
+* Make `code_window` terminal-size-aware
 
