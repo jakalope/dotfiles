@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo $(tty) > ~/use-me-tty
+echo $(tty) > "~/use-me-tty"

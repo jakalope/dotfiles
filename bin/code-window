@@ -6,7 +6,10 @@ function code_window() {
     if [[ "${WORKSPACE_DIR}" == "" ]]; then
         WORKSPACE_DIR=$(pwd)
     fi
-    VIMSERVER="VIMS${1}" gnome-terminal --working-directory="${WORKSPACE_DIR}" --command="vims" --geometry=173x87+0+0 "$@" &
-    VIMSERVER="VIMS${1}" gnome-terminal --working-directory="${WORKSPACE_DIR}" --geometry=137x87+2218+0 "$@" &
+    if [[ $# > 1 ]]; then
+        WORKSPACE_DIR="${2}"
+    fi
+    VIMSERVER="VIMS${1}" gnome-terminal --working-directory="${WORKSPACE_DIR}" --command="vims" --geometry=173x87+0+0 &
+    VIMSERVER="VIMS${1}" gnome-terminal --working-directory="${WORKSPACE_DIR}" -e "bash -c \"use_me; exec bash\"" --geometry=137x87+2218+0 &
     exit
 }

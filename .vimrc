@@ -172,11 +172,10 @@ nnoremap _style :%!astyle<CR>
 command! Style :%!astyle
 
 " TODO: only use compilation_mode when build system is bazel
-nnoremap _e :exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty) &"<CR><C-L>
-nnoremap _f :exe "silent !make_this_package % &>$(cat ~/use-me-tty) &"<CR><C-L>
-nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty) &"<CR><C-L>
-nnoremap _d :exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty) &"<CR><C-L>
-nnoremap _x :exe "silent !echo % is here &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+nnoremap _e :exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+nnoremap _f :exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+nnoremap _d :exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
 
 command! W :w
 command! Wa :wa
