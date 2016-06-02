@@ -4,4 +4,4 @@ if [[ $# > 0 ]]; then
 else
     dir="."
 fi
-2>/dev/null find "${dir}" -regex '.*\.\(m\)$'
+2>/dev/null find "${dir}" -regex '.*\.\(py\)$'
