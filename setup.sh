@@ -93,3 +93,9 @@ if [[ ! -e ~/.ssh/id_rsa ]]; then
     echo 'See https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/ for more details'
 fi
 
+# Install vim plugins
+vim +PluginInstall +qall
+pushd .vim/bundle/YouCompleteMe/
+./install.py --clang-completer
+popd
+vim +PluginInstall +qall
