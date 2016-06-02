@@ -29,6 +29,7 @@ sudo apt-get install \
     unity-tweak-tool \
     unzip
     vim-gtk \
+    wmctrl \
     xclip \
     xsel \
     zip \

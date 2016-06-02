@@ -11,6 +11,7 @@ Bash
 
 ### Useful CLI stuff
 
+* `code_window` Open 2 `gnome-terminal`s, (1) with a vimserver (suffix is first arg), the other is a prompt.
 * `cfiles` List all c-language related files in the current direction and all sub-directories.
 * `cgrep` Grep through all files listed by `cfiles`.
 * `mfiles` Same as `cfiles`, for Matlab files.
@@ -20,6 +21,28 @@ Bash
 * `vims` Open a vimserver or open a file in an existing vimserver.
 * `jf` Open the file path in the system clipboard in the existing vimserver.
 * `. most-used` Tell what your most used commands are.
+
+### My workflow
+```
+<Ctrl-Alt-t>       # Open a new terminal.
+$ code_window      # Replace new terminal with a vimserver and a bash prompt.
+$ wcd              # Change directories to my workspace directory.
+$ vim-uncommitted  # Open any uncommitted files in the vimserver.
+$ vims somefile.c  # Open a specific file in the vimserver.
+<Alt-Tab>          # Switch to vimserver.
+_e                 # Attempt to compile the current buffer's file's module,
+                   # displaying all output in the other bash prompt window and 
+                   # highlighting errors in red.
+<Copy>             # Double click on [filename]:[line]:[column] from the 
+                   # error line (directly behind the red text) and
+                   # right click to copy.
+$ jf               # From bash prompt, open the [filename]:[line] in the 
+                   # system clipboard in the vimserver and go to the line.
+$ cgrep some_thng  # Some C-language identifier is being misused.
+                   # Look for occurances and print them with line numbers.
+<Copy>             # Same as before, copy the [filename]:[line].
+$ jf               $ Open the [filename]:[line] in the vimserver.
+```
 
 ### My most used commands
 
