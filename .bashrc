@@ -149,11 +149,10 @@ if [[ -e /usr/local/lib/bazel/bin/bazel-complete.bash ]]; then
 fi
 
 if [[ -d ${WORKSPACE_DIR}/scripts/shell ]]; then
-    pushd ${WORKSPACE_DIR}/scripts/shell
-    for file in * ; do
+    for file in "${WORKSPACE_DIR}/scripts/shell/*" ; do
       if [ -f "$file" ] ; then
-        source "$file"
+        source "${WORKSPACE_DIR}/scripts/shell/$file"
       fi
     done
-    popd
 fi
+
