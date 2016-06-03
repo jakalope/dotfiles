@@ -67,6 +67,7 @@ Git
 ---
 
 ### Aliases
+* `ga` Alias for `git add`
 * `gc` Alias for `git commit`
 * `gd` Alias for `git diff`
 * `gf` Alias for `git fetch`

@@ -15,6 +15,7 @@ sudo apt-get install \
     gfortran \
     git \
     indicator-multiload \
+    inotify-tools \
     kcachegrind \
     libevent-dev \
     massif-visualizer \

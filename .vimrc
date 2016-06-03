@@ -149,6 +149,9 @@ command! Src source ~/.vimrc
 " alternative ESC key combo ( 'cause <Esc> is too far away :-P )
 inoremap jk <Esc>
 
+" fast buffer deletion
+nnoremap <F9><F9> :bd<CR>
+
 map! <F1> <ESC>
 
 command! W :w
