@@ -62,6 +62,12 @@ $ jf               $ Open the [filename]:[line] in the vimserver.
 Git
 ---
 
+### Aliases
+* `gc` Alias for `git commit`
+* `gd` Alias for `git diff`
+* `gf` Alias for `git fetch`
+* `gs` Alias for `git status`
+
 ### Typical workflow
 ```
 git fetch origin
