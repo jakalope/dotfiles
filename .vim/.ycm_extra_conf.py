@@ -62,7 +62,7 @@ def IsHeaderFile(filename):
     return extension in ['.hpp', '.hxx', '.hh', '.h', '.inl', '.impl']
 
 def FlagsForFile(filename, **kwargs):
-    ros_flags=None
+    ros_flags=[]
     try:
         import rospkg
         rospack = rospkg.RosPack()
