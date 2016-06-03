@@ -18,6 +18,47 @@ function set_cwd_file() {
     echo "${1}" > "${CWD_FILE}"
 }
 
+function open_file_to_line() {
+    # tell the vim server to open the file
+    local raw="${1%:*}"
+    local line="${1#*:}"
+    local vim_cwd_file="$(readlink -f "${cwd}/$raw")"
+    local cmd_cwd_file="$(readlink -f "$(pwd)/$raw")"
+    if [[ -e "$raw" ]]; then
+        echo RAW >> ${HOME}/vims_usage
+        open_in_tab "${raw}"
+        # wait for vim to open the file
+        sleep 0.1
+        # move the to appropriate line
+        "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
+    elif [[ -e "$vim_cwd_file" ]]; then
+        echo VIM_CWD >> ${HOME}/vims_usage
+        open_in_tab "${vim_cwd_file}"
+        # wait for vim to open the file
+        sleep 0.1
+        # move the cursor to appropriate line
+        "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
+    elif [[ -e "$cmd_cwd_file" ]]; then
+        echo CMD_CWD >> ${HOME}/vims_usage
+        open_in_tab "${cmd_cwd_file}"
+        # wait for vim to open the file
+        sleep 0.1
+        # move the cursor to appropriate line
+        "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
+    else
+        echo "Couldn't find any of the following:"
+        echo "  $raw"
+        echo "  $vim_cwd_file"
+        echo "  $cmd_cwd_file"
+        echo
+        echo "NOTE: "
+        echo "  pwd => $(pwd)"
+        echo "  cwd => ${cwd}"
+        return 1
+    fi
+    return 0
+}
+
 # See if a CWD file exists for this vimserver.
 # If a vimserver has already been started, make sure we're in its CWD.
 CWD_FILE="${HOME}/${VIMSERVER}"
@@ -41,7 +82,7 @@ if [[ ! -t 0 && $# == 0 ]]; then
     # If so, expect it in "<filename>[:linenumber[:garbage]]" format,
     # separated by newlines and open each file in a separate tab by calling
     # this script recursively
-    awk '{print $1}' | awk -F: '{print "vims +"$2 " " $1}' | bash
+    awk '{print $1}' | awk -F: '{print "vims " $1 ":" $2}' | bash
 # Check if we have some arguments
 elif [[ $# > 0 ]]; then
     # get the current working directory of the vim server
@@ -61,47 +102,9 @@ elif [[ $# > 0 ]]; then
         # open the second file in the new vsplit
         "$VIMEXEC" --servername $VIMSERVER --remote "$1"
     elif [[ ${1} == '-t' ]]; then
-        # tell the vim server to open the file
-        # first try
-        raw=$(xsel --clipboard --output | awk -F: '{print $1}')
-        vim_cwd_file=$(readlink -f "${cwd}/$raw")
-        cmd_cwd_file=$(readlink -f "$(pwd)/$raw")
-        line=$(xsel --clipboard --output | awk -F: '{print ":" $2 "<CR>"}')
-        if [[ -e "$raw" ]]; then
-            echo RAW >> ${HOME}/vims_usage
-            open_in_tab "${raw}"
-            # wait for vim to open the file
-            sleep 0.1
-            # move the to appropriate line
-            "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
-        elif [[ -e "$vim_cwd_file" ]]; then
-            echo VIM_CWD >> ${HOME}/vims_usage
-            open_in_tab "${vim_cwd_file}"
-            # wait for vim to open the file
-            sleep 0.1
-            # move the to appropriate line
-            "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
-        elif [[ -e "$cmd_cwd_file" ]]; then
-            echo CMD_CWD >> ${HOME}/vims_usage
-            open_in_tab "${cmd_cwd_file}"
-            # wait for vim to open the file
-            sleep 0.1
-            # move the to appropriate line
-            "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
-        else
-            echo "Couldn't find any of the following:"
-            echo "  $raw"
-            echo "  ${cwd}/$raw"
-            echo "  $(pwd)/$raw"
-            echo
-            echo "NOTE: "
-            echo "  pwd => $(pwd)"
-            echo "  cwd => ${cwd}"
-            exit
-        fi
+        open_file_to_line "$(xsel --clipboard --output)"
     else
-        # tell the vim server to open the file
-        open_in_tab "${@}"
+        open_file_to_line "${@}"
     fi
 # Nothing from stdin, no arguemnts, so start a server
 else

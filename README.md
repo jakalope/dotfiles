@@ -5,7 +5,7 @@ Bash
 
 * `sed -i 's/[regex]/[replacement]/g' <file1> <file2> ... <fileN>` Inline search/replace.
 * `sed -n '/[regex]/p' <file1> <file2> ... <fileN>` Use `sed` regex syntax to `grep` for things.
-* `awk [-f<delimiter-char>] '{print $<field>}'`
+* `awk [-F<delimiter-char>] '{print $<field>}'`
 * `time <program>`
 
 
@@ -41,7 +41,11 @@ $ jf               # From bash prompt, open the [filename]:[line] in the
 $ cgrep some_thng  # Some C-language identifier is being misused.
                    # Look for occurances and print them with line numbers.
 <Copy>             # Same as before, copy the [filename]:[line].
-$ jf               $ Open the [filename]:[line] in the vimserver.
+$ jf               # Open the [filename]:[line] in the vimserver.
+<API-change>       # Sometimes you have to change the same thing in lots of places.
+$ cgrep chgd_thng | vims
+                   # You can just pipe the output of cgrep to vims and
+                   # vims will open each file, placing the cursor at the given line.
 ```
 
 ### My most used commands
