@@ -108,6 +108,9 @@ alias l='ls -CF'
 alias cm='catkin_make'
 alias valgrind_check='valgrind --tool=memcheck --track-origins=yes --leak-check=full --show-reachable=yes'
 alias cwd='pwd | xsel -ib'
+alias gs='git status'
+alias gc='git commit'
+alias gd='git diff'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
