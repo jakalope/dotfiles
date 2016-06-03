@@ -38,15 +38,6 @@ sudo apt-get install \
 # run indicator multiload for the first time
 indicator-multiload &
 
-# build YouCompleteMe
-# TODO: is this necessary with Vundle?
-# pushd .vim/bundle/YouCompleteMe
-# git submodule add https://github.com/ross/requests-futures third_party/requests-futures
-# git submodule add https://github.com/Valloric/ycmd third_party/ycmd
-# git submodule update --init --recursive
-# ./install.py --clang-completer
-# popd
-
 # setup bazel
 pushd ~/Downloads
 if [[ ! -e bazel_0.2.0-linux-x86_64.deb ]]; then
