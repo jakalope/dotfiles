@@ -130,7 +130,8 @@ VIM
 * `<leader>` => `\`
 * `<C-W> =` Set vim splits to equal size.
 * `g-` Reload to a previous save.
-* `;y` Copy path of current buffer to register 0 and the system clipboard.
+* `_y` Copy [relative-path] of current buffer to register 0 and the system clipboard (used to create #include lines).
+* `_b` Copy "b [absolute-path]:[line]" of the current buffer to the system clipboard (used to set breakpoints in GDB).
 
 ### Plugin Cusomizations
 

@@ -14,7 +14,7 @@ let g:formatters_python = ['autopep8']
 " let g:ycm_register_as_syntastic_checker = 0
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:ycm_always_populate_location_list = 1
-let g:ycm_autoclose_preview_window_after_completion = 1 
+let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " CtrlP
@@ -67,10 +67,10 @@ set autoindent
 set backspace=indent,eol,start " Allow backspacing over autoindent, line breaks and start of insert action
 set bs=2
 set cmdheight=2
-set encoding=utf-8 
+set encoding=utf-8
 set equalalways
 set expandtab
-set fileencoding=utf-8 
+set fileencoding=utf-8
 set history=50
 set incsearch
 set laststatus=2 " Always display the status line, even if only one window is displayed
@@ -140,22 +140,27 @@ let DoxygenToolkit_commentType=1
 nnoremap + maO<esc>`a
 nnoremap = mao<esc>`a
 
-"------------------------------------------------------------
+"============================================================
+
+"""""""""""""" Change how vim is interacted with
 
 command! Src source ~/.vimrc
 
 " alternative ESC key combo ( 'cause <Esc> is too far away :-P )
 inoremap jk <Esc>
 
-nnoremap <C-}> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
-nnoremap tab mo:tabnew %<CR>`o<C-]>
-nnoremap tib mo:tabnew %<CR>`o<C-\>f
-nnoremap _g :grep! "\b<C-R><C-W>\b" *<CR>
-
-" yank name of current file to register 0 and to system clipboard
-nnoremap ;y :let @"=@%<CR>:let @+=@%<CR>
-
 map! <F1> <ESC>
+
+command! W :w
+command! Wa :wa
+
+" Stop accidental entry into Ex mode
+nnoremap Q <CR>
+
+
+""""""""""""""
+
+nnoremap _g :grep! "\b<C-R><C-W>\b" *<CR>
 
 " convert a 1-line CPP function definition signature to a declaration signature
 nnoremap _sig >>Wd2f:A;<ESC>0w
@@ -177,17 +182,18 @@ nnoremap _f :exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servernam
 nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
 nnoremap _d :exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
 
-command! W :w
-command! Wa :wa
-
-" Stop accidental entry into Ex mode
-nnoremap Q <CR>
+" TODO make this use a custom command
+nnoremap _h :exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
 
 " Convert Structure-Of-Arrays to Array-Of-Structures
 vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
 
-" Copy current file:line to the system clipboard
+" Copy current file:line to the system clipboard, preceded by "b"
+" Used to set breakpoints in GDB
 nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".line(".")."\" \| xsel --clipboard --input"<CR>:redraw!<CR>
+
+" yank name of current file to register 0 and to system clipboard
+nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 
 " Find all files that include this file, in this directory
 " nnoremap _down :let g:cmd=system("echo ".expand('%')." \| awk -F/ '{print $(NF-1)\"/\"$NF}'")<CR>:cs find i <C-R>=g:cmd<CR><CR>
@@ -229,11 +235,12 @@ function! s:Reload()
     set autoread<
 endfunction
 
+" Apply `git clang-format -f` and reload all buffers
 nnoremap <C-d> :Format<CR>
 command! Format :call s:Format()
 function! s:Format()
     setlocal autoread
-    silent wa 
+    silent wa
     silent !git clang-format -f
     Reload
     set autoread<
