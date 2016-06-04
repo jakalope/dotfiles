@@ -6,14 +6,6 @@ if [[ ${VIMSERVER} == "" ]]; then
     VIMSERVER="VIM"
 fi
 
-function open_in_vimserver() {
-    while [[ $# > 0 ]]; do
-        "$VIMEXEC" --servername $VIMSERVER --remote-silent "${1}"
-        shift
-        sleep 0.1
-    done
-}
-
 function set_cwd_file() {
     echo "${1}" > "${CWD_FILE}"
 }
@@ -23,29 +15,33 @@ function open_file_to_line() {
     local raw="${1//:*}" # remove trailing characters after the filename
     local line="${1#*:}" # keep only the suffix after the filename
     local line="${line%%:*}"  # keep only the prefix of the suffix; the line#
+    echo "LINE: $line"
     local vim_cwd_file="$(readlink -f "${cwd}/$raw")"
     local cmd_cwd_file="$(readlink -f "$(pwd)/$raw")"
     if [[ -e "$raw" ]]; then
         echo RAW >> ${HOME}/vims_usage
-        open_in_vimserver "${raw}"
+        "$VIMEXEC" --servername $VIMSERVER --remote-silent +${line} ${raw}
+        # open_in_vimserver "+${line} ${raw}"
         # wait for vim to open the file
         sleep 0.1
         # move the to appropriate line
-        "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
+        # "$VIMEXEC" --servername $VIMSERVER --remote-send ":$line"
     elif [[ -e "$vim_cwd_file" ]]; then
         echo VIM_CWD >> ${HOME}/vims_usage
-        open_in_vimserver "${vim_cwd_file}"
+        "$VIMEXEC" --servername $VIMSERVER --remote-silent +${line} ${vim_cwd_file}
+        # open_in_vimserver "+${line} ${vim_cwd_file}"
         # wait for vim to open the file
         sleep 0.1
         # move the cursor to appropriate line
-        "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
+        # "$VIMEXEC" --servername $VIMSERVER --remote-send ":$line"
     elif [[ -e "$cmd_cwd_file" ]]; then
         echo CMD_CWD >> ${HOME}/vims_usage
-        open_in_vimserver "${cmd_cwd_file}"
+        "$VIMEXEC" --servername $VIMSERVER --remote-silent +${line} ${cmd_cwd_file}
+        # open_in_vimserver "+${line} ${cmd_cwd_file}"
         # wait for vim to open the file
         sleep 0.1
         # move the cursor to appropriate line
-        "$VIMEXEC" --servername $VIMSERVER --remote-send "$line"
+        # "$VIMEXEC" --servername $VIMSERVER --remote-send ":$line"
     else
         echo "Couldn't find any of the following:"
         echo "  $raw"
@@ -58,7 +54,7 @@ function open_file_to_line() {
         echo
         if [[ "$line" == "" || "$line" == "${raw}" ]]; then
             echo "No line specified. Creating new file..."
-            open_in_vimserver "${raw}"
+            "$VIMEXEC" --servername $VIMSERVER --remote-silent ${raw}
         else
             return 1
         fi
