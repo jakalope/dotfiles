@@ -145,6 +145,12 @@ nnoremap = mao<esc>`a
 
 """""""""""""" Change how vim is interacted with
 
+" Resize splits on window resize.
+augroup AutoResizeSplits
+   autocmd!
+   autocmd VimResized * exe "normal! \<c-w>="
+augroup END
+
 command! Src source ~/.vimrc
 
 " alternative ESC key combo ( 'cause <Esc> is too far away :-P )
