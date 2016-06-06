@@ -207,4 +207,5 @@ Todo
 * Proper dereferencing of `unique_ptr` pretty printer in gdb.
 * Figure out how to get `valgrind --db-attach=yes` working.
 * Make `code_window` terminal-size-aware
+* CtrlP: filter .pyc files
 
