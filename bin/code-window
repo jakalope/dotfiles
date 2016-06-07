@@ -1,15 +1,23 @@
 #!/bin/bash
 
 # TODO fit each window to half the screen, tiled
+# screen_width=$(xdpyinfo | grep 'dimensions:' | cut -f 2 -d ':' | cut -f 1 -d 'x')
+# half_width=$(( $screen_width / 2 ))
+# wmctrl -r :ACTIVE: -e 0,0,0,$HALF,-
 
 function code_window() {
-    if [[ "${WORKSPACE_DIR}" == "" ]]; then
-        WORKSPACE_DIR=$(pwd)
-    fi
-    if [[ $# > 1 ]]; then
-        WORKSPACE_DIR="${2}"
-    fi
-    VIMSERVER="VIMS${1}" gnome-terminal --working-directory="${WORKSPACE_DIR}" --command="vims" --geometry=173x87+0+0 &
-    VIMSERVER="VIMS${1}" gnome-terminal --working-directory="${WORKSPACE_DIR}" -e "bash -c \"use_me; exec bash\"" --geometry=137x87+2218+0 &
+    # Set the working directory to the caller's current directory.
+    WORKSPACE_DIR=$(pwd)
+
+    # Determine the next available vimserver name.
+    i=0
+    while [[ -e "${HOME}/VIMS${i}" ]]; do
+        (( i++ ))
+    done
+
+    # Open a new pair of code windows.
+    VIMSERVER="VIMS${i}" x-terminal-emulator --working-directory="${WORKSPACE_DIR}" --command "vims" --geometry=+0+0 &
+    VIMSERVER="VIMS${i}" x-terminal-emulator --working-directory="${WORKSPACE_DIR}" -e "bash -c \"use_me; exec bash\"" --geometry=+${half_width}+0 &
     exit
 }
+

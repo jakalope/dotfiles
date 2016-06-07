@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VIMEXEC='vim'
+VIMEXEC='gvim'
 
 if [[ ${VIMSERVER} == "" ]]; then
     VIMSERVER="VIM"
