@@ -54,6 +54,7 @@ function! SetVimOptions()
     set softtabstop=4
     set autoindent
     set smartindent
+    colorscheme desert
 endfunction
 
 function! SetTexOptions()
@@ -85,6 +86,7 @@ function! SetBashOptions()
     set softtabstop=4
     set autoindent
     set smartindent
+    colorscheme desert
 endfunction
 
 function! SetCMakeOptions()
@@ -108,6 +110,7 @@ function! SetCPPOptions()
     set autoindent
     set smartindent
     set cindent
+    colorscheme slate
     command! Build :make
     au bufenter * silent! ClangFormatAutoEnable
 endfunction

@@ -3,6 +3,7 @@
 Bash
 ----
 
+* `pkill -trap <ros-node-name>` Trap a process that's running in GDB without causing a delayed SIGKILL.
 * `sed -i 's/[regex]/[replacement]/g' <file1> <file2> ... <fileN>` Inline search/replace.
 * `sed -n '/[regex]/p' <file1> <file2> ... <fileN>` Use `sed` regex syntax to `grep` for things.
 * `awk [-F<delimiter-char>] '{print $<field>}'`
@@ -208,4 +209,5 @@ Todo
 * Figure out how to get `valgrind --db-attach=yes` working.
 * Make `code_window` terminal-size-aware
 * CtrlP: filter .pyc files
+* vims: remove extraneous content of $line variable
 
