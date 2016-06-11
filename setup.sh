@@ -25,6 +25,7 @@ sudo apt-get install \
     python-autopep8 \
     python-dev \
     python3-dev \
+    terminator \
     tree
     ubuntu-restricted-extras \
     unity-tweak-tool \

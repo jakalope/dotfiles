@@ -16,8 +16,8 @@ function code_window() {
     done
 
     # Open a new pair of code windows.
-    VIMSERVER="VIMS${i}" x-terminal-emulator --working-directory="${WORKSPACE_DIR}" --command "vims" --geometry=+0+0 &
-    VIMSERVER="VIMS${i}" x-terminal-emulator --working-directory="${WORKSPACE_DIR}" -e "bash -c \"use_me; exec bash\"" --geometry=+${half_width}+0 &
+    VIMSERVER="VIMS${i}" x-terminal-emulator --working-directory="${WORKSPACE_DIR}" --command "vims" &
+    VIMSERVER="VIMS${i}" x-terminal-emulator --working-directory="${WORKSPACE_DIR}" --command "bash -c \"use_me; exec bash\"" &
     exit
 }
 
