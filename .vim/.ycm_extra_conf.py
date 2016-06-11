@@ -19,24 +19,6 @@ def getSystemIncludeFlags():
         '/usr/include/eigen3',
     ])
 
-def getRosIncludeFlags():
-    paths = []
-
-    ros_workspace = os.path.expandvars('$ROS_WORKSPACE') + '/devel/include'
-    if os.path.isdir(ros_workspace):
-        paths += [ros_workspace]
-
-    paths += [rospack.get_path(path) + '/include' for path in rospack.list()]
-
-    if os.path.isdir('/opt/ros'):
-        paths += [
-                path + '/include'
-                for path in reversed(os.listdir('/opt/ros'))
-                    if os.path.isdir(path) and os.path.isdir(path + '/include')
-                ]
-
-    return getIncludePaths('-isystem', paths)
-
 def getBazelWorkspace(current):
     while len(current) > 0: 
         current = os.path.dirname(current)
@@ -54,6 +36,7 @@ def getLocalIncludeFlags(filename):
 
 def getIncludePaths(prefix, paths):
     paths = filter(lambda path: os.path.exists(path), set(paths))
+    print paths
     return list(itertools.chain.from_iterable(
      itertools.izip([prefix] * len(paths), paths)))
 
@@ -62,16 +45,8 @@ def IsHeaderFile(filename):
     return extension in ['.hpp', '.hxx', '.hh', '.h', '.inl', '.impl']
 
 def FlagsForFile(filename, **kwargs):
-    ros_flags=[]
-    try:
-        import rospkg
-        rospack = rospkg.RosPack()
-        ros_flags=getRosIncludeFlags()
-    except:
-        pass
-
     return {
         'flags': getDefaultFlags() + getSystemIncludeFlags() + \
-                 ros_flags + getLocalIncludeFlags(filename),
+                 getLocalIncludeFlags(filename),
         'do_cache': True
     }

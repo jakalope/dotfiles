@@ -144,7 +144,8 @@ set -o vi
 
 # set some development environment variables
 export EDITOR=vim
-export WORKSPACE_DIR=${HOME}/workspace/driving
+export WORKSPACE_DIR="${HOME}/workspace/driving"
+export WORKSPACE="${WORKSPACE_DIR}"
 export SOURCE_DIR="${WORKSPACE_DIR}"
 
 source ~/bin/source_me.bash

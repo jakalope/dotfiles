@@ -139,9 +139,15 @@ continue a couple of lines, print values of all local variables, step out.
 VIM
 ---
 
+### Built-in things that I typically forget about
+
 * `<leader>` => `\`
 * `<C-W> =` Set vim splits to equal size.
 * `g-` Reload to a previous save.
+* `it` Inner-tag motion, e.g. `citasdf` applied anywhere inside `<a>fdsa</a>` will yield `<a>asdf</a>`.
+
+### Custom key-bindings
+
 * `_y` Copy [relative-path] of current buffer to register 0 and the system clipboard (used to create #include lines).
 * `_b` Copy "b [absolute-path]:[line]" of the current buffer to the system clipboard (used to set breakpoints in GDB).
 
@@ -210,4 +216,4 @@ Todo
 * Make `code_window` terminal-size-aware
 * CtrlP: filter .pyc files
 * vims: remove extraneous content of $line variable
-
+* jf: find a way to Alt-TAB to vimserver window after opening the file

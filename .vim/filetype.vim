@@ -4,26 +4,26 @@ endif
 
 augroup filetypedetect
     autocmd!
-    autocmd BufNewFile,BufRead *.vim call SetVimOptions()
-    autocmd BufNewFile,BufRead *.tex call SetTexOptions()
-    autocmd BufNewFile,BufRead *.xml call SetXmlOptions()
-    autocmd BufNewFile,BufRead *.html call SetHtmlOptions()
-    autocmd BufNewFile,BufRead *.launch call SetXmlOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.vim silent! call SetVimOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.tex silent! call SetTexOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.xml silent! call SetXmlOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.html silent! call SetHtmlOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.launch silent! call SetXmlOptions()
 
-    autocmd BufNewFile,BufRead *.sh call SetBashOptions()
-    autocmd BufNewFile,BufRead *.bash call SetBashOptions()
-    autocmd BufNewFile,BufRead *.yaml call SetPythonOptions()
-    autocmd BufNewFile,BufRead *.py call SetPythonOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.sh silent! call SetBashOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.bash silent! call SetBashOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.yaml silent! call SetPythonOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.py silent! call SetPythonOptions()
 
-    autocmd BufNewFile,BufRead *.c call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.cc call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.cx call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.cpp call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.h call SetCPPOptions()
-    autocmd BufNewFile,BufRead *.hpp call SetCPPOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.c silent! call SetCPPOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.cc silent! call SetCPPOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.cx silent! call SetCPPOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.cpp silent! call SetCPPOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.h silent! call SetCPPOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.hpp silent! call SetCPPOptions()
 
-    autocmd BufNewFile,BufRead CMakeLists.txt call SetCMakeOptions()
-    autocmd BufNewFile,BufRead *.cmake call SetCMakeOptions()
+    autocmd BufNewFile,BufRead,BufEnter CMakeLists.txt silent! call SetCMakeOptions()
+    autocmd BufNewFile,BufRead,BufEnter *.cmake silent! call SetCMakeOptions()
 augroup END
 
 function! SetHtmlOptions()
@@ -54,7 +54,7 @@ function! SetVimOptions()
     set softtabstop=4
     set autoindent
     set smartindent
-    colorscheme desert
+    au bufenter * silent! colorscheme desert
 endfunction
 
 function! SetTexOptions()
@@ -86,7 +86,7 @@ function! SetBashOptions()
     set softtabstop=4
     set autoindent
     set smartindent
-    colorscheme desert
+    au bufenter * silent! colorscheme desert
 endfunction
 
 function! SetCMakeOptions()
@@ -110,8 +110,8 @@ function! SetCPPOptions()
     set autoindent
     set smartindent
     set cindent
-    colorscheme slate
     command! Build :make
-    au bufenter * silent! ClangFormatAutoEnable
+    ClangFormatAutoEnable
+    colorscheme slate
 endfunction
 
