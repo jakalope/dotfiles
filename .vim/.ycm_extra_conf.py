@@ -17,6 +17,7 @@ def getSystemIncludeFlags():
         '/usr/include',
         '/usr/local/include',
         '/usr/include/eigen3',
+        '/opt/ros/indigo/include'
     ])
 
 def getBazelWorkspace(current):
