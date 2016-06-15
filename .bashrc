@@ -113,6 +113,7 @@ alias gc='git commit'
 alias gd='git diff'
 alias gf='git fetch'
 alias ga='git add'
+alias sbrc='source ~/.bashrc'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -160,5 +161,9 @@ if [[ -d ${WORKSPACE_DIR}/scripts/shell ]]; then
             source "$file"
         fi
     done
+fi
+
+if [[ -e /opt/ros/indigo ]]; then
+    source /opt/ros/indigo/setup.bash
 fi
 

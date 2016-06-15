@@ -50,6 +50,7 @@ Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-sensible'
 Plugin 'vim-scripts/restore_view.vim'
+Plugin 'drmikehenry/vim-fontsize'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -115,6 +116,7 @@ set tags=tags;/
 
 " colors
 colorscheme desert
+set guifont=Monospace\ 11
 
 """""""""""""" YCM
 nnoremap <C-\> :YcmCompleter GoToDefinition<CR>

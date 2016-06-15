@@ -67,6 +67,8 @@ $ cgrep chgd_thng | vims
 Git
 ---
 
+* `git diff --name-only HEAD~1` List the files changes between HEAD and HEAD~1. Useful for piping into `vims`!
+
 ### Aliases
 * `ga` Alias for `git add`
 * `gc` Alias for `git commit`

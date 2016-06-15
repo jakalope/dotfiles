@@ -6,7 +6,7 @@ if [[ $# != 0 ]]; then
     shift
 fi
 
-while [[ ! -f BUILD && ! -f package.xml && ! -f manifest.xml && $(pwd) != "/" ]]
+while [[ ! -f Makefile && ! -f BUILD && ! -f package.xml && ! -f manifest.xml && $(pwd) != "/" ]]
 do
     cd ..
 done
@@ -37,6 +37,8 @@ elif [[ -f manifest.xml ]]; then
     ${MAKE}
 elif [[ -f BUILD ]]; then
     bazel test "${@}" --test_output=errors ...
+elif [[ -f Makefile ]]; then
+    ${MAKE}
 else
     echo "No package found below $cwd" 1>&2
 fi
