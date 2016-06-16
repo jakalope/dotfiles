@@ -155,15 +155,16 @@ if [[ -e /usr/local/lib/bazel/bin/bazel-complete.bash ]]; then
     source /usr/local/lib/bazel/bin/bazel-complete.bash
 fi
 
+if [[ -e /opt/ros/indigo ]]; then
+    source /opt/ros/indigo/setup.bash
+fi
+
 if [[ -d ${WORKSPACE_DIR}/scripts/shell ]]; then
     for file in "${WORKSPACE_DIR}/scripts/shell/"* ; do
         if [ -f "$file" ] ; then
+            echo "Sourcing ${file}..."
             source "$file"
         fi
     done
-fi
-
-if [[ -e /opt/ros/indigo ]]; then
-    source /opt/ros/indigo/setup.bash
 fi
 

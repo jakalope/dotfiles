@@ -4,110 +4,122 @@ endif
 
 augroup filetypedetect
     autocmd!
-    autocmd BufNewFile,BufRead,BufEnter *.vim silent! call SetVimOptions()
-    autocmd BufNewFile,BufRead,BufEnter *.tex silent! call SetTexOptions()
-    autocmd BufNewFile,BufRead,BufEnter *.xml silent! call SetXmlOptions()
-    autocmd BufNewFile,BufRead,BufEnter *.html silent! call SetHtmlOptions()
-    autocmd BufNewFile,BufRead,BufEnter *.launch silent! call SetXmlOptions()
+    autocmd BufNewFile,BufRead *.vim silent! call SetVimOptions()
+    autocmd BufNewFile,BufRead *.tex silent! call SetTexOptions()
+    autocmd BufNewFile,BufRead *.xml silent! call SetXmlOptions()
+    autocmd BufNewFile,BufRead *.html silent! call SetHtmlOptions()
+    autocmd BufNewFile,BufRead *.launch silent! call SetXmlOptions()
 
-    autocmd BufNewFile,BufRead,BufEnter *.sh silent! call SetBashOptions()
-    autocmd BufNewFile,BufRead,BufEnter *.bash silent! call SetBashOptions()
-    autocmd BufNewFile,BufRead,BufEnter *.yaml silent! call SetPythonOptions()
-    autocmd BufNewFile,BufRead,BufEnter *.py silent! call SetPythonOptions()
+    autocmd BufNewFile,BufRead *.sh silent! call SetBashOptions()
+    autocmd BufNewFile,BufRead *.bash silent! call SetBashOptions()
+    autocmd BufNewFile,BufRead *.yaml silent! call SetPythonOptions()
+    autocmd BufNewFile,BufRead *.py silent! call SetPythonOptions()
 
-    autocmd BufNewFile,BufRead,BufEnter *.c silent! call SetCPPOptions()
-    autocmd BufNewFile,BufRead,BufEnter *.cc silent! call SetCPPOptions()
-    autocmd BufNewFile,BufRead,BufEnter *.cx silent! call SetCPPOptions()
-    autocmd BufNewFile,BufRead,BufEnter *.cpp silent! call SetCPPOptions()
-    autocmd BufNewFile,BufRead,BufEnter *.h silent! call SetCPPOptions()
-    autocmd BufNewFile,BufRead,BufEnter *.hpp silent! call SetCPPOptions()
+    autocmd BufNewFile,BufRead *.c silent! call SetCPPOptions()
+    autocmd BufNewFile,BufRead *.cc silent! call SetCPPOptions()
+    autocmd BufNewFile,BufRead *.cx silent! call SetCPPOptions()
+    autocmd BufNewFile,BufRead *.cpp silent! call SetCPPOptions()
+    autocmd BufNewFile,BufRead *.h silent! call SetCPPOptions()
+    autocmd BufNewFile,BufRead *.hpp silent! call SetCPPOptions()
 
-    autocmd BufNewFile,BufRead,BufEnter CMakeLists.txt silent! call SetCMakeOptions()
-    autocmd BufNewFile,BufRead,BufEnter *.cmake silent! call SetCMakeOptions()
+    autocmd BufNewFile,BufRead CMakeLists.txt silent! call SetCMakeOptions()
+    autocmd BufNewFile,BufRead *.cmake silent! call SetCMakeOptions()
+
+    autocmd BufNewFile,BufRead BUILD silent! call SetBazelOptions()
 augroup END
 
 function! SetHtmlOptions()
-    set filetype=html
-    set cc=80
-    set shiftwidth=4
-    set tabstop=4
-    set softtabstop=4
-    set autoindent
-    set smartindent
+    setl filetype=html
+    setl cc=80
+    setl shiftwidth=4
+    setl tabstop=4
+    setl softtabstop=4
+    setl autoindent
+    setl smartindent
 endfunction
 
 function! SetXmlOptions()
-    set filetype=xml
-    set cc=80
-    set shiftwidth=4
-    set tabstop=4
-    set softtabstop=4
-    set autoindent
-    set smartindent
+    setl filetype=xml
+    setl cc=80
+    setl shiftwidth=4
+    setl tabstop=4
+    setl softtabstop=4
+    setl autoindent
+    setl smartindent
 endfunction
 
 function! SetVimOptions()
-    set filetype=vim
-    set cc=80
-    set shiftwidth=4
-    set tabstop=4
-    set softtabstop=4
-    set autoindent
-    set smartindent
+    setl filetype=vim
+    setl cc=80
+    setl shiftwidth=4
+    setl tabstop=4
+    setl softtabstop=4
+    setl autoindent
+    setl smartindent
 endfunction
 
 function! SetTexOptions()
-    set filetype=tex
-    set cc=120
-    set shiftwidth=2
-    set tabstop=2
-    set softtabstop=2
-    set autoindent
-    set smartindent
+    setl filetype=tex
+    setl cc=120
+    setl shiftwidth=2
+    setl tabstop=2
+    setl softtabstop=2
+    setl autoindent
+    setl smartindent
     command! Build :!pdflatex % && evince '%:r'.pdf
 endfunction
 
 function! SetPythonOptions()
-    set filetype=python
-    set cc=80
-    set shiftwidth=4
-    set tabstop=4
-    set softtabstop=4
-    set autoindent
-    set smartindent
+    setl filetype=python
+    setl cc=80
+    setl shiftwidth=4
+    setl tabstop=4
+    setl softtabstop=4
+    setl autoindent
+    setl smartindent
 endfunction
 
 function! SetBashOptions()
-    set filetype=sh
-    set cc=80
-    set shiftwidth=4
-    set tabstop=4
-    set softtabstop=4
-    set autoindent
-    set smartindent
+    setl filetype=sh
+    setl cc=80
+    setl shiftwidth=4
+    setl tabstop=4
+    setl softtabstop=4
+    setl autoindent
+    setl smartindent
+endfunction
+
+function! SetBazelOptions()
+    setl filetype=sh
+    setl cc=80
+    setl shiftwidth=2
+    setl tabstop=2
+    setl softtabstop=2
+    setl autoindent
+    setl smartindent
 endfunction
 
 function! SetCMakeOptions()
-    set filetype=cmake
-    setlocal commentstring=#\ %s
-    set cc=100
-    set shiftwidth=2
-    set tabstop=2
-    set softtabstop=2
-    set autoindent
-    set smartindent
+    setl filetype=cmake
+    setl commentstring=#\ %s
+    setl cc=100
+    setl shiftwidth=2
+    setl tabstop=2
+    setl softtabstop=2
+    setl autoindent
+    setl smartindent
 endfunction
 
 function! SetCPPOptions()
-    set filetype=cpp
-    setlocal commentstring=//\ %s
-    set cc=80
-    set shiftwidth=2
-    set tabstop=2
-    set softtabstop=2
-    set autoindent
-    set smartindent
-    set cindent
+    setl filetype=cpp
+    setl commentstring=//\ %s
+    setl cc=80
+    setl shiftwidth=2
+    setl tabstop=2
+    setl softtabstop=2
+    setl autoindent
+    setl smartindent
+    setl cindent
     command! Build :make
     ClangFormatAutoEnable
 endfunction
