@@ -15,7 +15,9 @@ if [[ ${MAKE} == "" ]]; then
     MAKE='make -j'
 fi
 
-if [[ -f package.xml ]]; then
+if [[ -f BUILD ]]; then
+    bazel test "${@}" --test_output=errors ...
+elif [[ -f package.xml ]]; then
     # this is a catkin package; find accompanying build folder
     # extract the name of the package
     package=$(pwd)         # get current directory
@@ -35,8 +37,6 @@ if [[ -f package.xml ]]; then
 elif [[ -f manifest.xml ]]; then
     # this is a rosbuild package
     ${MAKE}
-elif [[ -f BUILD ]]; then
-    bazel test "${@}" --test_output=errors ...
 elif [[ -f Makefile ]]; then
     ${MAKE}
 else
