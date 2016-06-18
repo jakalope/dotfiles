@@ -1,0 +1,4 @@
+#!/bin/bash
+FILES="${1}"
+shift
+grep --recursive --color --line-number --with-filename "${@}" $("${FILES}")

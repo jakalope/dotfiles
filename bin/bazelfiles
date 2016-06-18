@@ -1,0 +1,4 @@
+#!/bin/bash
+files bzl
+2>/dev/null find ./ -name BUILD
+2>/dev/null find ./ -name WORKSPACE

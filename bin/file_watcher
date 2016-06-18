@@ -4,5 +4,6 @@ file_to_watch="${1}"
 
 inotifywait -q -m -e close_write "${file_to_watch}" |
 while read -r filename event; do
-  notify-send "$(cat "${file_to_watch}")"
+    notify-send "$file_to_watch has changed."
+    cat "${file_to_watch}"
 done

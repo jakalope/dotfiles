@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [[ $# > 0 ]]; then
+    cd $SOURCE_DIR/$(dirname $1)
+fi
+
+while [[ ! -e Makefile && ! -e BUILD && ! -e package.xml && ! -e manifest.xml && $(pwd) != "/" ]]
+do
+    cd ..
+done
+
+if [[ $(pwd) != "/" ]]; then
+    basename $(pwd)
+else
+    echo 'Could not find Makefile, BUILD, package.xml, or manifest.xml.'
+    exit 1
+fi
+

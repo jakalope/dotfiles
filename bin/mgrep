@@ -1,2 +1,2 @@
 #!/bin/bash
-grep --recursive --color --line-number --with-filename "${@}" $(mfiles)
+greps mfiles "${@}"

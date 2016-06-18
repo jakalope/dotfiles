@@ -6,7 +6,7 @@ if [[ $# != 0 ]]; then
     shift
 fi
 
-while [[ ! -f Makefile && ! -f BUILD && ! -f package.xml && ! -f manifest.xml && $(pwd) != "/" ]]
+while [[ ! -e Makefile && ! -e BUILD && ! -e package.xml && ! -e manifest.xml && $(pwd) != "/" ]]
 do
     cd ..
 done

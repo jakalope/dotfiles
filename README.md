@@ -219,3 +219,4 @@ Todo
 * CtrlP: filter .pyc files
 * vims: remove extraneous content of $line variable
 * jf: find a way to Alt-TAB to vimserver window after opening the file
+* Fix vimserver changing its working directory on `<C-]>`
