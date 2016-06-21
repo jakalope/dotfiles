@@ -1,6 +1,7 @@
 #!/bin/bash
 
 VIMEXEC='gvim'
+SLEEP_TIME='0.5'
 
 if [[ ${VIMSERVER} == "" ]]; then
     VIMSERVER="VIM"
@@ -22,7 +23,7 @@ function open_file_to_line() {
         "$VIMEXEC" --servername $VIMSERVER --remote-silent +${line} ${raw}
         # open_in_vimserver "+${line} ${raw}"
         # wait for vim to open the file
-        sleep 0.1
+        sleep $SLEEP_TIME
         # move the to appropriate line
         # "$VIMEXEC" --servername $VIMSERVER --remote-send ":$line"
     elif [[ -e "$vim_cwd_file" ]]; then
@@ -30,7 +31,7 @@ function open_file_to_line() {
         "$VIMEXEC" --servername $VIMSERVER --remote-silent +${line} ${vim_cwd_file}
         # open_in_vimserver "+${line} ${vim_cwd_file}"
         # wait for vim to open the file
-        sleep 0.1
+        sleep $SLEEP_TIME
         # move the cursor to appropriate line
         # "$VIMEXEC" --servername $VIMSERVER --remote-send ":$line"
     elif [[ -e "$cmd_cwd_file" ]]; then
@@ -38,7 +39,7 @@ function open_file_to_line() {
         "$VIMEXEC" --servername $VIMSERVER --remote-silent +${line} ${cmd_cwd_file}
         # open_in_vimserver "+${line} ${cmd_cwd_file}"
         # wait for vim to open the file
-        sleep 0.1
+        sleep $SLEEP_TIME
         # move the cursor to appropriate line
         # "$VIMEXEC" --servername $VIMSERVER --remote-send ":$line"
     else
@@ -94,11 +95,11 @@ elif [[ $# > 0 ]]; then
         # tell the vim server to open the file in a new tab
         "$VIMEXEC" --servername $VIMSERVER --remote-tab "$1"
         # wait for vim to open the file
-        sleep 0.1
+        sleep $SLEEP_TIME
         # open a new v-split
         "$VIMEXEC" --servername $VIMSERVER --remote-send ':vsp<CR>'
         # wait for the new v-split to open
-        sleep 0.1
+        sleep $SLEEP_TIME
         # remove the first file from the argument list
         shift
         # open the second file in the new vsplit
