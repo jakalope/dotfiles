@@ -26,6 +26,7 @@ augroup filetypedetect
     autocmd BufNewFile,BufRead *.cmake silent! call SetCMakeOptions()
 
     autocmd BufNewFile,BufRead BUILD silent! call SetBazelOptions()
+    autocmd BufNewFile,BufRead *.bzl silent! call SetBazelOptions()
 augroup END
 
 function! SetHtmlOptions()
@@ -90,7 +91,7 @@ function! SetBashOptions()
 endfunction
 
 function! SetBazelOptions()
-    setl filetype=sh
+    setl filetype=python
     setl cc=80
     setl shiftwidth=2
     setl tabstop=2
