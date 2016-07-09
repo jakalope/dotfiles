@@ -13,10 +13,13 @@ let g:formatters_python = ['autopep8']
 " YouCompleteMe
 " let g:ycm_register_as_syntastic_checker = 0
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-let g:ycm_always_populate_location_list = 1
+let g:ycm_always_populate_location_list = 0
+let g:ycm_open_loclist_on_ycm_diags = 1
+let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:tern_request_timeout = 3
+let g:ycm_autoclose_preview_window_after_insertion = 0
+let g:ycm_key_invoke_completion = '<C-Space>'
+let g:ycm_collect_identifiers_from_tags_files = 1
 
 " CtrlP
 let g:ctrlp_clear_cache_on_exit = 1
@@ -57,6 +60,7 @@ Plugin 'tpope/vim-sensible'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-scripts/restore_view.vim'
 Plugin 'klen/python-mode'
+Plugin 'SirVer/ultisnips'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -255,7 +259,6 @@ function! s:Reload()
 endfunction
 
 " Apply `git clang-format -f` and reload all buffers
-nnoremap <C-d> :Format<CR>
 command! Format :call s:Format()
 function! s:Format()
     setlocal autoread
