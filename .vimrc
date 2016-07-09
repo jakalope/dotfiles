@@ -25,6 +25,9 @@ let g:ctrlp_regexp = 1
 " Airline
 let g:airline#extensions#tabline#enabled = 1
 
+" Python-mode
+let g:pymode_rope_goto_definition_bind = "<C-]>"
+
 """""""""" Vundle
 set nocompatible              " be iMproved, required
 filetype off                  " required
