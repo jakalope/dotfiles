@@ -16,6 +16,7 @@ let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:ycm_always_populate_location_list = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:tern_request_timeout = 3
 
 " CtrlP
 let g:ctrlp_clear_cache_on_exit = 1
@@ -87,6 +88,7 @@ set showcmd " Show partial commands in the last line of the screen
 set showmode
 set smartindent
 set softtabstop=4
+set spell spelllang=en_us
 set tabstop=4
 set title
 set viminfo='20,\"50
