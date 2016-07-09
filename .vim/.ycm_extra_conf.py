@@ -1,6 +1,7 @@
 import itertools
 import os
 
+
 def getDefaultFlags():
     return [
         '-Wall',
@@ -12,6 +13,7 @@ def getDefaultFlags():
         '-x', 'c++',
     ]
 
+
 def getSystemIncludeFlags():
     return getIncludePaths('-isystem', [
         '/usr/include',
@@ -20,12 +22,14 @@ def getSystemIncludeFlags():
         '/opt/ros/indigo/include'
     ])
 
+
 def getBazelWorkspace(current):
-    while len(current) > 0: 
+    while len(current) > 0:
         current = os.path.dirname(current)
         if os.path.exists(os.path.join(current, 'WORKSPACE')):
             return current
     return None
+
 
 def getLocalIncludeFlags(filename):
     return getIncludePaths('-I', [
@@ -35,19 +39,23 @@ def getLocalIncludeFlags(filename):
         os.path.join(getBazelWorkspace(filename), 'bazel-genfiles'),
     ])
 
+
 def getIncludePaths(prefix, paths):
     paths = filter(lambda path: os.path.exists(path), set(paths))
     print paths
     return list(itertools.chain.from_iterable(
      itertools.izip([prefix] * len(paths), paths)))
 
+
 def IsHeaderFile(filename):
     extension = os.path.splitext(filename)[1]
     return extension in ['.hpp', '.hxx', '.hh', '.h', '.inl', '.impl']
 
+
 def FlagsForFile(filename, **kwargs):
+    flags = getDefaultFlags() + getSystemIncludeFlags() + \
+            getLocalIncludeFlags(filename)
     return {
-        'flags': getDefaultFlags() + getSystemIncludeFlags() + \
-                 getLocalIncludeFlags(filename),
+        'flags': flags,
         'do_cache': True
     }
