@@ -24,6 +24,7 @@ let g:ctrlp_regexp = 1
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
 
 """""""""" Vundle
 set nocompatible              " be iMproved, required
@@ -118,7 +119,7 @@ set tags=tags;/
 
 " colors
 colorscheme desert
-set guifont=Monospace\ 11
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 9
 
 """""""""""""" YCM
 nnoremap <C-\> :YcmCompleter GoToDefinition<CR>

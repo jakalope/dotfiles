@@ -60,6 +60,13 @@ if [[ $? != 0 || "${tmux_version}" != "tmux 1.8" ]]; then
     rm -r tmux-1.8
 fi
 
+# install powerline fonts
+pushd ~/Downloads
+git clone https://github.com/powerline/fonts.git
+cd fonts
+./install.sh
+popd
+
 # create backups
 pushd ~
 stamp=$(date +%Y-%m-%d-%H-%M-%S)
