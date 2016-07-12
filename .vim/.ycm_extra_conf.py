@@ -52,17 +52,24 @@ def IsHeaderFile(filename):
     return extension in ['.hpp', '.hxx', '.hh', '.h', '.inl', '.impl']
 
 
-def getRosMessageFlags():
+def getRosMessageFlags(filename):
     try:
         import rosmsg
         import rospkg
         rospack = rospkg.RosPack()
-        msg_list = rosmsg.list_msgs
-        flags = '-I '.join(dir + '/include' for pkg, dir in
-                           msg_list.iterate_packages(rospack, '.msg'))
-        return flags
+        pkgs = [pkg for pkg, dir in rosmsg.iterate_packages(rospack, '.msg')]
+        path = os.path.join(getBazelWorkspace(filename), 'bazel-genfiles')
+        paths = []
+        print pkgs
+        for root, dirs, _ in os.walk(path):
+            for directory in dirs:
+                if directory in pkgs:
+                    print directory
+                    abs_path = os.path.join(root, directory)
+                    paths.append(abs_path)
+        return paths
 
-    except:
+    except ImportError:
         return []
 
 
