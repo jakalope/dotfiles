@@ -16,7 +16,6 @@ let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:ycm_always_populate_location_list = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:tern_request_timeout = 3
 
 " CtrlP
 let g:ctrlp_clear_cache_on_exit = 1
@@ -29,11 +28,10 @@ let g:airline_powerline_fonts = 1
 """""""""" Vundle
 set nocompatible              " be iMproved, required
 filetype off                  " required
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
@@ -119,7 +117,7 @@ set tags=tags;/
 
 " colors
 colorscheme desert
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 9
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 10
 
 """""""""""""" YCM
 nnoremap <C-\> :YcmCompleter GoToDefinition<CR>
