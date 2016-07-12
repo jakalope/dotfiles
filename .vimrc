@@ -27,6 +27,7 @@ let g:ctrlp_regexp = 1
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
 
 " Python-mode
 let g:pymode_rope_goto_definition_bind = "<C-]>"
@@ -34,11 +35,10 @@ let g:pymode_rope_goto_definition_bind = "<C-]>"
 """""""""" Vundle
 set nocompatible              " be iMproved, required
 filetype off                  " required
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
@@ -127,7 +127,7 @@ set tags=tags;/
 
 " colors
 colorscheme desert
-set guifont=Monospace\ 11
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 10
 
 """""""""""""" YCM
 nnoremap <C-\> :YcmCompleter GoToDefinition<CR>

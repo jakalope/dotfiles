@@ -26,7 +26,7 @@ sudo apt-get install \
     python-dev \
     python3-dev \
     terminator \
-    tree
+    tree \
     ubuntu-restricted-extras \
     unity-tweak-tool \
     unzip
@@ -59,6 +59,13 @@ if [[ $? != 0 || "${tmux_version}" != "tmux 1.8" ]]; then
     popd
     rm -r tmux-1.8
 fi
+
+# install powerline fonts
+pushd ~/Downloads
+git clone https://github.com/powerline/fonts.git
+cd fonts
+./install.sh
+popd
 
 # create backups
 pushd ~
