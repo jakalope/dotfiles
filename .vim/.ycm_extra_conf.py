@@ -42,7 +42,6 @@ def getLocalIncludeFlags(filename):
 
 def getIncludePaths(prefix, paths):
     paths = filter(lambda path: os.path.exists(path), set(paths))
-    print paths
     return list(itertools.chain.from_iterable(
      itertools.izip([prefix] * len(paths), paths)))
 
@@ -60,12 +59,11 @@ def getRosMessageFlags(filename):
         pkgs = [pkg for pkg, dir in rosmsg.iterate_packages(rospack, '.msg')]
         path = os.path.join(getBazelWorkspace(filename), 'bazel-genfiles')
         paths = []
-        print pkgs
         for root, dirs, _ in os.walk(path):
             for directory in dirs:
                 if directory in pkgs:
-                    print directory
                     abs_path = os.path.join(root, directory)
+                    paths.append('-I')
                     paths.append(abs_path)
         return paths
 
@@ -74,8 +72,13 @@ def getRosMessageFlags(filename):
 
 
 def FlagsForFile(filename, **kwargs):
-    flags = getDefaultFlags() + getSystemIncludeFlags() + \
-            getLocalIncludeFlags(filename) + getRosMessageFlags()
+    flags = \
+            getDefaultFlags() + \
+            getLocalIncludeFlags(filename) + \
+            getRosMessageFlags(filename) + \
+            getSystemIncludeFlags() + \
+            []
+    print flags
 
     return {
         'flags': flags,
