@@ -32,6 +32,12 @@ let g:airline_powerline_fonts = 1
 " Python-mode
 let g:pymode_rope_goto_definition_bind = "<C-]>"
 
+" Ultisnips
+" Trigger configuration. Do not use <tab> if you use YCM
+let g:UltiSnipsExpandTrigger="<C-space>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
 """""""""" Vundle
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -61,6 +67,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-scripts/restore_view.vim'
 Plugin 'klen/python-mode'
 Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
