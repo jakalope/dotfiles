@@ -31,6 +31,8 @@ augroup filetypedetect
     autocmd BufNewFile,BufRead *.proto silent! call SetProtoOptions()
 
     autocmd BufNewFile,BufRead *.pbtxt silent! call SetBashOptions()
+
+    autocmd BufNewFile,BufRead *.md silent! call SetMarkdownOptions()
 augroup END
 
 function! SetHtmlOptions()
@@ -80,6 +82,16 @@ function! SetPythonOptions()
     setl shiftwidth=4
     setl tabstop=4
     setl softtabstop=4
+    setl autoindent
+    setl smartindent
+endfunction
+
+function! SetMarkdownOptions()
+    setl filetype=markdown
+    setl cc=80
+    setl shiftwidth=2
+    setl tabstop=2
+    setl softtabstop=2
     setl autoindent
     setl smartindent
 endfunction

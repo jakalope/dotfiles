@@ -32,11 +32,12 @@ let g:airline_powerline_fonts = 1
 " Python-mode
 let g:pymode_rope_goto_definition_bind = "<C-]>"
 
-" Ultisnips
+" UltiSnips
 " Trigger configuration. Do not use <tab> if you use YCM
 let g:UltiSnipsExpandTrigger="<C-space>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
 
 """""""""" Vundle
 set nocompatible              " be iMproved, required
@@ -46,8 +47,8 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" let Vundle manage Vundle; disable Git because we hate git submodules
+Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
 
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'Chiel92/vim-autoformat'
@@ -228,7 +229,16 @@ nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 " Find all files that include this file, in this directory
 " nnoremap _down :let g:cmd=system("echo ".expand('%')." \| awk -F/ '{print $(NF-1)\"/\"$NF}'")<CR>:cs find i <C-R>=g:cmd<CR><CR>
 
-" Open compainion file, if it exists (e.g. test.h -> test.cpp)
+"This redefines the backspace key to start a new undo sequence.  You can now
+"undo the effect of the backspace key, without changing what you typed before
+"that, with CTRL-O u.
+inoremap <C-H> <C-G>u<C-H>
+
+"This breaks undo at each line break.  It also expands abbreviations before
+"this.
+inoremap <CR> <C-]><C-G>u<CR>
+
+" Open companion file, if it exists (e.g. test.h -> test.cpp)
 function! g:Companion()
     let l:fn_ext = expand("%:e")
     let l:fn_root = expand("%:r")
