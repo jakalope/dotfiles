@@ -16,10 +16,16 @@ def getDefaultFlags():
 
 def getSystemIncludeFlags():
     return getIncludePaths('-isystem', [
-        '/usr/include',
+        '/opt/ros/indigo/include',
+        '/usr/bin/../lib/gcc/x86_64-linux-gnu/4.8/../../../../include/c++/4.8',
+        '/usr/include/x86_64-linux-gnu/c++/4.8',
+        '/usr/include/c++/4.8/backward',
         '/usr/local/include',
+        '/usr/lib/llvm-3.6/bin/../lib/clang/3.6.0/include',
+        '/usr/bin/../lib/gcc/x86_64-linux-gnu/4.8/include',
+        '/usr/include/x86_64-linux-gnu',
+        '/usr/include',
         '/usr/include/eigen3',
-        '/opt/ros/indigo/include'
     ])
 
 
@@ -55,6 +61,10 @@ def getRosMessageFlags(filename):
     try:
         import rosmsg
         import rospkg
+    except ImportError:
+        return []
+
+    try:
         rospack = rospkg.RosPack()
         pkgs = [pkg for pkg, dir in rosmsg.iterate_packages(rospack, '.msg')]
         path = os.path.join(getBazelWorkspace(filename), 'bazel-genfiles')
@@ -66,8 +76,7 @@ def getRosMessageFlags(filename):
                     paths.append('-I')
                     paths.append(abs_path)
         return paths
-
-    except ImportError:
+    except:
         return []
 
 
@@ -75,8 +84,8 @@ def FlagsForFile(filename, **kwargs):
     flags = \
             getDefaultFlags() + \
             getLocalIncludeFlags(filename) + \
-            getRosMessageFlags(filename) + \
             getSystemIncludeFlags() + \
+            getRosMessageFlags(filename) + \
             []
     print flags
 

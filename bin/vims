@@ -16,7 +16,7 @@ function open_file_to_line() {
     local raw="${1//:*}" # remove trailing characters after the filename
     local line="${1#*:}" # keep only the suffix after the filename
     local line="${line%%:*}"  # keep only the prefix of the suffix; the line#
-    local vim_cwd_file="$(readlink -f "${cwd}/$raw")"
+    local vim_cwd_file="$(readlink -f "${WORKSPACE_DIR}/$raw")"
     local cmd_cwd_file="$(readlink -f "$(pwd)/$raw")"
     if [[ -e "$raw" ]]; then
         echo RAW >> ${HOME}/vims_usage
@@ -50,7 +50,7 @@ function open_file_to_line() {
         echo
         echo "NOTE: "
         echo "  pwd => $(pwd)"
-        echo "  cwd => ${cwd}"
+        echo "  cwd => ${WORKSPACE_DIR}"
         echo
         if [[ "$line" == "" || "$line" == "${raw}" ]]; then
             echo "No line specified. Creating new file..."
@@ -61,24 +61,6 @@ function open_file_to_line() {
     fi
     return 0
 }
-
-# See if a CWD file exists for this vimserver.
-# If a vimserver has already been started, make sure we're in its CWD.
-CWD_FILE="${HOME}/${VIMSERVER}"
-if [[ -e "${CWD_FILE}" && $# != 0 ]]; then
-    # Otherwise, cleanup any old files related to this check and write a new one.
-    cwd=$(cat "${CWD_FILE}")
-    "$VIMEXEC" --servername $VIMSERVER --remote-send "cd ${cwd}"
-elif [[ $# == 0 ]]; then
-    # If we're starting a new vimserver, make a new CWD file.
-    cwd="$(pwd)"
-    set_cwd_file "$cwd"
-else
-    # If by some error, there is no CWD file but the vimserver is already running,
-    # find out what the CWD /should/ be and make a new file.
-    cwd="$("$VIMEXEC" --servername $VIMSERVER --remote-expr 'getcwd()')"
-    set_cwd_file "$cwd"
-fi
 
 # Check if we're being piped some input
 if [[ ! -t 0 && $# == 0 ]]; then

@@ -221,3 +221,5 @@ Todo
 * jf: find a way to Alt-TAB to vimserver window after opening the file
 * Fix vimserver changing its working directory on `<C-]>`
 * Make a switch for compilation mode and use a single mapping to compile
+* Find a way to automate use of `clang-3.6 -v -E -x c++ -` for ycm
+  (see also https://github.com/Valloric/YouCompleteMe/issues/1790)
