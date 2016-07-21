@@ -31,6 +31,10 @@ augroup filetypedetect
     autocmd BufNewFile,BufRead *.proto silent! call SetProtoOptions()
 
     autocmd BufNewFile,BufRead *.pbtxt silent! call SetBashOptions()
+
+    autocmd BufNewFile,BufRead *.md silent! call SetMarkdownOptions()
+
+    autocmd BufNewFile,BufRead COMMIT_EDITMSG silent! call SetCommitOptions()
 augroup END
 
 function! SetHtmlOptions()
@@ -75,6 +79,7 @@ function! SetTexOptions()
 endfunction
 
 function! SetPythonOptions()
+    let g:pymode_python = 'python'
     setl filetype=python
     setl cc=80
     setl shiftwidth=4
@@ -82,6 +87,27 @@ function! SetPythonOptions()
     setl softtabstop=4
     setl autoindent
     setl smartindent
+endfunction
+
+function! SetMarkdownOptions()
+    setl filetype=markdown
+    setl cc=80
+    setl shiftwidth=2
+    setl tabstop=2
+    setl softtabstop=2
+    setl autoindent
+    setl smartindent
+endfunction
+
+function! SetCommitOptions()
+    setl filetype=markdown
+    setl cc=70
+    setl shiftwidth=2
+    setl tabstop=2
+    setl softtabstop=2
+    setl autoindent
+    setl smartindent
+    setl spell spelllang=
 endfunction
 
 function! SetBashOptions()
@@ -95,6 +121,7 @@ function! SetBashOptions()
 endfunction
 
 function! SetBazelOptions()
+    let g:pymode_python = 'disable'
     setl filetype=python
     setl cc=80
     setl shiftwidth=2
@@ -191,4 +218,11 @@ function! SetProtoOptions()
     endif
 
     let b:current_syntax = "proto"
+    setl commentstring=//\ %s
+    setl cc=80
+    setl shiftwidth=2
+    setl tabstop=2
+    setl softtabstop=2
+    setl autoindent
+    setl smartindent
 endfunction

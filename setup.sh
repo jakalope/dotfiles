@@ -26,7 +26,7 @@ sudo apt-get install \
     python-dev \
     python3-dev \
     terminator \
-    tree
+    tree \
     ubuntu-restricted-extras \
     unity-tweak-tool \
     unzip

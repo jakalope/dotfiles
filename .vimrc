@@ -13,46 +13,88 @@ let g:formatters_python = ['autopep8']
 " YouCompleteMe
 " let g:ycm_register_as_syntastic_checker = 0
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-let g:ycm_always_populate_location_list = 1
+let g:ycm_always_populate_location_list = 0
+let g:ycm_open_loclist_on_ycm_diags = 1
+let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:tern_request_timeout = 3
+let g:ycm_autoclose_preview_window_after_insertion = 0
+let g:ycm_key_invoke_completion = '<C-m>'
+let g:ycm_collect_identifiers_from_tags_files = 1
+nnoremap <C-\> :YcmCompleter GoToDefinition<CR>
+nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
+nnoremap <C-f> :YcmCompleter FixIt<CR>
+nnoremap <C-t> :YcmCompleter GetType<CR>
 
 " CtrlP
 let g:ctrlp_clear_cache_on_exit = 1
 let g:ctrlp_regexp = 1
+nnoremap ;p :CtrlP<CR>
+nnoremap ;b :CtrlPBuffer<CR>
+nnoremap ;m :CtrlPMRU<CR>
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
+" Python-mode
+let g:pymode_rope_goto_definition_bind = "<C-]>"
+
+" UltiSnips
+" Trigger configuration. Do not use <tab> if you use YCM
+let g:UltiSnipsExpandTrigger="<C-space>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
+
+" Smartword
+map w  <Plug>(smartword-w)
+map b  <Plug>(smartword-b)
+map e  <Plug>(smartword-e)
+map ge  <Plug>(smartword-ge)
+
+" Easymotion
+map ;l <Plug>(easymotion-bd-w)
+
+" ClangFormat
+" map to <Leader>cf in C++ code
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+" if you install vim-operator-user
+autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
+" Toggle auto formatting:
+nmap <Leader>C :ClangFormatAutoToggle<CR>
+
+
 """""""""" Vundle
 set nocompatible              " be iMproved, required
 filetype off                  " required
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" let Vundle manage Vundle; disable Git because we hate git submodules
+Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
 
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'drmikehenry/vim-fontsize'
 Plugin 'easymotion/vim-easymotion'
-Plugin 'vim-airline/vim-airline'
 Plugin 'kana/vim-operator-user'
 Plugin 'kana/vim-smartword'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'rhysd/vim-clang-format'
+Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-sensible'
+Plugin 'vim-airline/vim-airline'
 Plugin 'vim-scripts/restore_view.vim'
-Plugin 'drmikehenry/vim-fontsize'
+Plugin 'klen/python-mode'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -119,34 +161,14 @@ set tags=tags;/
 
 " colors
 colorscheme desert
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 9
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 10
 
-"""""""""""""" YCM
-nnoremap <C-\> :YcmCompleter GoToDefinition<CR>
-nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
-nnoremap <C-f> :YcmCompleter FixIt<CR>
-nnoremap <C-t> :YcmCompleter GetType<CR>
-
-"""""""""""""" CtrlP
-nnoremap ;p :CtrlP<CR>
-nnoremap ;b :CtrlPBuffer<CR>
-nnoremap ;m :CtrlPMRU<CR>
-
-"""""""""""""" ClangFormat
-" map to <Leader>cf in C++ code
-autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
-" if you install vim-operator-user
-autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
-" Toggle auto formatting:
-nmap <Leader>C :ClangFormatAutoToggle<CR>
+"============================================================
 
 let DoxygenToolkit_commentType=1
 
 nnoremap + maO<esc>`a
 nnoremap = mao<esc>`a
-
-"============================================================
 
 """""""""""""" Change how vim is interacted with
 
@@ -175,7 +197,7 @@ nnoremap Q <CR>
 
 """"""""""""""
 
-nnoremap _g :grep! "\b<C-R><C-W>\b" *<CR>
+nnoremap _g :grep! "\b<C-R><C-W>\b" * 2>/dev/null<CR>
 
 " convert a 1-line CPP function definition signature to a declaration signature
 nnoremap _sig >>Wd2f:A;<ESC>0w
@@ -192,10 +214,18 @@ nnoremap _style :%!astyle<CR>
 command! Style :%!astyle
 
 " TODO: only use compilation_mode when build system is bazel
-nnoremap _e :exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-nnoremap _f :exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
 nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-nnoremap _d :exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+
+" Redefine _c to execute some other commands. Used as a switching mechanism.
+nnoremap _e :nnoremap _c :exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L><CR>
+nnoremap _f :nnoremap _c :exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+nnoremap _o :nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+nnoremap _d :nnoremap _c :exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+
+" nnoremap _e :exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+" nnoremap _f :exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+" nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+" nnoremap _d :exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
 
 " TODO make this use a custom command
 nnoremap _h :exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
@@ -213,7 +243,16 @@ nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 " Find all files that include this file, in this directory
 " nnoremap _down :let g:cmd=system("echo ".expand('%')." \| awk -F/ '{print $(NF-1)\"/\"$NF}'")<CR>:cs find i <C-R>=g:cmd<CR><CR>
 
-" Open compainion file, if it exists (e.g. test.h -> test.cpp)
+"This redefines the backspace key to start a new undo sequence.  You can now
+"undo the effect of the backspace key, without changing what you typed before
+"that, with CTRL-O u.
+inoremap <C-H> <C-G>u<C-H>
+
+"This breaks undo at each line break.  It also expands abbreviations before
+"this.
+inoremap <CR> <C-]><C-G>u<CR>
+
+" Open companion file, if it exists (e.g. test.h -> test.cpp)
 function! g:Companion()
     let l:fn_ext = expand("%:e")
     let l:fn_root = expand("%:r")
@@ -238,8 +277,10 @@ nnoremap zs :execute 'split '.g:Companion()<CR>
 
 " Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
-nnoremap <F6> :bp<CR>:AirlineRefresh<CR>
-nnoremap <F7> :bn<CR>:AirlineRefresh<CR>
+nnoremap <F6> :bp<CR>
+nnoremap <F7> :bn<CR>
+" nnoremap <F6> :bp<CR>:AirlineRefresh<CR>
+" nnoremap <F7> :bn<CR>:AirlineRefresh<CR>
 nnoremap <F8> :tabn<CR>
 
 " Reload all windows, tabs, buffers, etc.
@@ -251,7 +292,6 @@ function! s:Reload()
 endfunction
 
 " Apply `git clang-format -f` and reload all buffers
-nnoremap <C-d> :Format<CR>
 command! Format :call s:Format()
 function! s:Format()
     setlocal autoread
