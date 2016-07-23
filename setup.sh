@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -eou pipefail
 
 # install dependencies
 sudo add-apt-repository ppa:webupd8team/java      # oracle-java8-installer
@@ -29,7 +31,7 @@ sudo apt-get install \
     tree \
     ubuntu-restricted-extras \
     unity-tweak-tool \
-    unzip
+    unzip \
     vim-gtk \
     wmctrl \
     xclip \
