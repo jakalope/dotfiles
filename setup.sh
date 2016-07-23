@@ -29,7 +29,7 @@ sudo apt-get install \
     tree \
     ubuntu-restricted-extras \
     unity-tweak-tool \
-    unzip
+    unzip \
     vim-gtk \
     wmctrl \
     xclip \
