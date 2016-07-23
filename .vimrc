@@ -22,8 +22,17 @@ let g:ycm_key_invoke_completion = '<C-m>'
 let g:ycm_collect_identifiers_from_tags_files = 1
 nnoremap <C-\> :YcmCompleter GoToDefinition<CR>
 nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
-nnoremap <C-f> :YcmCompleter FixIt<CR>
+nnoremap <C-j> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
+nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
+
+function! YcmToggle()
+    if b:ycm_largefile
+        let b:ycm_largefile=0
+    else
+        let b:ycm_largefile=1
+    endif
+endfunction
 
 " CtrlP
 let g:ctrlp_clear_cache_on_exit = 1
