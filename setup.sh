@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -eou pipefail
 
 # install dependencies
 sudo add-apt-repository ppa:webupd8team/java      # oracle-java8-installer

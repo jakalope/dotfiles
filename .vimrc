@@ -22,8 +22,17 @@ let g:ycm_key_invoke_completion = '<C-m>'
 let g:ycm_collect_identifiers_from_tags_files = 1
 nnoremap <C-\> :YcmCompleter GoToDefinition<CR>
 nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
-nnoremap <C-f> :YcmCompleter FixIt<CR>
+nnoremap <C-j> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
+nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
+
+function! YcmToggle()
+    if b:ycm_largefile
+        let b:ycm_largefile=0
+    else
+        let b:ycm_largefile=1
+    endif
+endfunction
 
 " CtrlP
 let g:ctrlp_clear_cache_on_exit = 1
@@ -217,10 +226,15 @@ command! Style :%!astyle
 nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
 
 " Redefine _c to execute some other commands. Used as a switching mechanism.
-nnoremap _e :nnoremap _c :exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L><CR>
-nnoremap _f :nnoremap _c :exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-nnoremap _o :nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-nnoremap _d :nnoremap _c :exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+command! CompileVisible   exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"<LT>CR><LT>C-L>
+command! CompileFast      exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+command! CompileOptimized exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+command! CompileDebug     exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+
+nnoremap _e :nnoremap _c :CompileVisible<CR>
+nnoremap _f :nnoremap _c :CompileFast<CR>
+nnoremap _o :nnoremap _c :CompileOptimized<CR>
+nnoremap _d :nnoremap _c :CompileDebug<CR>
 
 " nnoremap _e :exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
 " nnoremap _f :exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
