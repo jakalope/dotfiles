@@ -125,7 +125,7 @@ alias gc='git commit'
 alias gd='git diff'
 alias gf='git fetch'
 alias ga='git add'
-alias sbrc='source ~/.bashrc'
+alias Src='source ~/.bashrc'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
