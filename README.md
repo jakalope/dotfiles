@@ -162,6 +162,10 @@ VIM
 * `zv` Open companion file in new vertical split.
 * `zs` Open companion file in new horizontal split.
 
+### [vim-fugative](https://github.com/tpope/vim-fugitive)
+
+* `Gblame` Run a side pane with `git blame` output.
+
 ### [CtrlP.vim](https://github.com/kien/ctrlp.vim)
 
 * `;p` Open CtrlP file path search dialog (default: `<C-P>`).
@@ -172,9 +176,11 @@ VIM
 ### [YouCompleteMe](https://github.com/Valloric/YouCompleteMe)
 
 * `<C-\>` Go to definition.
-* `<C-]>` Go to definition (imprecise).
-* `<C-f>` Go to file in include path.
+* `<C-]>` Go to definition (imprecise) or file in include path.
 * `<C-t>` Get type.
+* `<C-f>` Force clang recompile.
+* `<C-j>` Fix-it.
+* `:call YcmToggle()` Toggle Ycm for this buffer.
 
 ### [vim-abolish](https://github.com/tpope/vim-abolish)
 
