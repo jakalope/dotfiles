@@ -36,6 +36,7 @@ endfunction
 
 " CtrlP
 let g:ctrlp_clear_cache_on_exit = 1
+let g:ctrlp_max_files = 1000000
 let g:ctrlp_regexp = 1
 nnoremap ;p :CtrlP<CR>
 nnoremap ;b :CtrlPBuffer<CR>
@@ -284,10 +285,10 @@ function! g:Companion()
     return l:companion_file
 endfunction
 
-nnoremap ze :execute 'edit '.g:Companion()<CR>
-nnoremap zt :execute 'tabnew '.g:Companion()<CR>
-nnoremap zv :execute 'vsplit '.g:Companion()<CR>
-nnoremap zs :execute 'split '.g:Companion()<CR>
+nnoremap ze :cd $wcd<CR>:execute 'edit '.g:Companion()<CR>
+nnoremap zt :cd $wcd<CR>:execute 'tabnew '.g:Companion()<CR>
+nnoremap zv :cd $wcd<CR>:execute 'vsplit '.g:Companion()<CR>
+nnoremap zs :cd $wcd<CR>:execute 'split '.g:Companion()<CR>
 
 " Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
