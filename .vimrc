@@ -21,7 +21,6 @@ let g:ycm_autoclose_preview_window_after_insertion = 0
 let g:ycm_key_invoke_completion = '<C-m>'
 let g:ycm_collect_identifiers_from_tags_files = 1
 nnoremap <C-\> :YcmCompleter GoToDefinition<CR>
-nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
 nnoremap <C-j> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
@@ -74,6 +73,16 @@ autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
 " Toggle auto formatting:
 nmap <Leader>C :ClangFormatAutoToggle<CR>
 
+" Easy-tags
+set tags=./tags;
+let g:easytags_file = './tags'
+let g:easytags_dynamic_files = 1
+autocmd BufWritePost *.c silent! UpdateTags
+autocmd BufWritePost *.cc silent! UpdateTags
+autocmd BufWritePost *.cx silent! UpdateTags
+autocmd BufWritePost *.cpp silent! UpdateTags
+autocmd BufWritePost *.h silent! UpdateTags
+autocmd BufWritePost *.hpp silent! UpdateTags
 
 """""""""" Vundle
 set nocompatible              " be iMproved, required
@@ -105,6 +114,8 @@ Plugin 'vim-scripts/restore_view.vim'
 Plugin 'klen/python-mode'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+Plugin 'xolox/vim-easytags'
+Plugin 'xolox/vim-misc'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -165,9 +176,6 @@ set confirm
 " this line is also included, vim will neither flash nor beep.  If visualbell
 " is unset, this does nothing.
 set t_vb=
-
-" ctags
-set tags=tags;/
 
 " colors
 colorscheme desert

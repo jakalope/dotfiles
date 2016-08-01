@@ -22,6 +22,13 @@ augroup filetypedetect
     autocmd BufNewFile,BufRead *.h silent! call SetCPPOptions()
     autocmd BufNewFile,BufRead *.hpp silent! call SetCPPOptions()
 
+    autocmd BufWritePost *.c silent! UpdateTags
+    autocmd BufWritePost *.cc silent! UpdateTags
+    autocmd BufWritePost *.cx silent! UpdateTags
+    autocmd BufWritePost *.cpp silent! UpdateTags
+    autocmd BufWritePost *.h silent! UpdateTags
+    autocmd BufWritePost *.hpp silent! UpdateTags
+
     autocmd BufNewFile,BufRead CMakeLists.txt silent! call SetCMakeOptions()
     autocmd BufNewFile,BufRead *.cmake silent! call SetCMakeOptions()
 
