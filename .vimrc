@@ -84,6 +84,7 @@ let g:easytags_events = ['BufWritePost']
 let g:easytags_on_cursorhold = 0
 let g:easytags_auto_update = 0
 let g:easytags_include_members = 1
+let g:easytags_auto_highlight = 0
 
 """""""""" Vundle
 set nocompatible              " be iMproved, required
