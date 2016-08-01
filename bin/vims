@@ -16,7 +16,7 @@ function open_file_to_line() {
     local raw="${1//:*}" # remove trailing characters after the filename
     local line="${1#*:}" # keep only the suffix after the filename
     local line="${line%%:*}"  # keep only the prefix of the suffix; the line#
-    local vim_cwd_file="$(readlink -f "${WORKSPACE_DIR}/$raw")"
+    local vim_cwd_file="$(readlink -f "${MY_WORKSPACE_DIR}/$raw")"
     local cmd_cwd_file="$(readlink -f "$(pwd)/$raw")"
     if [[ -e "$raw" ]]; then
         echo RAW >> ${HOME}/vims_usage
@@ -50,7 +50,7 @@ function open_file_to_line() {
         echo
         echo "NOTE: "
         echo "  pwd => $(pwd)"
-        echo "  cwd => ${WORKSPACE_DIR}"
+        echo "  cwd => ${MY_WORKSPACE_DIR}"
         echo
         if [[ "$line" == "" || "$line" == "${raw}" ]]; then
             echo "No line specified. Creating new file..."

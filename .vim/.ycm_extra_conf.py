@@ -15,15 +15,15 @@ def getDefaultFlags():
 
 
 def getSystemIncludeFlags():
-    # '/usr/bin/../lib/gcc/x86_64-linux-gnu/4.8/../../../../include/c++/4.8',
-    # '/usr/bin/../lib/gcc/x86_64-linux-gnu/4.8/include',
+    # '/usr/include/c++/4.8',
+    # '/usr/lib/gcc/x86_64-linux-gnu/4.8/include',
+    # '/usr/include/x86_64-linux-gnu/c++/4.8',
+    # '/usr/include/c++/4.8/backward',
+    # '/include/x86_64-linux-gnu',
     return getIncludePaths('-isystem', [
         '/opt/ros/indigo/include',
-        '/usr/include/x86_64-linux-gnu/c++/4.8',
-        '/usr/include/c++/4.8/backward',
         '/usr/local/include',
-        '/usr/lib/llvm-3.6/bin/../lib/clang/3.6.0/include',
-        '/usr/include/x86_64-linux-gnu',
+        '/usr/lib/llvm-3.6/lib/clang/3.6.0/include',
         '/usr/include',
         '/usr/include/eigen3',
     ])

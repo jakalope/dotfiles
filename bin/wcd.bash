@@ -2,5 +2,5 @@
 
 function wcd()
 {
-    cd "${WORKSPACE_DIR}"
+    cd "${MY_WORKSPACE_DIR}"
 }
