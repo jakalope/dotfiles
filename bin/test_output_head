@@ -1,5 +1,5 @@
 #!/bin/bash
 
 PACKAGE_NAME=$(package-root "$1")
-cd "${WORKSPACE_DIR}/build/${PACKAGE_NAME}"
+cd "${MY_WORKSPACE_DIR}/build/${MY_PACKAGE_NAME}"
 make "_run_tests_${PACKAGE_NAME}" 2>&1 > /dev/null | grep error: | head

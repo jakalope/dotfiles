@@ -74,7 +74,7 @@ pushd ~
 stamp=$(date +%Y-%m-%d-%H-%M-%S)
 mkdir -p $stamp
 echo "backing up old files to ~/${stamp}..."
-for file in ".astylerc .bashrc bin .gdbinit .gdb .gitconfig hg-prompt .hgignore .hgrc .hgext .rviz .tmux.conf .vim .vimrc .clang-format"
+for file in ".astylerc .bashrc bin .gdbinit .gdb .gitconfig hg-prompt .hgignore .hgrc .hgext .rviz .inputrc .tmux.conf .vim .vimrc .clang-format"
 do
     mv $file $stamp
 done
@@ -83,7 +83,7 @@ popd
 # setup symlinks
 echo 'linking...'
 ln --symbolic --target ${HOME} \
-    $(pwd)/{.astylerc,.bashrc,bin,.clang-format,.gdbinit,.gdb,.gitconfig,hg-prompt,.hgignore,.hgrc,.hgext,.tmux.conf,.rviz,.vim,.vimrc}
+    $(pwd)/{.astylerc,.bashrc,bin,.clang-format,.gdbinit,.gdb,.gitconfig,hg-prompt,.hgignore,.hgrc,.hgext,.inputrc,.tmux.conf,.rviz,.vim,.vimrc}
 
 # clone hg workspace
 mkdir -p ~/workspace

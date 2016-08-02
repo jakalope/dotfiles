@@ -111,7 +111,7 @@ function! SetCommitOptions()
 endfunction
 
 function! SetBashOptions()
-    setl filetype=bash
+    setl filetype=sh
     setl cc=80
     setl shiftwidth=4
     setl tabstop=4

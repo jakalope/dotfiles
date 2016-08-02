@@ -20,8 +20,7 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 0
 let g:ycm_key_invoke_completion = '<C-m>'
 let g:ycm_collect_identifiers_from_tags_files = 1
-nnoremap <C-\> :YcmCompleter GoToDefinition<CR>
-nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
+nnoremap <C-\> :YcmCompleter GoTo<CR>
 nnoremap <C-j> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
@@ -36,10 +35,13 @@ endfunction
 
 " CtrlP
 let g:ctrlp_clear_cache_on_exit = 1
+let g:ctrlp_max_files = 0
+let g:ctrlp_max_depth = 40
 let g:ctrlp_regexp = 1
 nnoremap ;p :CtrlP<CR>
 nnoremap ;b :CtrlPBuffer<CR>
 nnoremap ;m :CtrlPMRU<CR>
+nnoremap ;] :CtrlPTag<CR>
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -73,6 +75,16 @@ autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
 " Toggle auto formatting:
 nmap <Leader>C :ClangFormatAutoToggle<CR>
 
+" Easy-tags
+set tags="./tags,~/.vim/tags";
+let g:easytags_file = '~/.vim/tags'   " global tags file
+let g:easytags_dynamic_files = 1
+let g:easytags_async = 1
+let g:easytags_events = ['BufWritePost']
+let g:easytags_on_cursorhold = 0
+let g:easytags_auto_update = 0
+let g:easytags_include_members = 1
+let g:easytags_auto_highlight = 0
 
 """""""""" Vundle
 set nocompatible              " be iMproved, required
@@ -104,6 +116,8 @@ Plugin 'vim-scripts/restore_view.vim'
 Plugin 'klen/python-mode'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+Plugin 'xolox/vim-easytags'
+Plugin 'xolox/vim-misc'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -164,9 +178,6 @@ set confirm
 " this line is also included, vim will neither flash nor beep.  If visualbell
 " is unset, this does nothing.
 set t_vb=
-
-" ctags
-set tags=tags;/
 
 " colors
 colorscheme desert
@@ -284,10 +295,10 @@ function! g:Companion()
     return l:companion_file
 endfunction
 
-nnoremap ze :execute 'edit '.g:Companion()<CR>
-nnoremap zt :execute 'tabnew '.g:Companion()<CR>
-nnoremap zv :execute 'vsplit '.g:Companion()<CR>
-nnoremap zs :execute 'split '.g:Companion()<CR>
+nnoremap ze :cd $wcd<CR>:execute 'edit '.g:Companion()<CR>
+nnoremap zt :cd $wcd<CR>:execute 'tabnew '.g:Companion()<CR>
+nnoremap zv :cd $wcd<CR>:execute 'vsplit '.g:Companion()<CR>
+nnoremap zs :cd $wcd<CR>:execute 'split '.g:Companion()<CR>
 
 " Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
@@ -317,6 +328,8 @@ endfunction
 
 " Detect filetype in each tab
 command! Detect :tabdo exec 'filetype detect'
+
+command! Wcd :cd $wcd<CR>
 
 " Remove all buffers
 command! Clear :0,10000bd
