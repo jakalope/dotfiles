@@ -152,6 +152,11 @@ then
     export PATH=${PATH}:"${HOME}/bin"
 fi
 
+if [[ ! ${PATH} == *"appengine"* ]]
+then
+    export PATH=${PATH}:/usr/local/google_appengine
+fi
+
 # use vi key bindings in bash
 set -o vi
 
@@ -160,6 +165,7 @@ export EDITOR=vim
 export WORKSPACE_DIR="${HOME}/workspace/driving"
 export SOURCE_DIR="${WORKSPACE_DIR}"
 export wcd="${WORKSPACE_DIR}"
+export GPRJ="quarq-146986242119"
 
 source ~/bin/source_me.bash
 
@@ -180,3 +186,10 @@ if [[ -d ${WORKSPACE_DIR}/scripts/shell ]]; then
     done
 fi
 
+export PYTHONPATH="$PYTHONPATH:/usr/local/google_appengine:/usr/local/google_appengine/lib/:/usr/local/google_appengine/lib/yaml/"
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/home/jake/Downloads/google-cloud-sdk/path.bash.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/home/jake/Downloads/google-cloud-sdk/completion.bash.inc'

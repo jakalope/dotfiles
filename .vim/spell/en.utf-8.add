@@ -79,3 +79,10 @@ nodelets
 nodelet's
 multithreaded
 pbtxt
+EndpointType
+eg
+shortname
+asdf
+YYYY
+rolename
+MediaUrl
