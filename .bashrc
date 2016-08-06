@@ -177,3 +177,8 @@ if [[ -d ${WORKSPACE_DIR}/scripts/shell ]]; then
     done
 fi
 
+type fakeros >/dev/null 2>&1
+if [[ $? == 0 ]]; then
+    fakeros
+fi
+

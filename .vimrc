@@ -26,7 +26,7 @@ nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
 
 function! YcmToggle()
-    if b:ycm_largefile
+    if exists("b:ycm_largefile") && b:ycm_largefile
         let b:ycm_largefile=0
     else
         let b:ycm_largefile=1
@@ -198,8 +198,6 @@ augroup AutoResizeSplits
    autocmd VimResized * exe "normal! \<c-w>="
 augroup END
 
-command! Src source ~/.vimrc
-
 " alternative ESC key combo ( 'cause <Esc> is too far away :-P )
 inoremap jk <Esc>
 
@@ -237,23 +235,15 @@ command! Style :%!astyle
 nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
 
 " Redefine _c to execute some other commands. Used as a switching mechanism.
-command! CompileVisible   exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"<LT>CR><LT>C-L>
-command! CompileFast      exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-command! CompileOptimized exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-command! CompileDebug     exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+command! CompileVisible   exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"
+command! CompileFast      exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"
+command! CompileOptimized exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"
+command! CompileDebug     exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"
 
-nnoremap _e :nnoremap _c :CompileVisible<CR>
-nnoremap _f :nnoremap _c :CompileFast<CR>
-nnoremap _o :nnoremap _c :CompileOptimized<CR>
-nnoremap _d :nnoremap _c :CompileDebug<CR>
-
-" nnoremap _e :exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-" nnoremap _f :exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-" nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-" nnoremap _d :exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-
-" TODO make this use a custom command
-nnoremap _h :exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+nnoremap _e :nnoremap _c :CompileVisible<LT>CR><LT>C-L><CR>:echo "Set compile mode to Visible"<CR>
+nnoremap _f :nnoremap _c :CompileFast<LT>CR><LT>C-L><CR>:echo "Set compile mode to Fast"<CR>
+nnoremap _o :nnoremap _c :CompileOptimized<LT>CR><LT>C-L><CR>:echo "Set compile mode to Optimized"<CR>
+nnoremap _d :nnoremap _c :CompileDebug<LT>CR><LT>C-L><CR>:echo "Set compile mode to Debug"<CR>
 
 " Convert Structure-Of-Arrays to Array-Of-Structures
 vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
@@ -329,7 +319,8 @@ endfunction
 " Detect filetype in each tab
 command! Detect :tabdo exec 'filetype detect'
 
-command! Wcd :cd $wcd<CR>
+command! Wcd cd $wcd
+command! Src source ~/.vimrc
 
 " Remove all buffers
 command! Clear :0,10000bd
