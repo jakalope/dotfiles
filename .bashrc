@@ -18,7 +18,7 @@ shopt -s histappend
 # Undocumented feature which sets the size to "unlimited".
 # http://stackoverflow.com/questions/9457233/unlimited-bash-history
 export HISTFILESIZE=
-export HISTSIZE=
+export HISTSIZE=10000000
 export HISTTIMEFORMAT="[%F %T] "
 # Change the file location because certain bash sessions truncate .bash_history file upon close.
 # http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
@@ -152,11 +152,6 @@ then
     export PATH=${PATH}:"${HOME}/bin"
 fi
 
-if [[ ! ${PATH} == *"appengine"* ]]
-then
-    export PATH=${PATH}:/usr/local/google_appengine
-fi
-
 # use vi key bindings in bash
 set -o vi
 
@@ -165,7 +160,6 @@ export EDITOR=vim
 export WORKSPACE_DIR="${HOME}/workspace/driving"
 export SOURCE_DIR="${WORKSPACE_DIR}"
 export wcd="${WORKSPACE_DIR}"
-export GPRJ="quarq-146986242119"
 
 source ~/bin/source_me.bash
 
@@ -186,10 +180,23 @@ if [[ -d ${WORKSPACE_DIR}/scripts/shell ]]; then
     done
 fi
 
-export PYTHONPATH="$PYTHONPATH:/usr/local/google_appengine:/usr/local/google_appengine/lib/:/usr/local/google_appengine/lib/yaml/"
 
-# The next line updates PATH for the Google Cloud SDK.
-source '/home/jake/Downloads/google-cloud-sdk/path.bash.inc'
+if [[ -e /home/jake/Downloads/google-cloud-sdk/path.bash.inc ]]; then
+	export GPRJ="quarq-146986242119"
+	export PYTHONPATH="$PYTHONPATH:/usr/local/google_appengine:/usr/local/google_appengine/lib/:/usr/local/google_appengine/lib/yaml/"
 
-# The next line enables shell command completion for gcloud.
-source '/home/jake/Downloads/google-cloud-sdk/completion.bash.inc'
+	# The next line updates PATH for the Google Cloud SDK.
+	source '/home/jake/Downloads/google-cloud-sdk/path.bash.inc'
+
+	# The next line enables shell command completion for gcloud.
+	source '/home/jake/Downloads/google-cloud-sdk/completion.bash.inc'
+
+	if [[ ! ${PATH} == *"appengine"* ]]; then
+		export PATH=${PATH}:/usr/local/google_appengine
+	fi
+fi
+
+type fakeros >/dev/null 2>&1
+if [[ $? == 0 ]]; then
+    fakeros
+fi

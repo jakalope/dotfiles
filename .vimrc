@@ -20,14 +20,13 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 0
 let g:ycm_key_invoke_completion = '<C-m>'
 let g:ycm_collect_identifiers_from_tags_files = 1
-nnoremap <C-\> :YcmCompleter GoToDefinition<CR>
-nnoremap <C-]> :YcmCompleter GoToImprecise<CR>
+nnoremap <C-\> :YcmCompleter GoTo<CR>
 nnoremap <C-j> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
 
 function! YcmToggle()
-    if b:ycm_largefile
+    if exists("b:ycm_largefile") && b:ycm_largefile
         let b:ycm_largefile=0
     else
         let b:ycm_largefile=1
@@ -36,11 +35,13 @@ endfunction
 
 " CtrlP
 let g:ctrlp_clear_cache_on_exit = 1
-let g:ctrlp_max_files = 1000000
+let g:ctrlp_max_files = 0
+let g:ctrlp_max_depth = 40
 let g:ctrlp_regexp = 1
 nnoremap ;p :CtrlP<CR>
 nnoremap ;b :CtrlPBuffer<CR>
 nnoremap ;m :CtrlPMRU<CR>
+nnoremap ;] :CtrlPTag<CR>
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -74,6 +75,16 @@ autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
 " Toggle auto formatting:
 nmap <Leader>C :ClangFormatAutoToggle<CR>
 
+" Easy-tags
+set tags="./tags,~/.vim/tags";
+let g:easytags_file = '~/.vim/tags'   " global tags file
+let g:easytags_dynamic_files = 1
+let g:easytags_async = 1
+let g:easytags_events = ['BufWritePost']
+let g:easytags_on_cursorhold = 0
+let g:easytags_auto_update = 0
+let g:easytags_include_members = 1
+let g:easytags_auto_highlight = 0
 
 """""""""" Vundle
 set nocompatible              " be iMproved, required
@@ -105,6 +116,8 @@ Plugin 'vim-scripts/restore_view.vim'
 Plugin 'klen/python-mode'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+Plugin 'xolox/vim-easytags'
+Plugin 'xolox/vim-misc'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -166,9 +179,6 @@ set confirm
 " is unset, this does nothing.
 set t_vb=
 
-" ctags
-set tags=tags;/
-
 " colors
 colorscheme desert
 set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 10
@@ -187,8 +197,6 @@ augroup AutoResizeSplits
    autocmd!
    autocmd VimResized * exe "normal! \<c-w>="
 augroup END
-
-command! Src source ~/.vimrc
 
 " alternative ESC key combo ( 'cause <Esc> is too far away :-P )
 inoremap jk <Esc>
@@ -227,23 +235,15 @@ command! Style :%!astyle
 nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
 
 " Redefine _c to execute some other commands. Used as a switching mechanism.
-command! CompileVisible   exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"<LT>CR><LT>C-L>
-command! CompileFast      exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-command! CompileOptimized exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-command! CompileDebug     exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+command! CompileVisible   exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"
+command! CompileFast      exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"
+command! CompileOptimized exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"
+command! CompileDebug     exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"
 
-nnoremap _e :nnoremap _c :CompileVisible<CR>
-nnoremap _f :nnoremap _c :CompileFast<CR>
-nnoremap _o :nnoremap _c :CompileOptimized<CR>
-nnoremap _d :nnoremap _c :CompileDebug<CR>
-
-" nnoremap _e :exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-" nnoremap _f :exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-" nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-" nnoremap _d :exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
-
-" TODO make this use a custom command
-nnoremap _h :exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+nnoremap _e :nnoremap _c :CompileVisible<LT>CR><LT>C-L><CR>:echo "Set compile mode to Visible"<CR>
+nnoremap _f :nnoremap _c :CompileFast<LT>CR><LT>C-L><CR>:echo "Set compile mode to Fast"<CR>
+nnoremap _o :nnoremap _c :CompileOptimized<LT>CR><LT>C-L><CR>:echo "Set compile mode to Optimized"<CR>
+nnoremap _d :nnoremap _c :CompileDebug<LT>CR><LT>C-L><CR>:echo "Set compile mode to Debug"<CR>
 
 " Convert Structure-Of-Arrays to Array-Of-Structures
 vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
@@ -318,6 +318,9 @@ endfunction
 
 " Detect filetype in each tab
 command! Detect :tabdo exec 'filetype detect'
+
+command! Wcd cd $wcd
+command! Src source ~/.vimrc
 
 " Remove all buffers
 command! Clear :0,10000bd

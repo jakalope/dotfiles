@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+git status -s | grep -v '^A ' | grep -v '^??' | grep -v '^D' | awk '{print $2}'
