@@ -181,20 +181,20 @@ if [[ -d ${WORKSPACE_DIR}/scripts/shell ]]; then
 fi
 
 
-if [[ -e /home/jake/Downloads/google-cloud-sdk/path.bash.inc ]]; then
-	export GPRJ="quarq-146986242119"
-	export PYTHONPATH="$PYTHONPATH:/usr/local/google_appengine:/usr/local/google_appengine/lib/:/usr/local/google_appengine/lib/yaml/"
+#if [[ -e /home/jake/Downloads/google-cloud-sdk/path.bash.inc ]]; then
+    #export GPRJ="quarq-146986242119"
+    #export PYTHONPATH="$PYTHONPATH:/usr/local/google_appengine:/usr/local/google_appengine/lib/:/usr/local/google_appengine/lib/yaml/"
 
-	# The next line updates PATH for the Google Cloud SDK.
-	source '/home/jake/Downloads/google-cloud-sdk/path.bash.inc'
+    # The next line updates PATH for the Google Cloud SDK.
+    #source '/home/jake/Downloads/google-cloud-sdk/path.bash.inc'
 
-	# The next line enables shell command completion for gcloud.
-	source '/home/jake/Downloads/google-cloud-sdk/completion.bash.inc'
+    # The next line enables shell command completion for gcloud.
+    #source '/home/jake/Downloads/google-cloud-sdk/completion.bash.inc'
 
-	if [[ ! ${PATH} == *"appengine"* ]]; then
-		export PATH=${PATH}:/usr/local/google_appengine
-	fi
-fi
+    #if [[ ! ${PATH} == *"appengine"* ]]; then
+    #    export PATH=${PATH}:/usr/local/google_appengine
+    #fi
+#fi
 
 type fakeros >/dev/null 2>&1
 if [[ $? == 0 ]]; then

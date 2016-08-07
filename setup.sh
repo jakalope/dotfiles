@@ -13,6 +13,7 @@ sudo apt-get install \
     clang-3.6 \
     clang-format-3.6 \
     cmake \
+    exuberant-ctags \
     g++ \
     gfortran \
     git \
@@ -51,39 +52,39 @@ sudo dpkg --install bazel_0.2.0-linux-x86_64.deb
 popd
 
 # setup specific tmux version
-tmux_version=$(tmux -V)
-if [[ $? != 0 || "${tmux_version}" != "tmux 1.8" ]]; then
+if [[ ! -e tmux_1.8.orig.tar.gz ]]; then
     gunzip -c tmux_1.8.orig.tar.gz | tar xvf -
     pushd tmux-1.8
     ./configure
     make
     sudo make install
     popd
-    rm -r tmux-1.8
+    rm -rf tmux-1.8
 fi
 
 # install powerline fonts
 pushd ~/Downloads
-git clone https://github.com/powerline/fonts.git
-cd fonts
-./install.sh
-popd
+if [[ ! -e fonts ]]; then
+    git clone https://github.com/powerline/fonts.git
+    cd fonts
+    ./install.sh
+    popd
+fi
 
 # create backups
 pushd ~
 stamp=$(date +%Y-%m-%d-%H-%M-%S)
-mkdir -p $stamp
-echo "backing up old files to ~/${stamp}..."
-for file in ".astylerc .bashrc bin .gdbinit .gdb .gitconfig hg-prompt .hgignore .hgrc .hgext .rviz .inputrc .tmux.conf .vim .vimrc .clang-format"
-do
-    mv $file $stamp
-done
+mkdir -p backup/$stamp
+echo "backing up old files to ~/backup/${stamp}..."
+mv --force --verbose --target-directory  "backup/$stamp" .astylerc .bashrc bin .gdbinit .gdb .gitconfig hg-prompt .hgignore .hgrc .hgext .rviz .inputrc .tmux.conf .vim .vimrc .clang-format
 popd
 
 # setup symlinks
+pushd ~/dotfiles
 echo 'linking...'
 ln --symbolic --target ${HOME} \
     $(pwd)/{.astylerc,.bashrc,bin,.clang-format,.gdbinit,.gdb,.gitconfig,hg-prompt,.hgignore,.hgrc,.hgext,.inputrc,.tmux.conf,.rviz,.vim,.vimrc}
+popd
 
 # clone hg workspace
 mkdir -p ~/workspace
@@ -98,7 +99,7 @@ fi
 
 # Install vim plugins
 vim +PluginInstall +qall
-pushd .vim/bundle/YouCompleteMe/
+pushd ~/dotfiles/.vim/bundle/YouCompleteMe/
 ./install.py --clang-completer
 popd
 vim +PluginInstall +qall
