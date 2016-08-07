@@ -6,49 +6,7 @@ set -eou pipefail
 sudo add-apt-repository ppa:webupd8team/java      # oracle-java8-installer
 sudo add-apt-repository ppa:kubuntu-ppa/backports # massif-visualizer
 sudo apt-get update
-sudo apt-get install -y \
-    aptitude \
-    asciidoc \
-    autoconf \
-    build-essential \
-    chromium-browser \
-    clang-3.6 \
-    clang-format-3.6 \
-    cmake \
-    docbook2x \
-    exuberant-ctags \
-    g++ \
-    gettext \
-    gfortran \
-    indicator-multiload \
-    inotify-tools \
-    kcachegrind \
-    libcurl4-gnutls-dev \
-    libevent-dev \
-    libexpat1-dev \
-    libssl-dev \
-    libz-dev \
-    massif-visualizer \
-    mercurial \
-    oracle-java8-installer \
-    pkg-config \
-    python-autopep8 \
-    python-dev \
-    python-pip \
-    python3-dev \
-    terminator \
-    tree \
-    ubuntu-restricted-extras \
-    unity-tweak-tool \
-    unzip \
-    vim-gtk \
-    wmctrl \
-    xclip \
-    xmlto \
-    xsel \
-    zip \
-    zlib1g-dev
-
+sudo apt-get install -y $(cat package-list)
 
 # Build and install the lastest version of Git
 pushd ~/Downloads
@@ -59,6 +17,8 @@ make configure
 ./configure --prefix=/usr
 make all doc info
 sudo make install install-doc install-html install-info
+popd
+popd
 
 # run indicator multiload for the first time
 indicator-multiload &
@@ -88,8 +48,8 @@ if [[ ! -e fonts ]]; then
     git clone https://github.com/powerline/fonts.git
     cd fonts
     ./install.sh
-    popd
 fi
+popd
 
 # create backups
 pushd ~
