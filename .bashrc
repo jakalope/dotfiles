@@ -200,3 +200,9 @@ type fakeros >/dev/null 2>&1
 if [[ $? == 0 ]]; then
     fakeros
 fi
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/home/jake/Downloads/google-cloud-sdk/path.bash.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/home/jake/Downloads/google-cloud-sdk/completion.bash.inc'

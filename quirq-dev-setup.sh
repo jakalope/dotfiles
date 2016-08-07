@@ -1,11 +1,23 @@
-export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
-echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
-curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-sudo apt-get update && sudo apt-get install google-cloud-sdk
-sudo pip install pytz twilio six httplib2
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+sudo pip install --upgrade pytz twilio six httplib2
+
+pushd ~/Downloads
+if [[ ! -e google-cloud-sdk-120.0.0-linux-x86_64.tar.gz ]]; then
+    wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-120.0.0-linux-x86_64.tar.gz
+fi
+gunzip -c google-cloud-sdk-120.0.0-linux-x86_64.tar.gz | tar xvf -
+pushd google-cloud-sdk
+./install.sh
+popd
+popd
+gcloud components install gcd-emulator
+gcloud components install beta
+gcloud components install app-engine-python
 
 mkdir -p ~/workspace/quirq
 cd ~/workspace/quirq
 gcloud init
 gcloud beta auth application-default login
-gcloud source repos clone default
