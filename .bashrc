@@ -201,3 +201,6 @@ if [[ ! ${PATH} == *"appengine"* ]]; then
     export PATH="${PATH}:$AEPATH"
     export PYTHONPATH="${PYTHONPATH}:$AEPATH:$AEPATH/lib/yaml/lib"
 fi
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
