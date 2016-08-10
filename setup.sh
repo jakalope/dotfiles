@@ -10,9 +10,9 @@ sudo apt-get install -y $(cat package-list)
 
 # Build and install the lastest version of Git
 pushd ~/Downloads
-wget https://github.com/git/git/archive/master.zip
-unzip master.zip
-pushd git-master
+wget https://github.com/git/git/archive/v2.9.2.tar.gz
+gunzip -c git-v2.9.2
+pushd git-v2.9.2
 make configure
 ./configure --prefix=/usr
 make all doc info
