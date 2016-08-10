@@ -11,7 +11,7 @@ sudo apt-get install -y $(cat package-list)
 # Build and install the lastest version of Git
 pushd ~/Downloads
 wget https://github.com/git/git/archive/v2.9.2.tar.gz
-gunzip -c v2.9.2
+gunzip -c v2.9.2.tar.gz
 pushd git-v2.9.2
 make configure
 ./configure --prefix=/usr
