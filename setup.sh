@@ -10,7 +10,9 @@ sudo apt-get install -y $(cat package-list)
 
 # Build and install the lastest version of Git
 pushd ~/Downloads
-wget https://github.com/git/git/archive/v2.9.2.tar.gz
+if [[ ! -e v2.9.2.tar.gz ]]; then
+    wget https://github.com/git/git/archive/v2.9.2.tar.gz
+fi
 gunzip -c v2.9.2.tar.gz | tar xvf -
 pushd git-2.9.2
 make configure
@@ -52,18 +54,16 @@ fi
 popd
 
 # create backups
-pushd ~
-stamp=$(date +%Y-%m-%d-%H-%M-%S)
-mkdir -p backup/$stamp
-echo "backing up old files to ~/backup/${stamp}..."
-mv --force --verbose --target-directory  "backup/$stamp" .astylerc .bashrc bin .gdbinit .gdb .gitconfig hg-prompt .hgignore .hgrc .hgext .rviz .inputrc .tmux.conf .vim .vimrc .clang-format
-popd
-
-# setup symlinks
 pushd ~/dotfiles
-echo 'linking...'
-ln --symbolic --target ${HOME} \
-    $(pwd)/{.astylerc,.bashrc,bin,.clang-format,.gdbinit,.gdb,.gitconfig,hg-prompt,.hgignore,.hgrc,.hgext,.inputrc,.tmux.conf,.rviz,.vim,.vimrc}
+stamp=$(date +%Y-%m-%d-%H-%M-%S)
+mkdir -p ${HOME}/backup/$stamp
+echo "backing up old files to ~/backup/${stamp}..."
+for file in $(cat home-files); do
+    if [[ -e "${HOME}/${file}" ]]; then
+        mv "${HOME}/${file}" "${HOME}/backup/${stamp}/"
+    fi
+    ln --symbolic --target ${HOME} "$(pwd)/${file}"
+done
 popd
 
 # clone hg workspace
