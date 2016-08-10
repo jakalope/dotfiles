@@ -1,0 +1,16 @@
+.astylerc
+.bashrc
+.clang-format
+.gdb
+.gdbinit
+.gitconfig
+.hgext
+.hgignore
+.hgrc
+.inputrc
+.rviz
+.tmux.conf
+.vim
+.vimrc
+bin
+hg-prompt
