@@ -58,10 +58,22 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
 
 " Smartword
-map w  <Plug>(smartword-w)
-map b  <Plug>(smartword-b)
-map e  <Plug>(smartword-e)
-map ge  <Plug>(smartword-ge)
+map <SPACE>  <Plug>(smartword-w)
+map <C-SPACE>  <Plug>(smartword-b)
+" map e  <Plug>(smartword-e)
+" map ge  <Plug>(smartword-ge)
+
+" Argumentitive
+" nmap [; <Plug>Argumentative_Prev
+" nmap ]; <Plug>Argumentative_Next
+" xmap [; <Plug>Argumentative_XPrev
+" xmap ]; <Plug>Argumentative_XNext
+" nmap <; <Plug>Argumentative_MoveLeft
+" nmap >; <Plug>Argumentative_MoveRight
+" xmap i; <Plug>Argumentative_InnerTextObject
+" xmap a; <Plug>Argumentative_OuterTextObject
+" omap i; <Plug>Argumentative_OpPendingInnerTextObject
+" omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
 map ;l <Plug>(easymotion-bd-w)
@@ -72,8 +84,6 @@ autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
 autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 " if you install vim-operator-user
 autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
-" Toggle auto formatting:
-nmap <Leader>C :ClangFormatAutoToggle<CR>
 
 " Easy-tags
 set tags="./tags,~/.vim/tags";
@@ -118,6 +128,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
+Plugin 'PeterRincker/vim-argumentative'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
