@@ -49,6 +49,13 @@ let g:airline_powerline_fonts = 1
 
 " Python-mode
 let g:pymode_rope_goto_definition_bind = "<C-]>"
+let g:pymode_run_bind = "<C-S-e>"
+let g:pymode_doc_bind = "<C-S-d>"
+let g:pymode_trim_whitespaces = 1
+let g:pymode_indent = 1
+let g:pymode_options = 1
+let g:pymode_doc = 1
+let g:pymode_doc_bind = 'K'
 
 " UltiSnips
 " Trigger configuration. Do not use <tab> if you use YCM
@@ -162,7 +169,7 @@ set scrolloff=999
 set shiftwidth=4
 set showcmd " Show partial commands in the last line of the screen
 set showmode
-set smartindent
+set cindent
 set softtabstop=4
 set spell spelllang=en_us
 set tabstop=4
