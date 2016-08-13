@@ -7,6 +7,7 @@ sudo add-apt-repository ppa:webupd8team/java      # oracle-java8-installer
 sudo add-apt-repository ppa:kubuntu-ppa/backports # massif-visualizer
 sudo apt-get update
 sudo apt-get install -y $(cat package-list)
+sudo pip install $(cat pip-package-list)
 
 # Build and install the lastest version of Git
 pushd ~/Downloads
