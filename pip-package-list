@@ -3,3 +3,6 @@ numpy
 pytz
 scipy
 sklearn
+flask
+twilio
+psycopg2
