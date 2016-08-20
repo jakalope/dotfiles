@@ -19,7 +19,7 @@ let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 0
 let g:ycm_key_invoke_completion = '<C-m>'
-let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_collect_identifiers_from_tags_files = 0
 nnoremap <C-\> :YcmCompleter GoTo<CR>
 nnoremap <C-j> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
@@ -98,7 +98,7 @@ let g:easytags_dynamic_files = 1
 let g:easytags_async = 1
 let g:easytags_events = ['BufWritePost']
 let g:easytags_on_cursorhold = 0
-let g:easytags_auto_update = 0
+let g:easytags_auto_update = 1
 let g:easytags_include_members = 1
 let g:easytags_auto_highlight = 0
 

@@ -22,6 +22,7 @@ Triggerable
 UnderlyingType
 YYYY
 YouCompleteMe
+actigraphy
 argc
 args
 argv
@@ -32,6 +33,7 @@ backtrace
 bazel
 bool
 config
+const
 cout
 cpp
 csv
@@ -40,6 +42,7 @@ d
 deserialized
 downsampled
 dtype
+e
 edf
 eg
 endl
@@ -56,8 +59,10 @@ include/!
 init
 inliers
 int32
+io
 iostream
 jake
+k
 l
 m
 malloc
@@ -91,12 +96,14 @@ resampling
 rolename
 ros
 rosenv
+rosmake
 rosmsg
 segfault
 serializer
 shortname
 somnarus
 t
+templated
 templating
 tf
 timestamp
@@ -105,12 +112,10 @@ usr
 utm
 v
 varchar
+w
 wb
 xml
 y
 yaml
+z
 zoox
-const
-e
-templated
-rosmake
