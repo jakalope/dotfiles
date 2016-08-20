@@ -55,7 +55,6 @@ let g:pymode_trim_whitespaces = 1
 let g:pymode_indent = 1
 let g:pymode_options = 1
 let g:pymode_doc = 1
-let g:pymode_doc_bind = 'K'
 
 " UltiSnips
 " Trigger configuration. Do not use <tab> if you use YCM
@@ -249,8 +248,8 @@ vnoremap _style :!astyle<CR>
 nnoremap _style :%!astyle<CR>
 command! Style :%!astyle
 
-" TODO: only use compilation_mode when build system is bazel
-nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+" Set a default state for _c
+nnoremap _c :CompileOptimized<CR>
 
 " Redefine _c to execute some other commands. Used as a switching mechanism.
 command! CompileVisible   exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"
