@@ -51,6 +51,7 @@ f
 float32
 g
 gdb
+getUsersByRoleShortname
 h
 hz
 i
@@ -80,6 +81,7 @@ nodelets
 numpy
 offline
 online
+org
 params
 pbtxt
 pdf
@@ -101,8 +103,10 @@ rosmsg
 segfault
 serializer
 shortname
+sms
 somnarus
 t
+tbl
 templated
 templating
 tf
@@ -112,6 +116,7 @@ usr
 utm
 v
 varchar
+w
 w
 wb
 xml
