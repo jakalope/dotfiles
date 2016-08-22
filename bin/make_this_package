@@ -15,6 +15,9 @@ if [[ ${MAKE} == "" ]]; then
     MAKE='make -j'
 fi
 
+# TODO if --compilation_mode=[*] is present in $@, use settings 
+# in, e.g. Cmake, that reflect the desire for debug, opt, fast...
+
 if [[ -f BUILD ]]; then
     bazel test "${@}" --test_output=errors ...
 elif [[ -f package.xml ]]; then
@@ -36,6 +39,9 @@ elif [[ -f package.xml ]]; then
     ${MAKE}
 elif [[ -f manifest.xml ]]; then
     # this is a rosbuild package
+    ${MAKE}
+elif [[ -f CMakeLists.txt ]]; then
+    cmake 
     ${MAKE}
 elif [[ -f Makefile ]]; then
     ${MAKE}
