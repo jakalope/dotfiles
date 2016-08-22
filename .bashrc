@@ -152,7 +152,7 @@ then
     export PATH=${PATH}:"${HOME}/bin"
 fi
 
-if [[ ! ${PATH} == *"/opt/PostgreSQL/9.5/bin"* ]]
+if [[ -e "/opt/PostgreSQL/9.5/bin" && ! ${PATH} == *"/opt/PostgreSQL/9.5/bin"* ]]
 then
     source /opt/PostgreSQL/9.5/pg_env.sh
 fi
