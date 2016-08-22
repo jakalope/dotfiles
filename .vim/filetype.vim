@@ -14,6 +14,7 @@ augroup filetypedetect
     autocmd BufNewFile,BufRead *.bash silent! call SetBashOptions()
     autocmd BufNewFile,BufRead *.yaml silent! call SetPythonOptions()
     autocmd BufNewFile,BufRead *.py silent! call SetPythonOptions()
+    autocmd BufNewFile,BufRead *.sdl silent! call SetPythonOptions()
 
     autocmd BufNewFile,BufRead *.c silent! call SetCPPOptions()
     autocmd BufNewFile,BufRead *.cc silent! call SetCPPOptions()
