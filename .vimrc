@@ -19,7 +19,7 @@ let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 0
 let g:ycm_key_invoke_completion = '<C-m>'
-let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_collect_identifiers_from_tags_files = 0
 nnoremap <C-\> :YcmCompleter GoTo<CR>
 nnoremap <C-j> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
@@ -49,6 +49,14 @@ let g:airline_powerline_fonts = 1
 
 " Python-mode
 let g:pymode_rope_goto_definition_bind = "<C-]>"
+let g:pymode_run_bind = "<C-S-e>"
+let g:pymode_doc_bind = "<C-S-d>"
+let g:pymode_trim_whitespaces = 1
+let g:pymode_indent = 1
+let g:pymode_options = 1
+let g:pymode_doc = 1
+let g:pymode_rope_complete_on_dot = 0
+let g:pymode_rope_completion_bind = '<Space>'
 
 " UltiSnips
 " Trigger configuration. Do not use <tab> if you use YCM
@@ -58,10 +66,22 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
 
 " Smartword
-map w  <Plug>(smartword-w)
-map b  <Plug>(smartword-b)
-map e  <Plug>(smartword-e)
-map ge  <Plug>(smartword-ge)
+map <SPACE>  <Plug>(smartword-w)
+map <C-SPACE>  <Plug>(smartword-b)
+" map e  <Plug>(smartword-e)
+" map ge  <Plug>(smartword-ge)
+
+" Argumentitive
+" nmap [; <Plug>Argumentative_Prev
+" nmap ]; <Plug>Argumentative_Next
+" xmap [; <Plug>Argumentative_XPrev
+" xmap ]; <Plug>Argumentative_XNext
+" nmap <; <Plug>Argumentative_MoveLeft
+" nmap >; <Plug>Argumentative_MoveRight
+" xmap i; <Plug>Argumentative_InnerTextObject
+" xmap a; <Plug>Argumentative_OuterTextObject
+" omap i; <Plug>Argumentative_OpPendingInnerTextObject
+" omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
 map ;l <Plug>(easymotion-bd-w)
@@ -72,8 +92,6 @@ autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
 autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 " if you install vim-operator-user
 autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
-" Toggle auto formatting:
-nmap <Leader>C :ClangFormatAutoToggle<CR>
 
 " Easy-tags
 set tags="./tags,~/.vim/tags";
@@ -82,7 +100,7 @@ let g:easytags_dynamic_files = 1
 let g:easytags_async = 1
 let g:easytags_events = ['BufWritePost']
 let g:easytags_on_cursorhold = 0
-let g:easytags_auto_update = 0
+let g:easytags_auto_update = 1
 let g:easytags_include_members = 1
 let g:easytags_auto_highlight = 0
 
@@ -118,6 +136,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
+Plugin 'PeterRincker/vim-argumentative'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -151,7 +170,7 @@ set scrolloff=999
 set shiftwidth=4
 set showcmd " Show partial commands in the last line of the screen
 set showmode
-set smartindent
+set cindent
 set softtabstop=4
 set spell spelllang=en_us
 set tabstop=4
@@ -231,8 +250,8 @@ vnoremap _style :!astyle<CR>
 nnoremap _style :%!astyle<CR>
 command! Style :%!astyle
 
-" TODO: only use compilation_mode when build system is bazel
-nnoremap _c :exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"<CR><C-L>
+" Set a default state for _c
+nnoremap _c :CompileOptimized<CR>
 
 " Redefine _c to execute some other commands. Used as a switching mechanism.
 command! CompileVisible   exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"

@@ -122,7 +122,7 @@ function! SetBashOptions()
 endfunction
 
 function! SetBazelOptions()
-    let g:pymode_python = 'disable'
+    let g:pymode_rope = 0
     setl filetype=python
     setl cc=80
     setl shiftwidth=2
