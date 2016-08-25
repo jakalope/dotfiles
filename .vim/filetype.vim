@@ -122,12 +122,12 @@ function! SetBashOptions()
 endfunction
 
 function! SetBazelOptions()
-    let g:pymode_rope = 0
+    let g:pymode = 0
     setl filetype=python
     setl cc=80
-    setl shiftwidth=2
-    setl tabstop=2
-    setl softtabstop=2
+    setl shiftwidth=4
+    setl tabstop=4
+    setl softtabstop=4
     setl autoindent
     setl smartindent
 endfunction
