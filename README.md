@@ -68,6 +68,8 @@ Git
 ---
 
 * `git diff --name-only HEAD~1` List the files changes between HEAD and HEAD~1. Useful for piping into `vims`!
+* `git log origin..HEAD` View a log w.r.t. the current HEAD. Similar to `hg log -b $(hg branch)`
+* `git checkout messy_old_branch -- path/to/relavent/files/*` Cherry pick some files to be committed on a new branch.
 
 ### Aliases
 * `ga` Alias for `git add`
@@ -77,7 +79,7 @@ Git
 * `gs` Alias for `git status`
 
 ### Typical workflow
-```
+```sh
 git fetch origin
 git checkout master
 git merge origin/master
@@ -89,13 +91,31 @@ git fetch origin
 git merge origin/master
 git push origin feature_branch
 ```
+
 ### Squash workflow
-```
+```sh
 git checkout feature_branch
 git fetch origin
 git rebase -i origin/master
 <squash all commits but the first>
 git push origin feature_branch --force 
+```
+
+### Alternate squash workflow
+```sh
+<on my branch -- original_branch>
+git fetch origin -p
+git merge origin/master
+<resolve merge conflicts>
+git commit
+git checkout master
+git pull
+git checkout -b temp
+git merge --squash original_branch
+git commit -am 'squash merge master onto original_branch'
+git branch -D original_branch
+git checkout -b original_branch
+git branch -D temp
 ```
 
 GCC

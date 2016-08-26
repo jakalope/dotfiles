@@ -99,12 +99,15 @@ rolename
 ros
 rosenv
 rosmake
+rosmaster
 rosmsg
+s
 segfault
 serializer
 shortname
 sms
 somnarus
+str
 t
 tbl
 templated
@@ -119,9 +122,9 @@ varchar
 w
 w
 wb
+workflow
 xml
 y
 yaml
 z
 zoox
-str

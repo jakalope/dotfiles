@@ -24,6 +24,7 @@ let g:ycm_filetype_specific_completion_to_disable = {
     \ 'gitcommit': 1,
     \ 'python': 1,
     \}
+
 nnoremap <C-\> :YcmCompleter GoTo<CR>
 nnoremap <C-j> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
