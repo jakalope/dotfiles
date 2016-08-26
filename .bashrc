@@ -170,6 +170,7 @@ source ~/bin/source_me.bash
 
 if [[ -e /usr/local/lib/bazel/bin/bazel-complete.bash ]]; then
     source /usr/local/lib/bazel/bin/bazel-complete.bash
+    export _JAVA_OPTIONS='-Xms512m -Xmx6g'
 fi
 
 if [[ -e /opt/ros/indigo ]]; then
