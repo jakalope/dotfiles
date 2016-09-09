@@ -108,6 +108,7 @@ let g:easytags_on_cursorhold = 0
 let g:easytags_auto_update = 1
 let g:easytags_include_members = 1
 let g:easytags_auto_highlight = 0
+let vbs=1  " check timing with :messages
 
 """""""""" Vundle
 set nocompatible              " be iMproved, required

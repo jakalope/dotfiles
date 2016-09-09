@@ -1,5 +1,6 @@
 .astylerc
 .bashrc
+.bazelrc
 .clang-format
 .gdb
 .gdbinit
