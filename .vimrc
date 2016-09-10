@@ -62,7 +62,7 @@ let g:pymode_indent = 1
 let g:pymode_options = 1
 let g:pymode_doc = 1
 let g:pymode_rope_complete_on_dot = 0
-let g:pymode_rope_completion_bind = '<Space>'
+let g:pymode_rope_completion_bind = '<C-n>'
 
 " UltiSnips
 " Trigger configuration. Do not use <tab> if you use YCM
