@@ -47,6 +47,7 @@ nnoremap ;p :CtrlP<CR>
 nnoremap ;b :CtrlPBuffer<CR>
 nnoremap ;m :CtrlPMRU<CR>
 nnoremap ;] :CtrlPTag<CR>
+nnoremap ;c :CtrlPClearAllCaches<CR>
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -81,8 +82,8 @@ map <C-SPACE>  <Plug>(smartword-b)
 " nmap ]; <Plug>Argumentative_Next
 " xmap [; <Plug>Argumentative_XPrev
 " xmap ]; <Plug>Argumentative_XNext
-" nmap <; <Plug>Argumentative_MoveLeft
-" nmap >; <Plug>Argumentative_MoveRight
+nnoremap <; <Plug>Argumentative_MoveLeft
+nnoremap >; <Plug>Argumentative_MoveRight
 " xmap i; <Plug>Argumentative_InnerTextObject
 " xmap a; <Plug>Argumentative_OuterTextObject
 " omap i; <Plug>Argumentative_OpPendingInnerTextObject

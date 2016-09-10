@@ -1,2 +1,2 @@
 # Build with cuda, caching, and optimized builds (no symbols)
-build --config=cuda -c opt --config=cache
+build -c opt

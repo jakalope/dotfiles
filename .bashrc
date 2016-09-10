@@ -127,6 +127,7 @@ alias gf='git fetch'
 alias ga='git add'
 alias Src='source ~/.bashrc'
 alias bbnc='bazel build --spawn_strategy=standalone --genrule_strategy=standalone'
+alias btnc='bazel test --spawn_strategy=standalone --genrule_strategy=standalone'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert

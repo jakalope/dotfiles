@@ -28,6 +28,10 @@ augroup filetypedetect
 
     autocmd BufNewFile,BufRead BUILD silent! call SetBazelOptions()
     autocmd BufNewFile,BufRead *.bzl silent! call SetBazelOptions()
+    autocmd BufWrite BUILD silent! !buildifier %
+    autocmd BufWrite *.bzl silent! !buildifier %
+    autocmd BufWrite BUILD silent! we
+    autocmd BufWrite *.bzl silent! we
 
     autocmd BufNewFile,BufRead *.proto silent! call SetProtoOptions()
 

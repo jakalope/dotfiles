@@ -17,6 +17,7 @@ function code_window() {
 
     # Open a new pair of code windows.
     MY_WORKSPACE_DIR=$(pwd) VIMSERVER="VIMS${i}" x-terminal-emulator --working-directory="${MY_WORKSPACE_DIR}" --command "vims" &
+    sleep 1
     MY_WORKSPACE_DIR=$(pwd) VIMSERVER="VIMS${i}" x-terminal-emulator --working-directory="${MY_WORKSPACE_DIR}" --command "bash -c \"use_me; exec bash\"" &
     exit
 }
