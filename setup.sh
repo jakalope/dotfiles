@@ -9,6 +9,8 @@ sudo apt-get update
 sudo apt-get install -y $(cat package-list)
 sudo pip install $(cat pip-package-list)
 
+git config --global core.excludesfile "${HOME}/dotfiles/global_gitignore"
+
 # Build and install the lastest version of Git
 pushd ~/Downloads
 if [[ ! -e v2.9.2.tar.gz ]]; then
