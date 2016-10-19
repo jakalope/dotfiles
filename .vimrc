@@ -47,6 +47,7 @@ nnoremap ;p :CtrlP<CR>
 nnoremap ;b :CtrlPBuffer<CR>
 nnoremap ;m :CtrlPMRU<CR>
 nnoremap ;] :CtrlPTag<CR>
+nnoremap ;c :CtrlPClearAllCaches<CR>
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -61,7 +62,7 @@ let g:pymode_indent = 1
 let g:pymode_options = 1
 let g:pymode_doc = 1
 let g:pymode_rope_complete_on_dot = 0
-let g:pymode_rope_completion_bind = '<Space>'
+let g:pymode_rope_completion_bind = '<C-n>'
 
 " UltiSnips
 " Trigger configuration. Do not use <tab> if you use YCM
@@ -81,8 +82,8 @@ map <C-SPACE>  <Plug>(smartword-b)
 " nmap ]; <Plug>Argumentative_Next
 " xmap [; <Plug>Argumentative_XPrev
 " xmap ]; <Plug>Argumentative_XNext
-" nmap <; <Plug>Argumentative_MoveLeft
-" nmap >; <Plug>Argumentative_MoveRight
+nnoremap <; <Plug>Argumentative_MoveLeft
+nnoremap >; <Plug>Argumentative_MoveRight
 " xmap i; <Plug>Argumentative_InnerTextObject
 " xmap a; <Plug>Argumentative_OuterTextObject
 " omap i; <Plug>Argumentative_OpPendingInnerTextObject
@@ -108,6 +109,7 @@ let g:easytags_on_cursorhold = 0
 let g:easytags_auto_update = 1
 let g:easytags_include_members = 1
 let g:easytags_auto_highlight = 0
+let vbs=1  " check timing with :messages
 
 """""""""" Vundle
 set nocompatible              " be iMproved, required
