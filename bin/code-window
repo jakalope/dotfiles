@@ -8,6 +8,7 @@
 function code_window() {
     # Set the working directory to the caller's current directory.
     export MY_WORKSPACE_DIR=$(pwd)
+    export wcd=${MY_WORKSPACE_DIR}
 
     # Determine the next available vimserver name.
     i=0
@@ -16,9 +17,9 @@ function code_window() {
     done
 
     # Open a new pair of code windows.
-    MY_WORKSPACE_DIR=$(pwd) VIMSERVER="VIMS${i}" x-terminal-emulator --working-directory="${MY_WORKSPACE_DIR}" --command "vims" &
+    wcd=$(pwd) MY_WORKSPACE_DIR=$(pwd) VIMSERVER="VIMS${i}" x-terminal-emulator --working-directory="${MY_WORKSPACE_DIR}" --command "vims" &
     sleep 1
-    MY_WORKSPACE_DIR=$(pwd) VIMSERVER="VIMS${i}" x-terminal-emulator --working-directory="${MY_WORKSPACE_DIR}" --command "bash -c \"use_me; exec bash\"" &
+    wcd=$(pwd) MY_WORKSPACE_DIR=$(pwd) VIMSERVER="VIMS${i}" x-terminal-emulator --working-directory="${MY_WORKSPACE_DIR}" --command "bash -c \"use_me; exec bash\"" &
     exit
 }
 

@@ -65,7 +65,7 @@ for file in $(cat home-files); do
     if [[ -e "${HOME}/${file}" ]]; then
         mv "${HOME}/${file}" "${HOME}/backup/${stamp}/"
     fi
-    ln --symbolic --target ${HOME} "$(pwd)/${file}"
+    ln --symbolic --target "${HOME}/.${file}" "$(pwd)/${file}"
 done
 popd
 

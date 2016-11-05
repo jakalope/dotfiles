@@ -104,7 +104,7 @@ set tags="./tags,~/.vim/tags";
 let g:easytags_file = '~/.vim/tags'   " global tags file
 let g:easytags_dynamic_files = 1
 let g:easytags_async = 1
-let g:easytags_events = ['BufWritePost']
+let g:easytags_events = []
 let g:easytags_on_cursorhold = 0
 let g:easytags_auto_update = 1
 let g:easytags_include_members = 1
@@ -311,10 +311,10 @@ function! g:Companion()
     return l:companion_file
 endfunction
 
-nnoremap ze :cd $wcd<CR>:execute 'edit '.g:Companion()<CR>
-nnoremap zt :cd $wcd<CR>:execute 'tabnew '.g:Companion()<CR>
-nnoremap zv :cd $wcd<CR>:execute 'vsplit '.g:Companion()<CR>
-nnoremap zs :cd $wcd<CR>:execute 'split '.g:Companion()<CR>
+nnoremap ze :cd ${MY_WORKSPACE_DIR}<CR>:execute 'edit '.g:Companion()<CR>
+nnoremap zt :cd ${MY_WORKSPACE_DIR}<CR>:execute 'tabnew '.g:Companion()<CR>
+nnoremap zv :cd ${MY_WORKSPACE_DIR}<CR>:execute 'vsplit '.g:Companion()<CR>
+nnoremap zs :cd ${MY_WORKSPACE_DIR}<CR>:execute 'split '.g:Companion()<CR>
 
 " Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
@@ -345,7 +345,7 @@ endfunction
 " Detect filetype in each tab
 command! Detect :tabdo exec 'filetype detect'
 
-command! Wcd cd $wcd
+command! Wcd cd ${MY_WORKSPACE_DIR}
 command! Src source ~/.vimrc
 
 " Remove all buffers

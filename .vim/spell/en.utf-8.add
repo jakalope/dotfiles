@@ -73,7 +73,7 @@ msg
 multithreaded
 mutex
 mutexes
-namespace
+#amespace
 nnoremap
 nodelet
 nodelet's
@@ -129,3 +129,13 @@ yaml
 z
 zoox
 nodelet
+yeilds
+impovement
+OpenCV
+decl
+SmootherNodelet
+namespace/!
+common/!
+namespace
+common
+#xplcitly
