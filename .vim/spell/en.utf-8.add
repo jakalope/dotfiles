@@ -13,11 +13,13 @@ IteratorType
 MediaUrl
 NRVO
 Offline
+OpenCV
 PerceptionObstacles
 Protobuf
 RVO
 Resample
 SIGINT
+SmootherNodelet
 Triggerable
 UnderlyingType
 YYYY
@@ -32,6 +34,8 @@ b
 backtrace
 bazel
 bool
+common
+common/!
 config
 const
 cout
@@ -39,6 +43,8 @@ cpp
 csv
 cv
 d
+decl
+decl
 deserialized
 downsampled
 dtype
@@ -46,6 +52,7 @@ e
 edf
 eg
 endl
+enum
 env
 f
 float32
@@ -55,6 +62,7 @@ getUsersByRoleShortname
 h
 hz
 i
+impovement
 include
 include/!
 init
@@ -73,8 +81,10 @@ msg
 multithreaded
 mutex
 mutexes
-#amespace
+namespace
+namespace/!
 nnoremap
+nodelet
 nodelet
 nodelet's
 nodelets
@@ -92,6 +102,7 @@ protobuf
 psg
 py
 r
+rb
 reproducibilty
 resample
 resampling
@@ -126,16 +137,6 @@ workflow
 xml
 y
 yaml
+yeilds
 z
 zoox
-nodelet
-yeilds
-impovement
-OpenCV
-decl
-SmootherNodelet
-namespace/!
-common/!
-namespace
-common
-#xplcitly

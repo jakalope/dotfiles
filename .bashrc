@@ -167,6 +167,7 @@ export EDITOR=vim
 export WORKSPACE_DIR="$(pwd)"
 export SOURCE_DIR="${WORKSPACE_DIR}"
 export wcd="${WORKSPACE_DIR}"
+alias wcd='cd "${wcd}"'
 
 source ~/bin/source_me.bash
 

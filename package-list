@@ -27,6 +27,7 @@ liblapack-dev
 libpng-dev
 libpq-dev
 libssl-dev
+libyaml-dev
 libz-dev
 massif-visualizer
 mercurial
