@@ -207,7 +207,7 @@ set t_vb=
 
 " colors
 colorscheme desert
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 10
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
 
 "============================================================
 
