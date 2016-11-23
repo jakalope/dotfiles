@@ -12,10 +12,11 @@ let g:formatters_python = ['autopep8']
 
 " YouCompleteMe
 " let g:ycm_register_as_syntastic_checker = 0
+set completeopt-=preview
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:ycm_always_populate_location_list = 0
 let g:ycm_open_loclist_on_ycm_diags = 1
-let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_add_preview_to_completeopt = 0
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 0
 let g:ycm_key_invoke_completion = '<C-m>'
