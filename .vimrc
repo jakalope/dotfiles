@@ -225,9 +225,6 @@ augroup AutoResizeSplits
    autocmd VimResized * exe "normal! \<c-w>="
 augroup END
 
-" alternative ESC key combo ( 'cause <Esc> is too far away :-P )
-inoremap jk <Esc>
-
 " fast buffer deletion
 nnoremap <F9><F9> :bd<CR>
 

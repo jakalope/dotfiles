@@ -25,6 +25,9 @@ sudo make install install-doc install-html install-info
 popd
 popd
 
+# Install neovim
+./setup_neovim.sh
+
 # run indicator multiload for the first time
 indicator-multiload &
 

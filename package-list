@@ -1,6 +1,7 @@
 aptitude
 asciidoc
 autoconf
+automake
 build-essential
 chromium-browser
 clang-3.6
@@ -10,8 +11,8 @@ curl
 docbook2x
 exuberant-ctags
 g++
+g++
 gettext
-gfortran
 gfortran
 indicator-multiload
 inotify-tools
@@ -27,6 +28,7 @@ liblapack-dev
 libpng-dev
 libpq-dev
 libssl-dev
+libtool
 libyaml-dev
 libz-dev
 massif-visualizer
