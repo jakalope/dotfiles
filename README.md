@@ -191,7 +191,7 @@ VIM
 * `;p` Open CtrlP file path search dialog (default: `<C-P>`).
 * `;b` Open CtrlP buffer search dialog (default: `<C-B>`).
 * `;m` Open CtrlP most-recently-used dialog.
-* `;;` Clear CtrlP cache NOW (default: `<F5>`).
+* `;c` Clear CtrlP cache NOW (default: `<F5>`).
 
 ### [YouCompleteMe](https://github.com/Valloric/YouCompleteMe)
 
@@ -210,6 +210,7 @@ Automatically handle various cases, such as `snake_case`, `camelCase`, `UPPER_CA
 * `crc`, `crm`, `crs`, `cru` abolish-coercion
 
 ### [vim-easymotion](https://github.com/easymotion/vim-easymotion)
+* `;l` Search anywhere on the page.
 * `\\s<letter><follow-letter>` Search anywhere on the page for `<letter>` and jump to `<follow-letter>`.
 
 Valgrind
