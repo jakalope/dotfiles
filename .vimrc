@@ -174,6 +174,7 @@ set nofoldenable
 set nohlsearch
 set number
 set paste
+set relativenumber
 set scrolloff=999
 set shiftwidth=4
 set showcmd " Show partial commands in the last line of the screen
