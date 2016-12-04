@@ -28,6 +28,9 @@ popd
 # Install neovim
 ./setup_neovim.sh
 
+# Install yapf
+./setup_yapf.sh
+
 # run indicator multiload for the first time
 indicator-multiload &
 

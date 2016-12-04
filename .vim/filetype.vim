@@ -18,14 +18,9 @@ augroup filetypedetect
     autocmd BufWritePre * call OnBufWritePre()
     function! OnBufWritePre()
         if &filetype=='python'
-            !yapf %
-            if v:shell_error
-                " do nothing
-            else
-                let view = winsaveview()
-                %!yapf
-                call winrestview(view)
-            endif
+            let view = winsaveview()
+            %!yapf
+            call winrestview(view)
         elseif &filetype=='cpp'
 			let view = winsaveview()
             %!clang-format-3.6
