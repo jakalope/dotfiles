@@ -3,8 +3,6 @@ augroup python_group
     autocmd BufNewFile,BufRead *.py setfiletype python
 
     function! DoPython()
-        " let g:pymode_python = 'python'
-        " setl filetype=python
         setl cc=80
         setl shiftwidth=4
         setl tabstop=4

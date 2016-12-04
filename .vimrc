@@ -2,14 +2,6 @@
 autocmd!
 
 """""""""" Script opts
-" Clang-Format
-let g:clang_format#command = 'clang-format-3.6'
-let g:clang_format#detect_style_file = 1
-
-" Autoformat
-" let g:formatdef_autopep8 = "'autopep8 - --range '.a:firstline.' '.a:lastline.' --max-line-length=80'"
-" let g:formatters_python = ['autopep8']
-
 " YouCompleteMe
 " let g:ycm_register_as_syntastic_checker = 0
 set completeopt-=preview
@@ -92,13 +84,6 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " Easymotion
 map ;l <Plug>(easymotion-bd-w)
 
-" ClangFormat
-" map to <Leader>cf in C++ code
-autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
-" if you install vim-operator-user
-autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
-
 " Easy-tags
 set tags="./tags,~/.vim/tags";
 let g:easytags_file = '~/.vim/tags'   " global tags file
@@ -129,7 +114,6 @@ Plugin 'easymotion/vim-easymotion'
 Plugin 'kana/vim-operator-user'
 Plugin 'kana/vim-smartword'
 Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'rhysd/vim-clang-format'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
@@ -319,16 +303,6 @@ command! Reload :call s:Reload()
 function! s:Reload()
     setlocal autoread
     checktime
-    set autoread<
-endfunction
-
-" Apply `git clang-format -f` and reload all buffers
-command! Format :call s:Format()
-function! s:Format()
-    setlocal autoread
-    silent wa
-    silent !git clang-format -f
-    Reload
     set autoread<
 endfunction
 

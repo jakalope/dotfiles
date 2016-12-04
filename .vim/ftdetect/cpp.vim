@@ -12,7 +12,6 @@ augroup cpp_group
         setl smartindent
         setl cindent
         command! Build :make
-        ClangFormatAutoEnable
     endfunction
 
     autocmd FileType cpp call DoCpp()
