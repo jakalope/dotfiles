@@ -2,14 +2,6 @@
 autocmd!
 
 """""""""" Script opts
-" Clang-Format
-let g:clang_format#command = 'clang-format-3.6'
-let g:clang_format#detect_style_file = 1
-
-" Autoformat
-let g:formatdef_autopep8 = "'autopep8 - --range '.a:firstline.' '.a:lastline.' --max-line-length=80'"
-let g:formatters_python = ['autopep8']
-
 " YouCompleteMe
 " let g:ycm_register_as_syntastic_checker = 0
 set completeopt-=preview
@@ -23,7 +15,6 @@ let g:ycm_key_invoke_completion = '<C-m>'
 let g:ycm_collect_identifiers_from_tags_files = 0
 let g:ycm_filetype_specific_completion_to_disable = {
     \ 'gitcommit': 1,
-    \ 'python': 1,
     \}
 
 nnoremap <C-\> :YcmCompleter GoTo<CR>
@@ -54,17 +45,6 @@ nnoremap ;c :CtrlPClearAllCaches<CR>
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
-" Python-mode
-let g:pymode_rope_goto_definition_bind = "<C-]>"
-let g:pymode_run_bind = "<C-S-e>"
-let g:pymode_doc_bind = "<C-S-d>"
-let g:pymode_trim_whitespaces = 1
-let g:pymode_indent = 1
-let g:pymode_options = 1
-let g:pymode_doc = 1
-let g:pymode_rope_complete_on_dot = 0
-let g:pymode_rope_completion_bind = '<C-n>'
-
 " UltiSnips
 " Trigger configuration. Do not use <tab> if you use YCM
 let g:UltiSnipsExpandTrigger="<C-space>"
@@ -94,13 +74,6 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " Easymotion
 map ;l <Plug>(easymotion-bd-w)
 
-" ClangFormat
-" map to <Leader>cf in C++ code
-autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
-" if you install vim-operator-user
-autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
-
 " Easy-tags
 set tags="./tags,~/.vim/tags";
 let g:easytags_file = '~/.vim/tags'   " global tags file
@@ -125,14 +98,12 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
 
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'Chiel92/vim-autoformat'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'drmikehenry/vim-fontsize'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'kana/vim-operator-user'
 Plugin 'kana/vim-smartword'
 Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'rhysd/vim-clang-format'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
@@ -140,7 +111,6 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-sensible'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-scripts/restore_view.vim'
-Plugin 'klen/python-mode'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'xolox/vim-easytags'
@@ -150,19 +120,15 @@ Plugin 'PeterRincker/vim-argumentative'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+syntax on
 
 """""""""" End Vundle
 
 " Used by restore_view.vim
-set viewoptions=cursor,folds,slash,unix
-
-filetype on
-filetype plugin on
-syntax on
-
 set autoindent
 set backspace=indent,eol,start " Allow backspacing over autoindent, line breaks and start of insert action
 set bs=2
+set cindent
 set cmdheight=2
 set encoding=utf-8
 set equalalways
@@ -180,11 +146,11 @@ set scrolloff=999
 set shiftwidth=4
 set showcmd " Show partial commands in the last line of the screen
 set showmode
-set cindent
 set softtabstop=4
 set spell spelllang=en_us
 set tabstop=4
 set title
+set viewoptions=cursor,folds,slash,unix
 set viminfo='20,\"50
 set visualbell " Use visual bell instead of beeping when doing something wrong
 set wildmenu " Better command-line completion
@@ -320,8 +286,6 @@ nnoremap zs :cd ${MY_WORKSPACE_DIR}<CR>:execute 'split '.g:Companion()<CR>
 nnoremap <F5> :tabp<CR>
 nnoremap <F6> :bp<CR>
 nnoremap <F7> :bn<CR>
-" nnoremap <F6> :bp<CR>:AirlineRefresh<CR>
-" nnoremap <F7> :bn<CR>:AirlineRefresh<CR>
 nnoremap <F8> :tabn<CR>
 
 " Reload all windows, tabs, buffers, etc.
@@ -332,15 +296,8 @@ function! s:Reload()
     set autoread<
 endfunction
 
-" Apply `git clang-format -f` and reload all buffers
-command! Format :call s:Format()
-function! s:Format()
-    setlocal autoread
-    silent wa
-    silent !git clang-format -f
-    Reload
-    set autoread<
-endfunction
+" Apply `yapf` to current file
+nnoremap ;f :%!yapf<CR>
 
 " Detect filetype in each tab
 command! Detect :tabdo exec 'filetype detect'
