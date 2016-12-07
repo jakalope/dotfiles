@@ -212,3 +212,6 @@ fi
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+# added by travis gem
+[ -f /home/parallels/.travis/travis.sh ] && source /home/parallels/.travis/travis.sh

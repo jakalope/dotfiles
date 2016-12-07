@@ -25,6 +25,12 @@ sudo make install install-doc install-html install-info
 popd
 popd
 
+# Install neovim
+./setup_neovim.sh
+
+# Install yapf
+./setup_yapf.sh
+
 # run indicator multiload for the first time
 indicator-multiload &
 
@@ -65,7 +71,7 @@ for file in $(cat home-files); do
     if [[ -e "${HOME}/${file}" ]]; then
         mv "${HOME}/${file}" "${HOME}/backup/${stamp}/"
     fi
-    ln --symbolic --target ${HOME} "$(pwd)/${file}"
+    ln --symbolic --target "${HOME}/.${file}" "$(pwd)/${file}"
 done
 popd
 
