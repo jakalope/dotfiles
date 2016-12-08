@@ -18,7 +18,7 @@ let g:ycm_filetype_specific_completion_to_disable = {
     \}
 
 nnoremap <C-\> :YcmCompleter GoTo<CR>
-nnoremap <C-j> :YcmCompleter FixIt<CR>
+nnoremap <C-h> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
 
@@ -203,6 +203,12 @@ command! Wa :wa
 
 " Stop accidental entry into Ex mode
 nnoremap Q <CR>
+
+" Move to the beginning of the next text block.
+nnoremap ;j :call search('\n\n\S', 'e')<CR>
+onoremap ;j :call search('\n\n\S', 'e')<CR>
+nnoremap ;k :call search('\n\n\S', 'be')<CR>
+onoremap ;k :call search('\n\n\S', 'be')<CR>
 
 
 """"""""""""""
