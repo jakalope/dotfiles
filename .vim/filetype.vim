@@ -28,13 +28,9 @@ augroup filetypedetect
         endif
     endfunction
 
-    autocmd BufNewFile,BufRead *.sh silent! call SetBashOptions()
-    autocmd BufNewFile,BufRead *.bash silent! call SetBashOptions()
-
     autocmd BufNewFile,BufRead CMakeLists.txt silent! call SetCMakeOptions()
     autocmd BufNewFile,BufRead *.cmake silent! call SetCMakeOptions()
 
-    autocmd BufNewFile,BufRead *.pbtxt silent! call SetBashOptions()
     autocmd BufNewFile,BufRead *.md silent! call SetMarkdownOptions()
     autocmd BufNewFile,BufRead COMMIT_EDITMSG silent! call SetCommitOptions()
 augroup END
@@ -58,16 +54,6 @@ function! SetCommitOptions()
     setl autoindent
     setl smartindent
     setl spell spelllang=
-endfunction
-
-function! SetBashOptions()
-    setl filetype=sh
-    setl cc=80
-    setl shiftwidth=4
-    setl tabstop=4
-    setl softtabstop=4
-    setl autoindent
-    setl smartindent
 endfunction
 
 function! SetCMakeOptions()
