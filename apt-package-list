@@ -38,6 +38,7 @@ python-autopep8
 python-dev
 python-pip
 python3-dev
+shellcheck
 terminator
 tree
 ubuntu-restricted-extras
