@@ -6,3 +6,4 @@ sklearn
 flask
 twilio
 psycopg2
+yamllint==1.6.0
