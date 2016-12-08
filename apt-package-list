@@ -7,6 +7,7 @@ chromium-browser
 clang-3.6
 clang-format-3.6
 cmake
+cppcheck
 curl
 docbook2x
 exuberant-ctags
@@ -38,7 +39,6 @@ python-autopep8
 python-dev
 python-pip
 python3-dev
-shellcheck
 terminator
 tree
 ubuntu-restricted-extras
