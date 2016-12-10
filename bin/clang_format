@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if hash clang-format-3.6 2>/dev/null; then
+    clang-format-3.6 "$@"
+else
+    clang-format "$@"
+fi
