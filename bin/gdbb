@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+gdb -ex run -ex bt -batch --return-child-result --args "${@}"

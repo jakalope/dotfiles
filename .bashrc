@@ -167,7 +167,7 @@ export EDITOR=vim
 export WORKSPACE_DIR="$(pwd)"
 export SOURCE_DIR="${WORKSPACE_DIR}"
 export wcd="${WORKSPACE_DIR}"
-alias wcd='cd $wcd'
+alias wcd='cd "${wcd}"'
 
 source ~/bin/source_me.bash
 
@@ -212,3 +212,6 @@ fi
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+# added by travis gem
+[ -f /home/parallels/.travis/travis.sh ] && source /home/parallels/.travis/travis.sh

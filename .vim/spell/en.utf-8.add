@@ -1,3 +1,4 @@
+#ntrumentation
 API
 APIs
 Askeland
@@ -13,11 +14,13 @@ IteratorType
 MediaUrl
 NRVO
 Offline
+OpenCV
 PerceptionObstacles
 Protobuf
 RVO
 Resample
 SIGINT
+SmootherNodelet
 Triggerable
 UnderlyingType
 YYYY
@@ -32,6 +35,8 @@ b
 backtrace
 bazel
 bool
+common
+common/!
 config
 const
 cout
@@ -39,6 +44,8 @@ cpp
 csv
 cv
 d
+decl
+decl
 deserialized
 downsampled
 dtype
@@ -46,6 +53,7 @@ e
 edf
 eg
 endl
+enum
 env
 f
 float32
@@ -55,6 +63,7 @@ getUsersByRoleShortname
 h
 hz
 i
+impovement
 include
 include/!
 init
@@ -69,11 +78,13 @@ m
 malloc
 metadata
 metadata
+miscategorized
 msg
 multithreaded
 mutex
 mutexes
 namespace
+namespace/!
 nnoremap
 nodelet
 nodelet's
@@ -92,6 +103,8 @@ protobuf
 psg
 py
 r
+rb
+rb
 reproducibilty
 resample
 resampling
@@ -126,7 +139,11 @@ workflow
 xml
 y
 yaml
+yeilds
 z
 zoox
-nodelet
-rb
+ctor
+PDFs
+se
+struct
+inline
