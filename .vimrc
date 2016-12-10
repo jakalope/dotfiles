@@ -73,7 +73,7 @@ let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
 
 " Smartword
 map <SPACE>  <Plug>(smartword-w)
-map <C-SPACE>  <Plug>(smartword-b)
+map <BackSpace>  <Plug>(smartword-b)
 " map e  <Plug>(smartword-e)
 " map ge  <Plug>(smartword-ge)
 
