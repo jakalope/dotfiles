@@ -224,24 +224,36 @@ nnoremap _align ywmvV}:s/<C-r>"/`<C-r>"/g<CR>V'v:!column -ts \`<CR>
 " Open previous tag in new tab
 nnoremap _t :tabnew %<CR>:tabprev<CR><C-o>
 
-" Restyle source code
-vnoremap _style :!astyle<CR>
-nnoremap _style :%!astyle<CR>
-command! Style :%!astyle
-
 " Set a default state for _c
 nnoremap _c :CompileOptimized<CR>
 
 " Redefine _c to execute some other commands. Used as a switching mechanism.
-command! CompileVisible   exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"
-command! CompileFast      exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"
-command! CompileOptimized exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"
-command! CompileDebug     exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"
+command! CompileVisible   exe "silent !make_this_package % 2>&1 \| ".
+                        \"grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".
+                        \v:servername.") &"
 
-nnoremap _e :nnoremap _c :CompileVisible<LT>CR><LT>C-L><CR>:echo "Set compile mode to Visible"<CR>
-nnoremap _f :nnoremap _c :CompileFast<LT>CR><LT>C-L><CR>:echo "Set compile mode to Fast"<CR>
-nnoremap _o :nnoremap _c :CompileOptimized<LT>CR><LT>C-L><CR>:echo "Set compile mode to Optimized"<CR>
-nnoremap _d :nnoremap _c :CompileDebug<LT>CR><LT>C-L><CR>:echo "Set compile mode to Debug"<CR>
+command! CompileFast      exe "silent !make_this_package % &>$(cat ~/use-me-tty-".
+                        \v:servername.") &"
+
+command! CompileOptimized exe "silent !make_this_package % ".
+                        \"--compilation_mode=opt &>$(cat ~/use-me-tty-".
+                        \v:servername.") &"
+
+command! CompileDebug     exe "silent !make_this_package % ".
+                        \"--compilation_mode=dbg &>$(cat ~/use-me-tty-".
+                        \v:servername.") &"
+
+nnoremap _e :nnoremap _c :CompileVisible<LT>CR><LT>C-L><CR>
+                        \:echo "Set compile mode to Visible"<CR>
+
+nnoremap _f :nnoremap _c :CompileFast<LT>CR><LT>C-L><CR>
+                        \:echo "Set compile mode to Fast"<CR>
+
+nnoremap _o :nnoremap _c :CompileOptimized<LT>CR><LT>C-L><CR>
+                        \:echo "Set compile mode to Optimized"<CR>
+
+nnoremap _d :nnoremap _c :CompileDebug<LT>CR><LT>C-L><CR>
+                        \:echo "Set compile mode to Debug"<CR>
 
 " Convert Structure-Of-Arrays to Array-Of-Structures
 vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
@@ -301,9 +313,6 @@ function! s:Reload()
     checktime
     set autoread<
 endfunction
-
-" Apply `yapf` to current file
-nnoremap ;f :%!yapf<CR>
 
 " Detect filetype in each tab
 command! Detect :tabdo exec 'filetype detect'

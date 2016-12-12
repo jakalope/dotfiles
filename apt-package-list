@@ -16,7 +16,6 @@ gettext
 gfortran
 indicator-multiload
 inotify-tools
-ipython
 kcachegrind
 libatlas-base-dev
 libblas-dev

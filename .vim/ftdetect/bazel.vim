@@ -2,7 +2,12 @@ augroup bazel_group
     autocmd!
     autocmd BufNewFile,BufRead BUILD setfiletype bazel
     autocmd BufNewFile,BufRead *.bzl setfiletype bazel
-    autocmd BufWritePre BUILD silent! %!buildifier
+
+	function! Buildify()
+		let view = winsaveview()
+		%!buildifier
+		call winrestview(view)
+	endfunction
 
     function! DoBazel()
         " setl filetype=python
@@ -15,4 +20,5 @@ augroup bazel_group
     endfunction
 
     autocmd FileType bazel call DoBazel()
+    autocmd BufWritePre BUILD call Buildify()
 augroup END
