@@ -10,28 +10,16 @@ brew_url=https://raw.githubusercontent.com/Homebrew/install/master/install
 brew update
 brew cask install java
 brew tap neovim/neovim
-brew install "$(cat brew-package-list)"
+brew install $(cat brew-package-list)
+brew services start postgresql
+brew link gettext
+brew linkapps python3
 python get-pip.py
-pip install "$(cat pip-package-list)"
+pip install $(cat pip-package-list)
+pip3 install $(cat pip3-package-list)
 
-# Build and install the lastest version of Git
-pushd ~/Downloads
-if [[ ! -e v2.9.2.tar.gz ]]; then
-    wget https://github.com/git/git/archive/v2.9.2.tar.gz
-fi
-gunzip -c v2.9.2.tar.gz | tar xvf -
-pushd git-2.9.2
-make configure
-./configure --prefix=/usr
-make all doc info
-sudo make install install-doc install-html install-info
-popd
-popd
-
-git config --global core.excludesfile "${HOME}/dotfiles/global_gitignore"
-
-# Install neovim
-./setup_neovim.sh
+# TODO install this dmg
+# http://downloads.sourceforge.net/project/git-osx-installer/git-2.10.1-intel-universal-mavericks.dmg
 
 # Install yapf
 ./setup_yapf.sh
@@ -46,20 +34,7 @@ fi
 popd
 
 # create backups
-pushd ~/dotfiles
-stamp=$(date +%Y-%m-%d-%H-%M-%S)
-mkdir -p "${HOME}/backup/${stamp}"
-echo "backing up old files to ~/backup/${stamp}..."
-
-while read file
-do
-    if [[ -e "${HOME}/${file}" ]]; then
-        mv "${HOME}/${file}" "${HOME}/backup/${stamp}/"
-    fi
-    ln --symbolic --target "${HOME}/.${file}" "$(pwd)/${file}"
-done < home-files
-
-popd
+./setup_symlinks.sh
 
 # setup workspace
 mkdir -p ~/workspace

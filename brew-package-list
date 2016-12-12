@@ -1,3 +1,4 @@
+postgresql
 clang-format
 cmake
 cppcheck
@@ -6,3 +7,4 @@ pkg-config
 ssh-copy-id
 wget
 homebrew/gui/terminator
+python3
