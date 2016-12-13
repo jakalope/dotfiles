@@ -34,7 +34,7 @@ fi
 popd
 
 # create backups
-./setup_symlinks.sh
+./setup_symlinks.py
 
 # setup workspace
 mkdir -p ~/workspace
@@ -49,7 +49,7 @@ fi
 
 # Install vim plugins
 vim +PluginInstall +qall
-pushd ~/dotfiles/.vim/bundle/YouCompleteMe/
+pushd ~/dotfiles/vim/bundle/YouCompleteMe/
 ./install.py --clang-completer
 popd
 vim +PluginInstall +qall
