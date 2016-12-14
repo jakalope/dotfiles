@@ -3,26 +3,24 @@
 set -eou pipefail
 
 # install brew
-brew_url=https://raw.githubusercontent.com/Homebrew/install/master/install
-/usr/bin/ruby -e "$(curl -fsSL ${brew_url})"
+./setup_brew.sh
 
 # install dependencies
 brew update
 brew cask install java
-brew tap neovim/neovim
 brew install $(cat brew-package-list)
 brew services start postgresql
 brew link gettext
 brew linkapps python3
-python get-pip.py
-pip install $(cat pip-package-list)
-pip3 install $(cat pip3-package-list)
+sudo -H python get-pip.py
+sudo -H pip install $(cat pip-package-list)
+sudo -H pip3 install $(cat pip3-package-list)
 
 # TODO install this dmg
 # http://downloads.sourceforge.net/project/git-osx-installer/git-2.10.1-intel-universal-mavericks.dmg
 
-# Install yapf
 ./setup_yapf.sh
+./setup_neovim.sh
 
 # install powerline fonts
 pushd ~/Downloads

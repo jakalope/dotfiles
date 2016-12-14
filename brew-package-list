@@ -1,10 +1,7 @@
 postgresql
 clang-format
-cmake
 cppcheck
-ctags
-pkg-config
 ssh-copy-id
 wget
-homebrew/gui/terminator
 python3
+ctags-exuberant

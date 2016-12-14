@@ -9,6 +9,7 @@ hgext
 hgignore
 hgrc
 inputrc
+profile
 rviz
 tmux.conf
 vim
