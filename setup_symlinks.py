@@ -8,7 +8,7 @@ def link_file(home, backup_path, fn):
     dotfiles_fn = os.path.join(home, 'dotfiles', fn)
     backup_fn = os.path.join(backup_path, '.' + fn)
 
-    if os.path.exists(home_fn):
+    if os.path.lexists(home_fn):
         if not os.path.islink(home_fn):
             try: os.makedirs(backup_path)
             except OSError: pass
