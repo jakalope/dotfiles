@@ -2,6 +2,7 @@ astylerc
 bashrc
 bazelrc
 clang-format
+config
 gdb
 gdbinit
 gitconfig
