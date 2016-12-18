@@ -130,7 +130,7 @@ set backspace=indent,eol,start " Allow backspacing over autoindent, line breaks 
 set bs=2
 set cindent
 set cmdheight=2
-set encoding=utf-8
+" set encoding=utf-8
 set equalalways
 set expandtab
 set fileencoding=utf-8
@@ -305,6 +305,16 @@ nnoremap <F5> :tabp<CR>
 nnoremap <F6> :bp<CR>
 nnoremap <F7> :bn<CR>
 nnoremap <F8> :tabn<CR>
+
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+tnoremap <Esc> <C-\><C-n>
+augroup terminal
+  autocmd TermOpen * setlocal nospell
+augroup END
 
 " Reload all windows, tabs, buffers, etc.
 command! Reload :call s:Reload()
