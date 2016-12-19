@@ -4,9 +4,10 @@ set -eou pipefail
 
 # install brew
 brew_url=https://raw.githubusercontent.com/Homebrew/install/master/install
-/usr/bin/ruby -e "$(curl -fsSL ${brew_url})"
+/usr/bin/ruby -e "$(curl -fsSL ${brew_url})" || true
 
 # install dependencies
+xcode-select --install || true
 brew update
 brew cask install java
 brew tap neovim/neovim
