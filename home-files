@@ -2,6 +2,7 @@ astylerc
 bashrc
 bazelrc
 clang-format
+config
 gdb
 gdbinit
 gitconfig
@@ -9,6 +10,7 @@ hgext
 hgignore
 hgrc
 inputrc
+profile
 rviz
 tmux.conf
 vim

@@ -4,4 +4,4 @@
 [push]
 	default = simple
 [core]
-	excludesfile = /home/jake/dotfiles/global_gitignore
+	excludesfile = /home/parallels/dotfiles/global_gitignore
