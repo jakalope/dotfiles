@@ -6,7 +6,7 @@ set -eou pipefail
 if [[ "$(uname -s)" == "Darwin" ]]; then
     brew tap neovim/neovim
     brew install neovim
-    gem install neovim
+    sudo gem install neovim
     sudo -H pip2 install neovim
     infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
     tic $TERM.ti
