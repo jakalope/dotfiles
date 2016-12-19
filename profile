@@ -15,6 +15,8 @@ HISTCONTROL=ignoreboth
 # append to the history file, don't overwrite it
 shopt -s histappend
 
+# Force pip to work only inside virtualenv.
+export PIP_REQUIRE_VIRTUALENV=true
 
 # Eternal bash history.
 # ---------------------

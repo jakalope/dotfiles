@@ -43,7 +43,7 @@ nnoremap ;c :CtrlPClearAllCaches<CR>
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 
 " UltiSnips
 " Trigger configuration. Do not use <tab> if you use YCM
@@ -108,7 +108,9 @@ Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-sensible'
+if !has('nvim')
+    Plugin 'tpope/vim-sensible'
+endif
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-scripts/restore_view.vim'
 Plugin 'SirVer/ultisnips'
@@ -116,6 +118,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'PeterRincker/vim-argumentative'
+Plugin 'moll/vim-bbye'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -176,7 +179,9 @@ set t_vb=
 
 " colors
 colorscheme desert
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
+" set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
+hi SpellBad ctermfg=135 ctermbg=NONE
+hi SpellCap ctermfg=202 ctermbg=NONE
 
 "============================================================
 
@@ -194,7 +199,7 @@ augroup AutoResizeSplits
 augroup END
 
 " fast buffer deletion
-nnoremap <F9><F9> :bd<CR>
+nnoremap <F9><F9> :Bdelete<CR>
 
 map! <F1> <ESC>
 
@@ -311,10 +316,12 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-tnoremap <Esc> <C-\><C-n>
-augroup terminal
-  autocmd TermOpen * setlocal nospell
-augroup END
+if has('nvim')
+    tnoremap <Esc> <C-\><C-n>
+    augroup terminal
+        autocmd TermOpen * setlocal nospell
+    augroup END
+endif
 
 " Reload all windows, tabs, buffers, etc.
 command! Reload :call s:Reload()
