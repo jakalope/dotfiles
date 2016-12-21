@@ -39,6 +39,9 @@ popd
 # create backups
 echo 'Symlinking...'
 ./setup_symlinks.py
+pushd "${HOME}"
+ln -s "${HOME}/dotfiles/bin" ./
+popd
 
 # setup workspace
 mkdir -p ~/workspace

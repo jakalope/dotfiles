@@ -83,6 +83,9 @@ popd
 pushd ~/dotfiles
 ./setup_symlinks.py
 popd
+pushd "${HOME}"
+ln -s "${HOME}/dotfiles/bin" ./
+popd
 
 # clone hg workspace
 mkdir -p ~/workspace
