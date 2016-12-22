@@ -6,6 +6,7 @@ set -eou pipefail
 ./setup_brew.sh
 
 # install dependencies
+xcode-select --install || true
 brew update
 brew cask install java
 brew install $(cat brew-package-list)
@@ -17,12 +18,16 @@ sudo -H pip install $(cat pip-package-list)
 sudo -H pip3 install $(cat pip3-package-list)
 
 # TODO install this dmg
-# http://downloads.sourceforge.net/project/git-osx-installer/git-2.10.1-intel-universal-mavericks.dmg
+wget http://downloads.sourceforge.net/project/git-osx-installer/git-2.10.1-intel-universal-mavericks.dmg
 
+echo 'Setup YAPF...'
 ./setup_yapf.sh
+
+echo 'Setup Neovim...'
 ./setup_neovim.sh
 
 # install powerline fonts
+echo 'Setup powerline fonts...'
 pushd ~/Downloads
 if [[ ! -e fonts ]]; then
     git clone https://github.com/powerline/fonts.git
@@ -32,7 +37,11 @@ fi
 popd
 
 # create backups
+echo 'Symlinking...'
 ./setup_symlinks.py
+pushd "${HOME}"
+ln -s "${HOME}/dotfiles/bin" ./
+popd
 
 # setup workspace
 mkdir -p ~/workspace

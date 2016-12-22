@@ -1,12 +1,28 @@
 #!/usr/bin/env bash
 
-set -eou pipefail
+add_ppa() {
+  for i in "$@"; do
+    grep -h "^deb.*$i" /etc/apt/sources.list.d/* > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+      echo "Adding ppa:$i"
+      sudo add-apt-repository -y ppa:$i
+    else
+      echo "ppa:$i already exists"
+    fi
+  done
+}
 
 # install dependencies
-sudo add-apt-repository ppa:webupd8team/java      # oracle-java8-installer
-sudo add-apt-repository ppa:kubuntu-ppa/backports # massif-visualizer
+# oracle-java8-installer # massif-visualizer
+add_ppa webupd8team/java kubuntu-ppa/backports
+
+exit 0
+set -eou pipefail
+
 sudo apt-get update
 sudo apt-get install -y $(cat apt-package-list)
+sudo apt-get remove python3-pip; sudo apt-get install python3-pip
 sudo pip install $(cat pip-package-list)
 sudo pip3 install $(cat pip3-package-list)
 
@@ -66,6 +82,9 @@ popd
 # create backups
 pushd ~/dotfiles
 ./setup_symlinks.py
+popd
+pushd "${HOME}"
+ln -s "${HOME}/dotfiles/bin" ./
 popd
 
 # clone hg workspace
