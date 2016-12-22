@@ -2,6 +2,9 @@
 autocmd!
 
 """""""""" Script opts
+let g:python_host_prog="/usr/bin/python"
+let g:python3_host_prog="/usr/local/bin/python3"
+
 " YouCompleteMe
 " let g:ycm_register_as_syntastic_checker = 0
 set completeopt-=preview
@@ -220,31 +223,22 @@ onoremap ;k :call search('\n\n\S', 'be')<CR>
 
 nnoremap _g :grep! "\b<C-R><C-W>\b" * 2>/dev/null<CR>
 
-" convert a 1-line CPP function definition signature to a declaration signature
-nnoremap _sig >>Wd2f:A;<ESC>0w
-
-" Put cursor over a character to align the rest of the paragraph to, then type _align
-nnoremap _align ywmvV}:s/<C-r>"/`<C-r>"/g<CR>V'v:!column -ts \`<CR>
-
-" Open previous tag in new tab
-nnoremap _t :tabnew %<CR>:tabprev<CR><C-o>
-
 " Set a default state for _c
-nnoremap _c :CompileOptimized<CR>
+nnoremap _c :CompileOpt<CR>
 
 " Redefine _c to execute some other commands. Used as a switching mechanism.
-command! CompileVisible   exe "silent !make_this_package % 2>&1 \| ".
-                        \"grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".
+command! CompileVisible exe "silent !make_this_package % 2>&1 \| grep ".
+                        \"--color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".
                         \v:servername.") &"
 
-command! CompileFast      exe "silent !make_this_package % &>$(cat ~/use-me-tty-".
+command! CompileFast    exe "silent !make_this_package % &>$(cat ~/use-me-tty-".
                         \v:servername.") &"
 
-command! CompileOptimized exe "silent !make_this_package % ".
+command! CompileOpt     exe "silent !make_this_package % ".
                         \"--compilation_mode=opt &>$(cat ~/use-me-tty-".
                         \v:servername.") &"
 
-command! CompileDebug     exe "silent !make_this_package % ".
+command! CompileDebug   exe "silent !make_this_package % ".
                         \"--compilation_mode=dbg &>$(cat ~/use-me-tty-".
                         \v:servername.") &"
 
@@ -254,7 +248,7 @@ nnoremap _e :nnoremap _c :CompileVisible<LT>CR><LT>C-L><CR>
 nnoremap _f :nnoremap _c :CompileFast<LT>CR><LT>C-L><CR>
                         \:echo "Set compile mode to Fast"<CR>
 
-nnoremap _o :nnoremap _c :CompileOptimized<LT>CR><LT>C-L><CR>
+nnoremap _o :nnoremap _c :CompileOpt<LT>CR><LT>C-L><CR>
                         \:echo "Set compile mode to Optimized"<CR>
 
 nnoremap _d :nnoremap _c :CompileDebug<LT>CR><LT>C-L><CR>
@@ -265,13 +259,11 @@ vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
 
 " Copy current file:line to the system clipboard, preceded by "b"
 " Used to set breakpoints in GDB
-nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".line(".")."\" \| xsel --clipboard --input"<CR>:redraw!<CR>
+nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".
+        \line(".")."\" \| xsel --clipboard --input"<CR>:redraw!<CR>
 
 " yank name of current file to register 0 and to system clipboard
 nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
-
-" Find all files that include this file, in this directory
-" nnoremap _down :let g:cmd=system("echo ".expand('%')." \| awk -F/ '{print $(NF-1)\"/\"$NF}'")<CR>:cs find i <C-R>=g:cmd<CR><CR>
 
 "This redefines the backspace key to start a new undo sequence.  You can now
 "undo the effect of the backspace key, without changing what you typed before
@@ -286,7 +278,8 @@ inoremap <CR> <C-]><C-G>u<CR>
 function! g:Companion()
     let l:fn_ext = expand("%:e")
     let l:fn_root = expand("%:r")
-    if l:fn_ext == "cpp" || l:fn_ext == "c" || l:fn_ext == "cc" || l:fn_ext == "cx" || l:fn_ext == "cxx"
+    if l:fn_ext == "cpp" || l:fn_ext == "c" || l:fn_ext == "cc" || 
+            \l:fn_ext == "cx" || l:fn_ext == "cxx"
         " TODO see if this file exists; otherwise try other extensions
         let l:fn = l:fn_root.".h"
     elseif l:fn_ext == "h" || l:fn_ext == "hpp"
