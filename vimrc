@@ -24,20 +24,13 @@ nnoremap <C-\> :YcmCompleter GoTo<CR>
 nnoremap <C-h> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
-" else
-"     " DeoComplete
-"     let g:deoplete#enable_at_startup = 1
-"     let g:deoplete#sources#clang#std#cpp = 'c++11'
-" endif
 
 
 function! YcmToggle()
     if exists("b:ycm_largefile") && b:ycm_largefile
         let b:ycm_largefile=0
-        let b:deoplete_disable_auto_complete = 0
     else
         let b:ycm_largefile=1
-        let b:deoplete_disable_auto_complete = 1
     endif
 endfunction
 
@@ -318,7 +311,7 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 if has('nvim')
-    tnoremap <Esc> <C-\><C-n>
+    tnoremap <F1> <C-\><C-n>
     augroup terminal
         autocmd TermOpen * setlocal nospell
     augroup END
