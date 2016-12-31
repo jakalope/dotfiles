@@ -3,15 +3,14 @@
 import os
 import datetime
 
-def link_file(home, backup_path, fn):
-    home_fn = os.path.join(home, '.' + fn)
-    dotfiles_fn = os.path.join(home, 'dotfiles', fn)
-    backup_fn = os.path.join(backup_path, '.' + fn)
 
+def _link_file(home_fn, dotfiles_fn, backup_fn):
     if os.path.lexists(home_fn):
         if not os.path.islink(home_fn):
-            try: os.makedirs(backup_path)
-            except OSError: pass
+            try:
+                os.makedirs(backup_path)
+            except OSError:
+                pass
             os.rename(home_fn, backup_fn)
         else:
             os.remove(home_fn)
@@ -19,6 +18,18 @@ def link_file(home, backup_path, fn):
         os.symlink(dotfiles_fn, home_fn)
     except OSError as e:
         raise Exception(e.strerror + '\n' + dotfiles_fn + '\n' + home_fn)
+
+
+def link_file(home, backup_path, fn):
+    if fn.startswith('.'):
+        # Select an unhidden file from dotfiles.
+        dotfiles_fn = os.path.join(home, 'dotfiles', fn[1:])
+    else:
+        dotfiles_fn = os.path.join(home, 'dotfiles', fn)
+    home_fn = os.path.join(home, fn)
+    backup_fn = os.path.join(backup_path, fn)
+    _link_file(home_fn, dotfiles_fn, backup_fn)
+
 
 def main():
     # Find home-files.
@@ -35,6 +46,6 @@ def main():
         for line in home_files:
             link_file(home, backup_path, line.strip())
 
+
 if __name__ == '__main__':
     main()
-

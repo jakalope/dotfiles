@@ -59,35 +59,9 @@ fi
 sudo dpkg --install bazel_0.2.0-linux-x86_64.deb 
 popd
 
-# setup specific tmux version
-if [[ ! -e tmux_1.8.orig.tar.gz ]]; then
-    gunzip -c tmux_1.8.orig.tar.gz | tar xvf -
-    pushd tmux-1.8
-    ./configure
-    make
-    sudo make install
-    popd
-    rm -rf tmux-1.8
-fi
-
-# install powerline fonts
-pushd ~/Downloads
-if [[ ! -e fonts ]]; then
-    git clone https://github.com/powerline/fonts.git
-    cd fonts
-    ./install.sh
-fi
-popd
-
 # create backups
-pushd ~/dotfiles
 ./setup_symlinks.py
-popd
-pushd "${HOME}"
-ln -s "${HOME}/dotfiles/bin" ./
-popd
 
-# clone hg workspace
 mkdir -p ~/workspace
 
 if [[ ! -e ~/.ssh/id_rsa ]]; then

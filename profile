@@ -168,7 +168,7 @@ then
 fi
 
 # use vi key bindings in bash
-set -o vi
+# set -o vi
 
 # set some development environment variables
 export EDITOR=vim

@@ -18,7 +18,11 @@ sudo -H pip install $(cat pip-package-list)
 sudo -H pip3 install $(cat pip3-package-list)
 
 # TODO install this dmg
-wget http://downloads.sourceforge.net/project/git-osx-installer/git-2.10.1-intel-universal-mavericks.dmg
+file='git-2.10.1-intel-universal-mavericks.dmg'
+url="http://downloads.sourceforge.net/project/git-osx-installer/${file}"
+if [[ ! -e "${file}" ]]; then 
+	wget "${url}"
+fi
 
 echo 'Setup YAPF...'
 ./setup_yapf.sh
@@ -26,22 +30,8 @@ echo 'Setup YAPF...'
 echo 'Setup Neovim...'
 ./setup_neovim.sh
 
-# install powerline fonts
-echo 'Setup powerline fonts...'
-pushd ~/Downloads
-if [[ ! -e fonts ]]; then
-    git clone https://github.com/powerline/fonts.git
-    cd fonts
-    ./install.sh
-fi
-popd
-
-# create backups
 echo 'Symlinking...'
 ./setup_symlinks.py
-pushd "${HOME}"
-ln -s "${HOME}/dotfiles/bin" ./
-popd
 
 # setup workspace
 mkdir -p ~/workspace

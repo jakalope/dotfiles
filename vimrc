@@ -24,12 +24,20 @@ nnoremap <C-\> :YcmCompleter GoTo<CR>
 nnoremap <C-h> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
+" else
+"     " DeoComplete
+"     let g:deoplete#enable_at_startup = 1
+"     let g:deoplete#sources#clang#std#cpp = 'c++11'
+" endif
+
 
 function! YcmToggle()
     if exists("b:ycm_largefile") && b:ycm_largefile
         let b:ycm_largefile=0
+        let b:deoplete_disable_auto_complete = 0
     else
         let b:ycm_largefile=1
+        let b:deoplete_disable_auto_complete = 1
     endif
 endfunction
 
@@ -100,7 +108,6 @@ call vundle#begin()
 " let Vundle manage Vundle; disable Git because we hate git submodules
 Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
 
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'drmikehenry/vim-fontsize'
 Plugin 'easymotion/vim-easymotion'
@@ -111,6 +118,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
+Plugin 'Valloric/YouCompleteMe'
 if !has('nvim')
     Plugin 'tpope/vim-sensible'
 endif
