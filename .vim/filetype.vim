@@ -22,9 +22,13 @@ augroup filetypedetect
             %!yapf
             call winrestview(view)
         elseif &filetype=='cpp'
-			let view = winsaveview()
+            let view = winsaveview()
             %!clang-format-3.6
-			call winrestview(view)
+            call winrestview(view)
+        elseif &filetype=='bazel'
+            let view = winsaveview()
+            %!buildifier
+            call winrestview(view)
         endif
     endfunction
 
