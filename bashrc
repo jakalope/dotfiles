@@ -5,6 +5,9 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# Get OS name
+OS="$(uname -s)"
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -38,6 +41,7 @@ shopt -s checkwinsize
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
@@ -128,6 +132,8 @@ alias ga='git add'
 alias Src='source ~/.bashrc'
 alias bbnc='bazel build --spawn_strategy=standalone --genrule_strategy=standalone'
 alias btnc='bazel test --spawn_strategy=standalone --genrule_strategy=standalone'
+alias kd='nvr -l "$(pbpaste)"'
+alias jj='nvr -l'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -194,24 +200,5 @@ if [[ $? == 0 ]]; then
     fakeros
 fi
 
-# The next line updates PATH for the Google Cloud SDK.
-if [[ -e  '/home/jake/google-cloud-sdk/path.bash.inc' ]]; then
-    source '/home/jake/google-cloud-sdk/path.bash.inc'
-fi
-
-# The next line enables shell command completion for gcloud.
-if [[ -e  '/home/jake/google-cloud-sdk/completion.bash.inc' ]]; then
-    source '/home/jake/google-cloud-sdk/completion.bash.inc'
-fi
-
-if [[ ! ${PATH} == *"appengine"* ]]; then
-    AEPATH=${HOME}/google_appengine
-    export PATH="${PATH}:$AEPATH"
-    export PYTHONPATH="${PYTHONPATH}:$AEPATH:$AEPATH/lib/yaml/lib"
-fi
-
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
-
-# added by travis gem
-[ -f /home/parallels/.travis/travis.sh ] && source /home/parallels/.travis/travis.sh

@@ -16,7 +16,6 @@ gettext
 gfortran
 indicator-multiload
 inotify-tools
-ipython
 kcachegrind
 libatlas-base-dev
 libblas-dev
@@ -38,6 +37,7 @@ pkg-config
 python-autopep8
 python-dev
 python-pip
+python3-pip
 python3-dev
 terminator
 tree

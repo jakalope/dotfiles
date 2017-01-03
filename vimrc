@@ -2,6 +2,13 @@
 autocmd!
 
 """""""""" Script opts
+let g:python_host_prog="/usr/bin/python"
+let g:python3_host_prog="/usr/local/bin/python3"
+
+" Syntastic
+let g:syntastic_java_checkers=['javac']
+let g:syntastic_java_javac_config_file_enabled = 1
+
 " YouCompleteMe
 " let g:ycm_register_as_syntastic_checker = 0
 set completeopt-=preview
@@ -21,6 +28,7 @@ nnoremap <C-\> :YcmCompleter GoTo<CR>
 nnoremap <C-h> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
+
 
 function! YcmToggle()
     if exists("b:ycm_largefile") && b:ycm_largefile
@@ -43,7 +51,7 @@ nnoremap ;c :CtrlPClearAllCaches<CR>
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 
 " UltiSnips
 " Trigger configuration. Do not use <tab> if you use YCM
@@ -54,8 +62,8 @@ let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
 
 " Smartword
 map <SPACE>  <Plug>(smartword-w)
+map <BackSpace>  <Plug>(smartword-b)
 map <S-SPACE>  W
-map <C-SPACE>  <Plug>(smartword-b)
 " map e  <Plug>(smartword-e)
 " map ge  <Plug>(smartword-ge)
 
@@ -97,7 +105,6 @@ call vundle#begin()
 " let Vundle manage Vundle; disable Git because we hate git submodules
 Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
 
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'drmikehenry/vim-fontsize'
 Plugin 'easymotion/vim-easymotion'
@@ -108,7 +115,10 @@ Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-sensible'
+Plugin 'Valloric/YouCompleteMe'
+if !has('nvim')
+    Plugin 'tpope/vim-sensible'
+endif
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-scripts/restore_view.vim'
 Plugin 'SirVer/ultisnips'
@@ -116,6 +126,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'PeterRincker/vim-argumentative'
+Plugin 'moll/vim-bbye'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -130,7 +141,7 @@ set backspace=indent,eol,start " Allow backspacing over autoindent, line breaks 
 set bs=2
 set cindent
 set cmdheight=2
-set encoding=utf-8
+" set encoding=utf-8
 set equalalways
 set expandtab
 set fileencoding=utf-8
@@ -176,7 +187,9 @@ set t_vb=
 
 " colors
 colorscheme desert
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
+" set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
+hi SpellBad ctermfg=135 ctermbg=NONE
+hi SpellCap ctermfg=202 ctermbg=NONE
 
 "============================================================
 
@@ -194,7 +207,7 @@ augroup AutoResizeSplits
 augroup END
 
 " fast buffer deletion
-nnoremap <F9><F9> :bd<CR>
+nnoremap <F9><F9> :Bdelete<CR>
 
 map! <F1> <ESC>
 
@@ -215,46 +228,47 @@ onoremap ;k :call search('\n\n\S', 'be')<CR>
 
 nnoremap _g :grep! "\b<C-R><C-W>\b" * 2>/dev/null<CR>
 
-" convert a 1-line CPP function definition signature to a declaration signature
-nnoremap _sig >>Wd2f:A;<ESC>0w
-
-" Put cursor over a character to align the rest of the paragraph to, then type _align
-nnoremap _align ywmvV}:s/<C-r>"/`<C-r>"/g<CR>V'v:!column -ts \`<CR>
-
-" Open previous tag in new tab
-nnoremap _t :tabnew %<CR>:tabprev<CR><C-o>
-
-" Restyle source code
-vnoremap _style :!astyle<CR>
-nnoremap _style :%!astyle<CR>
-command! Style :%!astyle
-
 " Set a default state for _c
-nnoremap _c :CompileOptimized<CR>
+nnoremap _c :CompileOpt<CR>
 
 " Redefine _c to execute some other commands. Used as a switching mechanism.
-command! CompileVisible   exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"
-command! CompileFast      exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"
-command! CompileOptimized exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"
-command! CompileDebug     exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"
+command! CompileVisible exe "silent !make_this_package % 2>&1 \| grep ".
+                        \"--color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".
+                        \v:servername.") &"
 
-nnoremap _e :nnoremap _c :CompileVisible<LT>CR><LT>C-L><CR>:echo "Set compile mode to Visible"<CR>
-nnoremap _f :nnoremap _c :CompileFast<LT>CR><LT>C-L><CR>:echo "Set compile mode to Fast"<CR>
-nnoremap _o :nnoremap _c :CompileOptimized<LT>CR><LT>C-L><CR>:echo "Set compile mode to Optimized"<CR>
-nnoremap _d :nnoremap _c :CompileDebug<LT>CR><LT>C-L><CR>:echo "Set compile mode to Debug"<CR>
+command! CompileFast    exe "silent !make_this_package % &>$(cat ~/use-me-tty-".
+                        \v:servername.") &"
+
+command! CompileOpt     exe "silent !make_this_package % ".
+                        \"--compilation_mode=opt &>$(cat ~/use-me-tty-".
+                        \v:servername.") &"
+
+command! CompileDebug   exe "silent !make_this_package % ".
+                        \"--compilation_mode=dbg &>$(cat ~/use-me-tty-".
+                        \v:servername.") &"
+
+nnoremap _e :nnoremap _c :CompileVisible<LT>CR><LT>C-L><CR>
+                        \:echo "Set compile mode to Visible"<CR>
+
+nnoremap _f :nnoremap _c :CompileFast<LT>CR><LT>C-L><CR>
+                        \:echo "Set compile mode to Fast"<CR>
+
+nnoremap _o :nnoremap _c :CompileOpt<LT>CR><LT>C-L><CR>
+                        \:echo "Set compile mode to Optimized"<CR>
+
+nnoremap _d :nnoremap _c :CompileDebug<LT>CR><LT>C-L><CR>
+                        \:echo "Set compile mode to Debug"<CR>
 
 " Convert Structure-Of-Arrays to Array-Of-Structures
 vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
 
 " Copy current file:line to the system clipboard, preceded by "b"
 " Used to set breakpoints in GDB
-nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".line(".")."\" \| xsel --clipboard --input"<CR>:redraw!<CR>
+nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".
+        \line(".")."\" \| xsel --clipboard --input"<CR>:redraw!<CR>
 
 " yank name of current file to register 0 and to system clipboard
 nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
-
-" Find all files that include this file, in this directory
-" nnoremap _down :let g:cmd=system("echo ".expand('%')." \| awk -F/ '{print $(NF-1)\"/\"$NF}'")<CR>:cs find i <C-R>=g:cmd<CR><CR>
 
 "This redefines the backspace key to start a new undo sequence.  You can now
 "undo the effect of the backspace key, without changing what you typed before
@@ -269,7 +283,8 @@ inoremap <CR> <C-]><C-G>u<CR>
 function! g:Companion()
     let l:fn_ext = expand("%:e")
     let l:fn_root = expand("%:r")
-    if l:fn_ext == "cpp" || l:fn_ext == "c" || l:fn_ext == "cc" || l:fn_ext == "cx" || l:fn_ext == "cxx"
+    if l:fn_ext == "cpp" || l:fn_ext == "c" || l:fn_ext == "cc" || 
+            \l:fn_ext == "cx" || l:fn_ext == "cxx"
         " TODO see if this file exists; otherwise try other extensions
         let l:fn = l:fn_root.".h"
     elseif l:fn_ext == "h" || l:fn_ext == "hpp"
@@ -294,6 +309,32 @@ nnoremap <F6> :bp<CR>
 nnoremap <F7> :bn<CR>
 nnoremap <F8> :tabn<CR>
 
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+if has('nvim')
+    tnoremap <F1> <C-\><C-n>
+
+	tnoremap <F5> <C-\><C-n>:tabp<CR>
+	tnoremap <F6> <C-\><C-n>:bp<CR>
+	tnoremap <F7> <C-\><C-n>:bn<CR>
+	tnoremap <F8> <C-\><C-n>:tabn<CR>
+	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
+
+	tnoremap <C-h> <C-\><C-n><C-w>h
+	tnoremap <C-j> <C-\><C-n><C-w>j
+	tnoremap <C-k> <C-\><C-n><C-w>k
+	tnoremap <C-l> <C-\><C-n><C-w>l
+
+    augroup terminal
+		autocmd!
+        autocmd TermOpen * setlocal nospell
+        autocmd BufWinEnter,WinEnter term://* startinsert
+    augroup END
+endif
+
 " Reload all windows, tabs, buffers, etc.
 command! Reload :call s:Reload()
 function! s:Reload()
@@ -301,9 +342,6 @@ function! s:Reload()
     checktime
     set autoread<
 endfunction
-
-" Apply `yapf` to current file
-nnoremap ;f :%!yapf<CR>
 
 " Detect filetype in each tab
 command! Detect :tabdo exec 'filetype detect'
