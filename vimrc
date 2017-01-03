@@ -4,6 +4,9 @@ autocmd!
 """""""""" Script opts
 let g:python_host_prog="/usr/bin/python"
 let g:python3_host_prog="/usr/local/bin/python3"
+if !filereadable(g:python3_host_prog)
+	let g:python3_host_prog="/usr/bin/python3"
+endif
 
 " Syntastic
 let g:syntastic_java_checkers=['javac']

@@ -22,6 +22,9 @@ set -eou pipefail
 sudo apt-get update
 sudo apt-get install -y $(cat apt-package-list)
 sudo apt-get remove python3-pip; sudo apt-get install python3-pip
+sudo pip install --upgrade neovim
+sudo pip2 install --upgrade neovim
+sudo pip3 install --upgrade neovim
 sudo pip install $(cat pip-package-list)
 sudo pip3 install $(cat pip3-package-list)
 
