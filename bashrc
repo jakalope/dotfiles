@@ -132,8 +132,8 @@ alias ga='git add'
 alias Src='source ~/.bashrc'
 alias bbnc='bazel build --spawn_strategy=standalone --genrule_strategy=standalone'
 alias btnc='bazel test --spawn_strategy=standalone --genrule_strategy=standalone'
-alias kd='nvr -l --remote "$(pbpaste)"'
-alias jj='nvr -l --remote'
+alias kd='nvr -l "$(pbpaste)"'
+alias jj='nvr -l'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert

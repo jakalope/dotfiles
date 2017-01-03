@@ -5,6 +5,10 @@ autocmd!
 let g:python_host_prog="/usr/bin/python"
 let g:python3_host_prog="/usr/local/bin/python3"
 
+" Syntastic
+let g:syntastic_java_checkers=['javac']
+let g:syntastic_java_javac_config_file_enabled = 1
+
 " YouCompleteMe
 " let g:ycm_register_as_syntastic_checker = 0
 set completeopt-=preview
@@ -312,8 +316,22 @@ nnoremap <C-l> <C-w>l
 
 if has('nvim')
     tnoremap <F1> <C-\><C-n>
+
+	tnoremap <F5> <C-\><C-n>:tabp<CR>
+	tnoremap <F6> <C-\><C-n>:bp<CR>
+	tnoremap <F7> <C-\><C-n>:bn<CR>
+	tnoremap <F8> <C-\><C-n>:tabn<CR>
+	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
+
+	tnoremap <C-h> <C-\><C-n><C-w>h
+	tnoremap <C-j> <C-\><C-n><C-w>j
+	tnoremap <C-k> <C-\><C-n><C-w>k
+	tnoremap <C-l> <C-\><C-n><C-w>l
+
     augroup terminal
+		autocmd!
         autocmd TermOpen * setlocal nospell
+        autocmd BufWinEnter,WinEnter term://* startinsert
     augroup END
 endif
 
