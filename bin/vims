@@ -1,47 +1,44 @@
 #!/bin/bash
 
-VIMEXEC='gvim'
-SLEEP_TIME='0.5'
-
-if [[ ${VIMSERVER} == "" ]]; then
-    VIMSERVER="VIM"
-fi
-
 function set_cwd_file() {
     echo "${1}" > "${CWD_FILE}"
+}
+
+function paste() {
+	if [[ "$(uname -s)" == "Darwin" ]]; then
+		pbpaste
+	else
+		xsel --clipboard --output
+	fi
 }
 
 function open_file_to_line() {
     # tell the vim server to open the file
     local raw="${1//:*}" # remove trailing characters after the filename
     local line="${1#*:}" # keep only the suffix after the filename
-    local line="${line%%:*}"  # keep only the prefix of the suffix; the line#
-    local vim_cwd_file="$(readlink -f "${MY_WORKSPACE_DIR}/$raw")"
-    local cmd_cwd_file="$(readlink -f "$(pwd)/$raw")"
+    local line="+${line%%:*}"  # keep only the prefix of the suffix; the line#
+	# Correct the case where no colon is given.
+	if [[ "$raw" == "$line" ]]; then
+		line=""
+	fi
+
+    local vim_cwd_file="$(readlink "${MY_WORKSPACE_DIR}/$raw")"
+    local cmd_cwd_file="$(readlink "$(pwd)/$raw")"
     if [[ -e "$raw" ]]; then
         echo RAW >> ${HOME}/vims_usage
-        "$VIMEXEC" --servername $VIMSERVER --remote-silent +${line} ${raw}
-        # open_in_vimserver "+${line} ${raw}"
+        $VIMEXEC --servername $VIMSERVER --remote-silent ${line} ${raw}
         # wait for vim to open the file
         sleep $SLEEP_TIME
-        # move the to appropriate line
-        # "$VIMEXEC" --servername $VIMSERVER --remote-send ":$line"
     elif [[ -e "$vim_cwd_file" ]]; then
         echo VIM_CWD >> ${HOME}/vims_usage
-        "$VIMEXEC" --servername $VIMSERVER --remote-silent +${line} ${vim_cwd_file}
-        # open_in_vimserver "+${line} ${vim_cwd_file}"
+        $VIMEXEC --servername $VIMSERVER --remote-silent ${line} ${vim_cwd_file}
         # wait for vim to open the file
         sleep $SLEEP_TIME
-        # move the cursor to appropriate line
-        # "$VIMEXEC" --servername $VIMSERVER --remote-send ":$line"
     elif [[ -e "$cmd_cwd_file" ]]; then
         echo CMD_CWD >> ${HOME}/vims_usage
-        "$VIMEXEC" --servername $VIMSERVER --remote-silent +${line} ${cmd_cwd_file}
-        # open_in_vimserver "+${line} ${cmd_cwd_file}"
+        $VIMEXEC --servername $VIMSERVER --remote-silent ${line} ${cmd_cwd_file}
         # wait for vim to open the file
         sleep $SLEEP_TIME
-        # move the cursor to appropriate line
-        # "$VIMEXEC" --servername $VIMSERVER --remote-send ":$line"
     else
         echo "Couldn't find any of the following:"
         echo "  $raw"
@@ -52,15 +49,30 @@ function open_file_to_line() {
         echo "  pwd => $(pwd)"
         echo "  cwd => ${MY_WORKSPACE_DIR}"
         echo
-        if [[ "$line" == "" || "$line" == "${raw}" ]]; then
+        if [[ "$line" == "" ]]; then
             echo "No line specified. Creating new file..."
-            "$VIMEXEC" --servername $VIMSERVER --remote-silent ${raw}
+            echo "$VIMEXEC --servername $VIMSERVER --remote-silent ${raw}"
+            $VIMEXEC --servername $VIMSERVER --remote-silent ${raw}
         else
             return 1
         fi
     fi
     return 0
 }
+
+SLEEP_TIME='0.5'
+
+if [[ "$NVIM_LISTEN_ADDRESS" != "" ]]; then
+	# Use NeoVimRemote.
+	VIMEXEC='nvr -l'
+	# Get the name of our Neovim server.
+	VIMSERVER="$(nvr --serverlist)"
+else
+	VIMEXEC='gvim'
+	if [[ ${VIMSERVER} == "" ]]; then
+		VIMSERVER="VIM"
+	fi
+fi
 
 # Check if we're being piped some input
 if [[ ! -t 0 && $# == 0 ]]; then
@@ -70,24 +82,23 @@ if [[ ! -t 0 && $# == 0 ]]; then
     awk '{print $1}' | awk -F: '{print "vims " $1 ":" $2}' | bash
 # Check if we have some arguments
 elif [[ $# > 0 ]]; then
-    # get the current working directory of the vim server
     if [[ ${1} == '-v' ]]; then
         # remove the -v
         shift
         # tell the vim server to open the file in a new tab
-        "$VIMEXEC" --servername $VIMSERVER --remote-tab "$1"
+        $VIMEXEC --servername $VIMSERVER --remote-tab "$1"
         # wait for vim to open the file
         sleep $SLEEP_TIME
         # open a new v-split
-        "$VIMEXEC" --servername $VIMSERVER --remote-send ':vsp<CR>'
+        $VIMEXEC --servername $VIMSERVER --remote-send ':vsp<CR>'
         # wait for the new v-split to open
         sleep $SLEEP_TIME
         # remove the first file from the argument list
         shift
         # open the second file in the new vsplit
-        "$VIMEXEC" --servername $VIMSERVER --remote "$1"
+        $VIMEXEC --servername $VIMSERVER --remote "$1"
     elif [[ ${1} == '-t' ]]; then
-        open_file_to_line "$(xsel --clipboard --output)"
+        open_file_to_line "$(paste)"
     else
         open_file_to_line "${@}"
     fi
@@ -95,6 +106,7 @@ elif [[ $# > 0 ]]; then
 else
     #TODO Check if a server is already running under this name
     pwd > ~/${VIMSERVER}
-    "$VIMEXEC" --servername $VIMSERVER
+    $VIMEXEC --servername $VIMSERVER
+    echo "$VIMEXEC --servername $VIMSERVER"
 fi
 
