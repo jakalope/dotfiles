@@ -28,7 +28,7 @@ let g:ycm_filetype_specific_completion_to_disable = {
     \}
 
 nnoremap <C-\> :YcmCompleter GoTo<CR>
-nnoremap <C-h> :YcmCompleter FixIt<CR>
+nnoremap <C-g> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
 
@@ -301,10 +301,10 @@ function! g:Companion()
     return l:companion_file
 endfunction
 
-nnoremap ze :cd ${MY_WORKSPACE_DIR}<CR>:execute 'edit '.g:Companion()<CR>
-nnoremap zt :cd ${MY_WORKSPACE_DIR}<CR>:execute 'tabnew '.g:Companion()<CR>
-nnoremap zv :cd ${MY_WORKSPACE_DIR}<CR>:execute 'vsplit '.g:Companion()<CR>
-nnoremap zs :cd ${MY_WORKSPACE_DIR}<CR>:execute 'split '.g:Companion()<CR>
+nnoremap ze :execute 'edit '.g:Companion()<CR>
+nnoremap zt :execute 'tabnew '.g:Companion()<CR>
+nnoremap zv :execute 'vsplit '.g:Companion()<CR>
+nnoremap zs :execute 'split '.g:Companion()<CR>
 
 " Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
@@ -330,6 +330,9 @@ if has('nvim')
 	tnoremap <C-j> <C-\><C-n><C-w>j
 	tnoremap <C-k> <C-\><C-n><C-w>k
 	tnoremap <C-l> <C-\><C-n><C-w>l
+
+	tnoremap <C-u> <C-\><C-n><C-u>
+	tnoremap <C-d> <C-\><C-n><C-d>
 
     augroup terminal
 		autocmd!

@@ -3,10 +3,13 @@
   cycle_next = <Shift>Tab
 [profiles]
   [[default]]
+    background_image = None
     scrollback_lines = 50000
-    scroll_on_output = False
-    background_color = "#002b36"
+    use_system_font = False
     foreground_color = "#839496"
+    scroll_on_output = False
+    font = Monospace 11
+    background_color = "#002b36"
 [layouts]
   [[default]]
     [[[child1]]]
