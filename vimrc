@@ -305,6 +305,8 @@ nnoremap ze :execute 'edit '.g:Companion()<CR>
 nnoremap zt :execute 'tabnew '.g:Companion()<CR>
 nnoremap zv :execute 'vsplit '.g:Companion()<CR>
 nnoremap zs :execute 'split '.g:Companion()<CR>
+nnoremap zn :execute '!vims <C-R><C-A>'<CR>
+
 
 " Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
@@ -353,7 +355,7 @@ endfunction
 command! Detect :tabdo exec 'filetype detect'
 
 command! Wcd cd ${MY_WORKSPACE_DIR}
-command! Src source ~/.vimrc
+command! Src set all& | source ~/.vimrc
 
 " Remove all buffers
 command! Clear :0,10000bd
