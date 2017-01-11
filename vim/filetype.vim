@@ -23,7 +23,7 @@ augroup filetypedetect
             call winrestview(view)
         elseif &filetype=='cpp'
             let view = winsaveview()
-            %!clang-format-3.6
+            %!clang_format
             call winrestview(view)
         elseif &filetype=='bazel'
             let view = winsaveview()
