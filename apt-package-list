@@ -52,3 +52,4 @@ xsel
 zip
 zlib1g-dev
 ruby-dev
+libncurses-dev

@@ -50,6 +50,8 @@ popd
 # Install yapf
 ./setup_yapf.sh
 
+./setup_tmux.sh
+
 # run indicator multiload for the first time
 indicator-multiload &
 
