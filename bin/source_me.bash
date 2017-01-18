@@ -5,10 +5,13 @@ function bbcd() {
 }
 
 function ncode() {
-    # if [[ -e WORKSPACE ]]; then
-    # fi
     source ~/.bashrc
     nvim -c vs -c vs -c vs -c '3wincmd l' -c term
+}
+
+function tcode() {
+    source ~/.bashrc
+	tmux new -s "$1" 'nvim -c vs -c vs -c vs -c "3wincmd l" -c term'
 }
 
 source ~/bin/upcd.bash
