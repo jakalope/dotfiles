@@ -154,7 +154,7 @@ set laststatus=2 " Always display the status line, even if only one window is di
 set nofoldenable
 set nohlsearch
 set number
-set paste
+set nopaste
 set relativenumber
 set scrolloff=999
 set shiftwidth=4
@@ -189,7 +189,7 @@ set confirm
 set t_vb=
 
 " colors
-colorscheme desert
+colorscheme evening
 " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
 hi SpellBad ctermfg=135 ctermbg=NONE
 hi SpellCap ctermfg=202 ctermbg=NONE
@@ -226,6 +226,8 @@ onoremap ;j :call search('\n\n\S', 'e')<CR>
 nnoremap ;k :call search('\n\n\S', 'be')<CR>
 onoremap ;k :call search('\n\n\S', 'be')<CR>
 
+" Remap to <Esc>
+inoremap jk 
 
 """"""""""""""
 
