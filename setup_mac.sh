@@ -30,6 +30,10 @@ echo 'Setup YAPF...'
 echo 'Setup Neovim...'
 ./setup_neovim.sh
 
+./setup_tmux.sh
+
+./setup_rust.sh
+
 echo 'Symlinking...'
 ./setup_symlinks.py
 

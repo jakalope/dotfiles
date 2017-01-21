@@ -5,3 +5,4 @@ ssh-copy-id
 wget
 python3
 ctags-exuberant
+libevent

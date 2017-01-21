@@ -9,6 +9,7 @@ if [[ ! -e "$FILE" ]]; then
     wget "$URL"
 fi
 gunzip -c "$FILE" | tar xvf -
+cd tmux-2.3
 ./configure
 make -j
 sudo make install
