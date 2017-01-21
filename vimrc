@@ -188,12 +188,6 @@ set confirm
 " is unset, this does nothing.
 set t_vb=
 
-" colors
-colorscheme evening
-" set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
-hi SpellBad ctermfg=135 ctermbg=NONE
-hi SpellCap ctermfg=202 ctermbg=NONE
-
 "============================================================
 
 let DoxygenToolkit_commentType=1
@@ -321,6 +315,11 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+inoremap <C-h> <C-w>h
+inoremap <C-j> <C-w>j
+inoremap <C-k> <C-w>k
+inoremap <C-l> <C-w>l
+
 if has('nvim')
     tnoremap <F1> <C-\><C-n>
 
@@ -364,3 +363,10 @@ command! Clear :0,10000bd
 
 Detect
 filetype plugin on
+
+" colors
+colorscheme evening
+" set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
+hi SpellBad ctermfg=135 ctermbg=NONE
+hi SpellCap ctermfg=202 ctermbg=NONE
+
