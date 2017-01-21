@@ -12,7 +12,7 @@
 .inputrc
 .profile
 .rviz
-.tmux.conf.back
+.tmux.conf
 .vim
 .vimrc
 .bin
