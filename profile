@@ -131,7 +131,7 @@ alias gc='git commit'
 alias gd='git diff'
 alias gf='git fetch'
 alias ga='git add'
-alias Src='source ~/.bashrc'
+alias Src='source ~/.profile'
 alias bbnc='bazel build --spawn_strategy=standalone --genrule_strategy=standalone'
 alias btnc='bazel test --spawn_strategy=standalone --genrule_strategy=standalone'
 alias kd='nvr -l "$(pbpaste)"'
@@ -171,7 +171,7 @@ fi
 # set -o vi
 
 # set some development environment variables
-export EDITOR=vim
+export EDITOR=nvim
 export WORKSPACE_DIR="$(pwd)"
 export SOURCE_DIR="${WORKSPACE_DIR}"
 export wcd="${WORKSPACE_DIR}"
@@ -202,7 +202,7 @@ if [[ $? == 0 ]]; then
     fakeros
 fi
 
-### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
-
 export PATH="$HOME/.cargo/bin:$PATH"
+
+register

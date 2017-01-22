@@ -1,12 +1,12 @@
 #!/bin/bash
 
-cwd=$(pwd)
 if [[ $# != 0 ]]; then
-    cd $(readlink -f $(dirname $1))
+    cd "$(dirname "$1")"
     shift
 fi
+cwd="$(pwd)"
 
-while [[ ! -e Makefile && ! -e BUILD && ! -e package.xml && ! -e manifest.xml && $(pwd) != "/" ]]
+while [[ ! -e CMakeLists.txt && ! -e Makefile && ! -e BUILD && ! -e package.xml && ! -e manifest.xml && "$(pwd)" != "/" ]]
 do
     cd ..
 done

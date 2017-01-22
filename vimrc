@@ -83,7 +83,7 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
-map ;l <Plug>(easymotion-bd-w)
+nnoremap fd <Plug>(easymotion-bd-w)
 
 " Easy-tags
 set tags="./tags,~/.vim/tags";
@@ -140,6 +140,7 @@ syntax on
 
 " Used by restore_view.vim
 set autoindent
+set autoread
 set backspace=indent,eol,start " Allow backspacing over autoindent, line breaks and start of insert action
 set bs=2
 set cindent
@@ -156,7 +157,7 @@ set nohlsearch
 set number
 set nopaste
 set relativenumber
-set scrolloff=999
+set scrolloff=2
 set shiftwidth=4
 set showcmd " Show partial commands in the last line of the screen
 set showmode
@@ -203,9 +204,6 @@ augroup AutoResizeSplits
    autocmd VimResized * exe "normal! \<c-w>="
 augroup END
 
-" fast buffer deletion
-nnoremap <F9><F9> :Bdelete<CR>
-
 map! <F1> <ESC>
 
 command! W :w
@@ -227,25 +225,18 @@ inoremap jk 
 
 nnoremap _g :grep! "\b<C-R><C-W>\b" * 2>/dev/null<CR>
 
-" Set a default state for _c
-nnoremap _c :CompileOpt<CR>
-
-" Redefine _c to execute some other commands. Used as a switching mechanism.
 command! CompileVisible exe "silent !make_this_package % 2>&1 \| grep ".
-                        \"--color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".
-                        \v:servername.") &"
+                        \"--color -E \'error:\|\$\' &>".g:tty." &"
 
-command! CompileFast    exe "silent !make_this_package % &>$(cat ~/use-me-tty-".
-                        \v:servername.") &"
+command! CompileFast    exe "silent !make_this_package % &>".g:tty." &"
 
 command! CompileOpt     exe "silent !make_this_package % ".
-                        \"--compilation_mode=opt &>$(cat ~/use-me-tty-".
-                        \v:servername.") &"
+                        \"--compilation_mode=opt &>".g:tty." &"
 
 command! CompileDebug   exe "silent !make_this_package % ".
-                        \"--compilation_mode=dbg &>$(cat ~/use-me-tty-".
-                        \v:servername.") &"
+                        \"--compilation_mode=dbg &>".g:tty." &"
 
+" Redefine _c to execute some other commands. Used as a switching mechanism.
 nnoremap _e :nnoremap _c :CompileVisible<LT>CR><LT>C-L><CR>
                         \:echo "Set compile mode to Visible"<CR>
 
@@ -258,8 +249,8 @@ nnoremap _o :nnoremap _c :CompileOpt<LT>CR><LT>C-L><CR>
 nnoremap _d :nnoremap _c :CompileDebug<LT>CR><LT>C-L><CR>
                         \:echo "Set compile mode to Debug"<CR>
 
-" Convert Structure-Of-Arrays to Array-Of-Structures
-vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
+" Set a default state for _c
+nnoremap _c :CompileOpt<CR>
 
 " Copy current file:line to the system clipboard, preceded by "b"
 " Used to set breakpoints in GDB
@@ -268,11 +259,6 @@ nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".
 
 " yank name of current file to register 0 and to system clipboard
 nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
-
-"This redefines the backspace key to start a new undo sequence.  You can now
-"undo the effect of the backspace key, without changing what you typed before
-"that, with CTRL-O u.
-inoremap <C-H> <C-G>u<C-H>
 
 "This breaks undo at each line break.  It also expands abbreviations before
 "this.
@@ -310,15 +296,19 @@ nnoremap <F6> :bp<CR>
 nnoremap <F7> :bn<CR>
 nnoremap <F8> :tabn<CR>
 
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+" fast buffer deletion
+nnoremap <F9><F9> :Bdelete<CR>
 
-inoremap <C-h> <C-w>h
-inoremap <C-j> <C-w>j
-inoremap <C-k> <C-w>k
-inoremap <C-l> <C-w>l
+" Map <A-{h,j,k,l}> to <C-w>{h,j,k,l}
+nnoremap ˙ <C-w>h
+nnoremap ∆ <C-w>j
+nnoremap ˚ <C-w>k
+nnoremap ¬ <C-w>l
+
+inoremap <A-h> <C-w>h
+inoremap <A-j> <C-w>j
+inoremap <A-k> <C-w>k
+inoremap <A-l> <C-w>l
 
 if has('nvim')
     tnoremap <F1> <C-\><C-n>
@@ -329,10 +319,10 @@ if has('nvim')
 	tnoremap <F8> <C-\><C-n>:tabn<CR>
 	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
 
-	tnoremap <C-h> <C-\><C-n><C-w>h
-	tnoremap <C-j> <C-\><C-n><C-w>j
-	tnoremap <C-k> <C-\><C-n><C-w>k
-	tnoremap <C-l> <C-\><C-n><C-w>l
+    tnoremap ˙ <C-\><C-n><C-w>h
+    tnoremap ∆ <C-\><C-n><C-w>j
+    tnoremap ˚ <C-\><C-n><C-w>k
+    tnoremap ¬ <C-\><C-n><C-w>l
 
 	tnoremap <C-u> <C-\><C-n><C-u>
 	tnoremap <C-d> <C-\><C-n><C-d>
@@ -365,8 +355,7 @@ Detect
 filetype plugin on
 
 " colors
-colorscheme evening
-" set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
+colorscheme slate
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
 hi SpellBad ctermfg=135 ctermbg=NONE
 hi SpellCap ctermfg=202 ctermbg=NONE
-

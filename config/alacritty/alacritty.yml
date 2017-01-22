@@ -202,4 +202,4 @@ mouse_bindings:
 # Shell
 #
 # You can set this to a path to your favorite shell, e.g. /bin/fish
-shell:
+shell: /bin/bash
