@@ -24,15 +24,11 @@ if [[ ! -e "${file}" ]]; then
 	wget "${url}"
 fi
 
-echo 'Setup YAPF...'
 ./setup_yapf.sh
-
-echo 'Setup Neovim...'
 ./setup_neovim.sh
-
 ./setup_tmux.sh
-
 ./setup_rust.sh
+./setup_alacrity.sh
 
 echo 'Symlinking...'
 ./setup_symlinks.py
