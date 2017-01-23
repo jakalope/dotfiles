@@ -11,7 +11,7 @@ augroup cpp_group
         setl autoindent
         setl smartindent
         setl cindent
-        command! <buffer> Build :make
+        command! Build :make
  
         " Move to the beginning of the next text block.
         nnoremap <buffer> ]] :call search('\n\n\S', 'e')<CR>

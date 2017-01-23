@@ -16,29 +16,29 @@ draw_bold_text_with_bright_colors: true
 font:
   # The normal (roman) font face to use.
   normal:
-    family: Menlo
+    family: monospace # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     # style: Regular
 
   # The bold font face
   bold:
-    family: Menlo
+    family: monospace # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     # style: Bold
 
   # The italic font face
   italic:
-    family: Menlo
+    family: monospace # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     # style: Italic
 
   # Point size of the font
-  size: 10.0
+  size: 11.0
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
   offset:
-    x: 0.0
-    y: 0.0
+    x: 2.0
+    y: -7.0
 
   # OS X only: use thin stroke font rendering. Thin strokes are suitable
   # for retina displays, but for non-retina you probably want this set to
@@ -48,7 +48,7 @@ font:
 # Should display the render timer
 render_timer: false
 
-# Colors (Tomorrow Night Bright)
+# # Colors (Tomorrow Night Bright)
 # colors:
 #   # Default colors
 #   primary:
@@ -179,7 +179,6 @@ key_bindings:
   - { key: Back,                    chars: "\x7f"                        }
   - { key: Delete,                  chars: "\x1b[3~",  mode: AppKeypad   }
   - { key: Delete,                  chars: "\x1b[P",   mode: ~AppKeypad  }
-  - { key: H,        mods: Control, chars: "\x127",                     }
 
 # Mouse bindings
 #
@@ -199,7 +198,8 @@ key_bindings:
 mouse_bindings:
   - { mouse: Middle, action: PasteSelection }
 
+
 # Shell
 #
 # You can set this to a path to your favorite shell, e.g. /bin/fish
-shell: /bin/bash
+shell:

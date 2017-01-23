@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 cd ~/Downloads
-git clone https://github.com/jwilm/alacritty.git
-cd alacrity
+if [[ ! -d alacritty ]]; then
+    git clone https://github.com/jwilm/alacritty.git
+fi
+cd alacritty
 rustup override set nightly
 cargo build --release
-cp target/release/alacrity ~/bin
+cp target/release/alacritty ~/bin

@@ -301,6 +301,11 @@ inoremap <A-j> <C-w>j
 inoremap <A-k> <C-w>k
 inoremap <A-l> <C-w>l
 
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
 if has('nvim')
     tnoremap <F1> <C-\><C-n>
 
@@ -314,6 +319,11 @@ if has('nvim')
     tnoremap ∆ <C-\><C-n><C-w>j
     tnoremap ˚ <C-\><C-n><C-w>k
     tnoremap ¬ <C-\><C-n><C-w>l
+
+    tnoremap <C-h> <C-\><C-n><C-w>h
+    tnoremap <C-j> <C-\><C-n><C-w>j
+    tnoremap <C-k> <C-\><C-n><C-w>k
+    tnoremap <C-l> <C-\><C-n><C-w>l
 
 	tnoremap <C-u> <C-\><C-n><C-u>
 	tnoremap <C-d> <C-\><C-n><C-d>

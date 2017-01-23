@@ -44,13 +44,11 @@ sudo make install install-doc install-html install-info
 popd
 popd
 
-# Install neovim
 ./setup_neovim.sh
-
-# Install yapf
 ./setup_yapf.sh
-
 ./setup_tmux.sh
+./setup_rust.sh
+./setup_alacrity.sh
 
 # run indicator multiload for the first time
 indicator-multiload &
