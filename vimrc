@@ -83,7 +83,7 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
-nnoremap fd <Plug>(easymotion-bd-w)
+nnoremap ;j <Plug>(easymotion-bd-W)
 
 " Easy-tags
 set tags="./tags,~/.vim/tags";
@@ -119,9 +119,6 @@ Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
 Plugin 'Valloric/YouCompleteMe'
-if !has('nvim')
-    Plugin 'tpope/vim-sensible'
-endif
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-scripts/restore_view.vim'
 Plugin 'SirVer/ultisnips'
@@ -141,7 +138,8 @@ syntax on
 " Used by restore_view.vim
 set autoindent
 set autoread
-set backspace=indent,eol,start " Allow backspacing over autoindent, line breaks and start of insert action
+" Allow backspacing over autoindent, line breaks and start of insert action
+set backspace=indent,eol,start
 set bs=2
 set cindent
 set cmdheight=2
@@ -204,21 +202,14 @@ augroup AutoResizeSplits
    autocmd VimResized * exe "normal! \<c-w>="
 augroup END
 
-map! <F1> <ESC>
-
 command! W :w
 command! Wa :wa
 
 " Stop accidental entry into Ex mode
 nnoremap Q <CR>
 
-" Move to the beginning of the next text block.
-nnoremap ;j :call search('\n\n\S', 'e')<CR>
-onoremap ;j :call search('\n\n\S', 'e')<CR>
-nnoremap ;k :call search('\n\n\S', 'be')<CR>
-onoremap ;k :call search('\n\n\S', 'be')<CR>
-
 " Remap to <Esc>
+map! <F1> <ESC>
 inoremap jk 
 
 """"""""""""""

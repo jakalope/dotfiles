@@ -3,8 +3,13 @@ augroup bazel_group
     autocmd BufNewFile,BufRead BUILD setfiletype bazel
     autocmd BufNewFile,BufRead *.bzl setfiletype bazel
 
+    function! OnBazelBufWritePre()
+        let view = winsaveview()
+        %!buildifier
+        call winrestview(view)
+    endfunction
+
     function! DoBazel()
-        " setl filetype=python
         setl cc=80
         setl shiftwidth=4
         setl tabstop=4
@@ -13,5 +18,6 @@ augroup bazel_group
         setl smartindent
     endfunction
 
+    autocmd BufWritePre BUILD call OnBazelBufWritePre()
     autocmd FileType bazel call DoBazel()
 augroup END

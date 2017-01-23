@@ -25,16 +25,11 @@ augroup filetypedetect
             let view = winsaveview()
             %!clang_format
             call winrestview(view)
-        elseif &filetype=='bazel'
-            let view = winsaveview()
-            %!buildifier
-            call winrestview(view)
         endif
     endfunction
 
     autocmd BufNewFile,BufRead CMakeLists.txt silent! call SetCMakeOptions()
     autocmd BufNewFile,BufRead *.cmake silent! call SetCMakeOptions()
-
     autocmd BufNewFile,BufRead *.md silent! call SetMarkdownOptions()
     autocmd BufNewFile,BufRead COMMIT_EDITMSG silent! call SetCommitOptions()
 augroup END
