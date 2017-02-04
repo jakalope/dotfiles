@@ -161,6 +161,8 @@ set showcmd " Show partial commands in the last line of the screen
 set showmode
 set softtabstop=4
 set spell spelllang=en_us
+set splitbelow
+set splitright
 set tabstop=4
 set title
 set viewoptions=cursor,folds,slash,unix
@@ -328,6 +330,8 @@ if has('nvim')
 	tnoremap <C-u> <C-\><C-n><C-u>
 	tnoremap <C-d> <C-\><C-n><C-d>
 
+    highlight TermCursor ctermfg=red guifg=red
+
     augroup terminal
 		autocmd!
         autocmd TermOpen * setlocal nospell
@@ -356,7 +360,7 @@ Detect
 filetype plugin on
 
 " colors
-colorscheme slate
+colorscheme peachpuff
 set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
-hi SpellBad ctermfg=135 ctermbg=NONE
+hi SpellBad ctermfg=1436 ctermbg=NONE
 hi SpellCap ctermfg=202 ctermbg=NONE

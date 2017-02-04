@@ -25,6 +25,10 @@ augroup filetypedetect
             let view = winsaveview()
             %!clang_format
             call winrestview(view)
+        elseif &filetype=='proto'
+            let view = winsaveview()
+            %!clang_format
+            call winrestview(view)
         endif
     endfunction
 
