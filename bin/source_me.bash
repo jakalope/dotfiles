@@ -9,7 +9,7 @@ function ncode() {
 }
 
 function tcode() {
-    tmux new -s "$(basename "$(pwd)")" 'nvim -c vs -c vs -c vs -c "3wincmd l" -c term'
+    tmux -2 new -s "$(basename "$(pwd)")" 'nvim -c vs -c vs -c vs -c "3wincmd l" -c term'
 }
 
 source ~/bin/upcd.bash

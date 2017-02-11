@@ -298,6 +298,11 @@ nnoremap ∆ <C-w>j
 nnoremap ˚ <C-w>k
 nnoremap ¬ <C-w>l
 
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
+
 inoremap <A-h> <C-w>h
 inoremap <A-j> <C-w>j
 inoremap <A-k> <C-w>k
@@ -307,6 +312,24 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
+" Cursor to yellow on insert mode
+" Blue on command/other mode
+" Note the use of hex codes (ie 3971ED)
+if exists('$TMUX')
+    " let &t_EI = "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
+    " let &t_SI = "\<Esc>Ptmux;\<Esc>\033]PlFBA922\033\\"
+    " silent !echo -ne "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
+    " autocmd VimLeave * silent !echo -ne "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
+
+    set t_8f=^[[38;2;%lu;%lu;%lum  " Needed in tmux
+    set t_8b=^[[48;2;%lu;%lu;%lum  " Ditto
+else
+    let &t_EI = "\033]Pl3971ED\033\\"
+    let &t_SI = "\033]PlFBA922\033\\"
+    silent !echo -ne "\033]Pl3971ED\033\\"
+    autocmd VimLeave * silent !echo -ne "\033]Pl3971ED\033\\"
+endif
 
 if has('nvim')
     tnoremap <F1> <C-\><C-n>
@@ -330,7 +353,7 @@ if has('nvim')
 	tnoremap <C-u> <C-\><C-n><C-u>
 	tnoremap <C-d> <C-\><C-n><C-d>
 
-    highlight TermCursor ctermfg=red guifg=red
+    " highlight TermCursor ctermfg=red guifg=red
 
     augroup terminal
 		autocmd!

@@ -2,6 +2,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+export TERM=screen-256color
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
@@ -49,9 +50,11 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color) color_prompt=yes;;
-esac
+# case "$TERM" in
+#     xterm-color) color_prompt=yes;;
+# esac
+
+color_prompt=yes
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
@@ -103,7 +106,7 @@ else
     # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
     export PS1='$(hg_ps1)\u@\h\w\$(parse_git_branch)$ '
 fi
-unset color_prompt force_color_prompt
+# unset color_prompt force_color_prompt
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
