@@ -106,6 +106,7 @@ else
     # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
     export PS1='$(hg_ps1)\u@\h\w\$(parse_git_branch)$ '
 fi
+export PS1='$(hg_ps1)\u@\h:\[\033[2;33m\]\w\[\033[0m\]$(parse_git_branch)$ '
 # unset color_prompt force_color_prompt
 
 # enable color support of ls and also add handy aliases

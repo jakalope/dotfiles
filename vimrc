@@ -317,10 +317,10 @@ nnoremap <C-l> <C-w>l
 " Blue on command/other mode
 " Note the use of hex codes (ie 3971ED)
 if exists('$TMUX')
-    " let &t_EI = "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
-    " let &t_SI = "\<Esc>Ptmux;\<Esc>\033]PlFBA922\033\\"
-    " silent !echo -ne "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
-    " autocmd VimLeave * silent !echo -ne "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\033]PlFBA922\033\\"
+    silent !echo -ne "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
+    autocmd VimLeave * silent !echo -ne "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
 
     set t_8f=^[[38;2;%lu;%lu;%lum  " Needed in tmux
     set t_8b=^[[48;2;%lu;%lu;%lum  " Ditto
@@ -329,37 +329,6 @@ else
     let &t_SI = "\033]PlFBA922\033\\"
     silent !echo -ne "\033]Pl3971ED\033\\"
     autocmd VimLeave * silent !echo -ne "\033]Pl3971ED\033\\"
-endif
-
-if has('nvim')
-    tnoremap <F1> <C-\><C-n>
-
-	tnoremap <F5> <C-\><C-n>:tabp<CR>
-	tnoremap <F6> <C-\><C-n>:bp<CR>
-	tnoremap <F7> <C-\><C-n>:bn<CR>
-	tnoremap <F8> <C-\><C-n>:tabn<CR>
-	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
-
-    tnoremap ˙ <C-\><C-n><C-w>h
-    tnoremap ∆ <C-\><C-n><C-w>j
-    tnoremap ˚ <C-\><C-n><C-w>k
-    tnoremap ¬ <C-\><C-n><C-w>l
-
-    tnoremap <C-h> <C-\><C-n><C-w>h
-    tnoremap <C-j> <C-\><C-n><C-w>j
-    tnoremap <C-k> <C-\><C-n><C-w>k
-    tnoremap <C-l> <C-\><C-n><C-w>l
-
-	tnoremap <C-u> <C-\><C-n><C-u>
-	tnoremap <C-d> <C-\><C-n><C-d>
-
-    " highlight TermCursor ctermfg=red guifg=red
-
-    augroup terminal
-		autocmd!
-        autocmd TermOpen * setlocal nospell
-        autocmd BufWinEnter,WinEnter term://* startinsert
-    augroup END
 endif
 
 " Reload all windows, tabs, buffers, etc.
@@ -387,3 +356,44 @@ colorscheme peachpuff
 set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
 hi SpellBad ctermfg=1436 ctermbg=NONE
 hi SpellCap ctermfg=202 ctermbg=NONE
+
+" Toggle numbering
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set nornu
+  else
+    set rnu
+  endif
+endfunc
+nnoremap ;n :call NumberToggle()<cr>
+
+if has('nvim')
+    tnoremap <F1> <C-\><C-n>
+
+	tnoremap <F5> <C-\><C-n>:tabp<CR>
+	tnoremap <F6> <C-\><C-n>:bp<CR>
+	tnoremap <F7> <C-\><C-n>:bn<CR>
+	tnoremap <F8> <C-\><C-n>:tabn<CR>
+	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
+
+    tnoremap ˙ <C-\><C-n><C-w>h
+    tnoremap ∆ <C-\><C-n><C-w>j
+    tnoremap ˚ <C-\><C-n><C-w>k
+    tnoremap ¬ <C-\><C-n><C-w>l
+
+    tnoremap <C-h> <C-\><C-n><C-w>h
+    tnoremap <C-j> <C-\><C-n><C-w>j
+    tnoremap <C-k> <C-\><C-n><C-w>k
+    tnoremap <C-l> <C-\><C-n><C-w>l
+
+	tnoremap <C-u> <C-\><C-n><C-u>
+	tnoremap <C-d> <C-\><C-n><C-d>
+
+    highlight TermCursor ctermfg=red guifg=red
+
+    augroup terminal
+		autocmd!
+        autocmd TermOpen * setlocal nospell
+        autocmd BufWinEnter,WinEnter term://* startinsert
+    augroup END
+endif
