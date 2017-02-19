@@ -2,6 +2,16 @@
 autocmd!
 
 """""""""" Script opts
+let g:python_host_prog="/usr/bin/python"
+let g:python3_host_prog="/usr/local/bin/python3"
+if !filereadable(g:python3_host_prog)
+	let g:python3_host_prog="/usr/bin/python3"
+endif
+
+" Syntastic
+let g:syntastic_java_checkers=['javac']
+let g:syntastic_java_javac_config_file_enabled = 1
+
 " YouCompleteMe
 " let g:ycm_register_as_syntastic_checker = 0
 set completeopt-=preview
@@ -18,9 +28,10 @@ let g:ycm_filetype_specific_completion_to_disable = {
     \}
 
 nnoremap <C-\> :YcmCompleter GoTo<CR>
-nnoremap <C-h> :YcmCompleter FixIt<CR>
+nnoremap <C-g> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
+
 
 function! YcmToggle()
     if exists("b:ycm_largefile") && b:ycm_largefile
@@ -43,7 +54,7 @@ nnoremap ;c :CtrlPClearAllCaches<CR>
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 
 " UltiSnips
 " Trigger configuration. Do not use <tab> if you use YCM
@@ -72,7 +83,7 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
-map ;l <Plug>(easymotion-bd-w)
+nnoremap ;j <Plug>(easymotion-bd-W)
 
 " Easy-tags
 set tags="./tags,~/.vim/tags";
@@ -97,7 +108,6 @@ call vundle#begin()
 " let Vundle manage Vundle; disable Git because we hate git submodules
 Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
 
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'drmikehenry/vim-fontsize'
 Plugin 'easymotion/vim-easymotion'
@@ -108,7 +118,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-sensible'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-scripts/restore_view.vim'
 Plugin 'SirVer/ultisnips'
@@ -116,6 +126,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'PeterRincker/vim-argumentative'
+Plugin 'moll/vim-bbye'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -126,11 +137,13 @@ syntax on
 
 " Used by restore_view.vim
 set autoindent
-set backspace=indent,eol,start " Allow backspacing over autoindent, line breaks and start of insert action
+set autoread
+" Allow backspacing over autoindent, line breaks and start of insert action
+set backspace=indent,eol,start
 set bs=2
 set cindent
 set cmdheight=2
-set encoding=utf-8
+" set encoding=utf-8
 set equalalways
 set expandtab
 set fileencoding=utf-8
@@ -140,14 +153,16 @@ set laststatus=2 " Always display the status line, even if only one window is di
 set nofoldenable
 set nohlsearch
 set number
-set paste
+set nopaste
 set relativenumber
-set scrolloff=999
+set scrolloff=2
 set shiftwidth=4
 set showcmd " Show partial commands in the last line of the screen
 set showmode
 set softtabstop=4
 set spell spelllang=en_us
+set splitbelow
+set splitright
 set tabstop=4
 set title
 set viewoptions=cursor,folds,slash,unix
@@ -174,10 +189,6 @@ set confirm
 " is unset, this does nothing.
 set t_vb=
 
-" colors
-colorscheme desert
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
-
 "============================================================
 
 let DoxygenToolkit_commentType=1
@@ -193,73 +204,54 @@ augroup AutoResizeSplits
    autocmd VimResized * exe "normal! \<c-w>="
 augroup END
 
-" fast buffer deletion
-nnoremap <F9><F9> :bd<CR>
-
-map! <F1> <ESC>
-
 command! W :w
 command! Wa :wa
 
 " Stop accidental entry into Ex mode
 nnoremap Q <CR>
 
-" Move to the beginning of the next text block.
-nnoremap ;j :call search('\n\n\S', 'e')<CR>
-onoremap ;j :call search('\n\n\S', 'e')<CR>
-nnoremap ;k :call search('\n\n\S', 'be')<CR>
-onoremap ;k :call search('\n\n\S', 'be')<CR>
-
+" Remap to <Esc>
+map! <F1> <ESC>
+inoremap jk 
 
 """"""""""""""
 
 nnoremap _g :grep! "\b<C-R><C-W>\b" * 2>/dev/null<CR>
 
-" convert a 1-line CPP function definition signature to a declaration signature
-nnoremap _sig >>Wd2f:A;<ESC>0w
+command! CompileVisible exe "silent !make_this_package % 2>&1 \| grep ".
+                        \"--color -E \'error:\|\$\' &>".g:tty." &"
 
-" Put cursor over a character to align the rest of the paragraph to, then type _align
-nnoremap _align ywmvV}:s/<C-r>"/`<C-r>"/g<CR>V'v:!column -ts \`<CR>
+command! CompileFast    exe "silent !make_this_package % &>".g:tty." &"
 
-" Open previous tag in new tab
-nnoremap _t :tabnew %<CR>:tabprev<CR><C-o>
+command! CompileOpt     exe "silent !make_this_package % ".
+                        \"--compilation_mode=opt &>".g:tty." &"
 
-" Restyle source code
-vnoremap _style :!astyle<CR>
-nnoremap _style :%!astyle<CR>
-command! Style :%!astyle
-
-" Set a default state for _c
-nnoremap _c :CompileOptimized<CR>
+command! CompileDebug   exe "silent !make_this_package % ".
+                        \"--compilation_mode=dbg &>".g:tty." &"
 
 " Redefine _c to execute some other commands. Used as a switching mechanism.
-command! CompileVisible   exe "silent !make_this_package % 2>&1 \| grep --color -E \'error:\|\$\' &>$(cat ~/use-me-tty-".v:servername.") &"
-command! CompileFast      exe "silent !make_this_package % &>$(cat ~/use-me-tty-".v:servername.") &"
-command! CompileOptimized exe "silent !make_this_package % --compilation_mode=opt &>$(cat ~/use-me-tty-".v:servername.") &"
-command! CompileDebug     exe "silent !make_this_package % --compilation_mode=dbg &>$(cat ~/use-me-tty-".v:servername.") &"
+nnoremap _e :nnoremap _c :CompileVisible<LT>CR><LT>C-L><CR>
+                        \:echo "Set compile mode to Visible"<CR>
 
-nnoremap _e :nnoremap _c :CompileVisible<LT>CR><LT>C-L><CR>:echo "Set compile mode to Visible"<CR>
-nnoremap _f :nnoremap _c :CompileFast<LT>CR><LT>C-L><CR>:echo "Set compile mode to Fast"<CR>
-nnoremap _o :nnoremap _c :CompileOptimized<LT>CR><LT>C-L><CR>:echo "Set compile mode to Optimized"<CR>
-nnoremap _d :nnoremap _c :CompileDebug<LT>CR><LT>C-L><CR>:echo "Set compile mode to Debug"<CR>
+nnoremap _f :nnoremap _c :CompileFast<LT>CR><LT>C-L><CR>
+                        \:echo "Set compile mode to Fast"<CR>
 
-" Convert Structure-Of-Arrays to Array-Of-Structures
-vnoremap _aos :s/\(\w*\)\.\(\w*\)\[\(\w*\)\]/\1[\3].\2/g<CR>
+nnoremap _o :nnoremap _c :CompileOpt<LT>CR><LT>C-L><CR>
+                        \:echo "Set compile mode to Optimized"<CR>
+
+nnoremap _d :nnoremap _c :CompileDebug<LT>CR><LT>C-L><CR>
+                        \:echo "Set compile mode to Debug"<CR>
+
+" Set a default state for _c
+nnoremap _c :CompileOpt<CR>
 
 " Copy current file:line to the system clipboard, preceded by "b"
 " Used to set breakpoints in GDB
-nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".line(".")."\" \| xsel --clipboard --input"<CR>:redraw!<CR>
+nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".
+        \line(".")."\" \| xsel --clipboard --input"<CR>:redraw!<CR>
 
 " yank name of current file to register 0 and to system clipboard
 nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
-
-" Find all files that include this file, in this directory
-" nnoremap _down :let g:cmd=system("echo ".expand('%')." \| awk -F/ '{print $(NF-1)\"/\"$NF}'")<CR>:cs find i <C-R>=g:cmd<CR><CR>
-
-"This redefines the backspace key to start a new undo sequence.  You can now
-"undo the effect of the backspace key, without changing what you typed before
-"that, with CTRL-O u.
-inoremap <C-H> <C-G>u<C-H>
 
 "This breaks undo at each line break.  It also expands abbreviations before
 "this.
@@ -269,7 +261,8 @@ inoremap <CR> <C-]><C-G>u<CR>
 function! g:Companion()
     let l:fn_ext = expand("%:e")
     let l:fn_root = expand("%:r")
-    if l:fn_ext == "cpp" || l:fn_ext == "c" || l:fn_ext == "cc" || l:fn_ext == "cx" || l:fn_ext == "cxx"
+    if l:fn_ext == "cpp" || l:fn_ext == "c" || l:fn_ext == "cc" || 
+            \l:fn_ext == "cx" || l:fn_ext == "cxx"
         " TODO see if this file exists; otherwise try other extensions
         let l:fn = l:fn_root.".h"
     elseif l:fn_ext == "h" || l:fn_ext == "hpp"
@@ -283,16 +276,60 @@ function! g:Companion()
     return l:companion_file
 endfunction
 
-nnoremap ze :cd ${MY_WORKSPACE_DIR}<CR>:execute 'edit '.g:Companion()<CR>
-nnoremap zt :cd ${MY_WORKSPACE_DIR}<CR>:execute 'tabnew '.g:Companion()<CR>
-nnoremap zv :cd ${MY_WORKSPACE_DIR}<CR>:execute 'vsplit '.g:Companion()<CR>
-nnoremap zs :cd ${MY_WORKSPACE_DIR}<CR>:execute 'split '.g:Companion()<CR>
+nnoremap ze :execute 'edit '.g:Companion()<CR>
+nnoremap zt :execute 'tabnew '.g:Companion()<CR>
+nnoremap zv :execute 'vsplit '.g:Companion()<CR>
+nnoremap zs :execute 'split '.g:Companion()<CR>
+nnoremap zn :execute '!vims <C-R><C-A>'<CR>
+
 
 " Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
 nnoremap <F6> :bp<CR>
 nnoremap <F7> :bn<CR>
 nnoremap <F8> :tabn<CR>
+
+" fast buffer deletion
+nnoremap <F9><F9> :Bdelete<CR>
+
+" Map <A-{h,j,k,l}> to <C-w>{h,j,k,l}
+nnoremap ˙ <C-w>h
+nnoremap ∆ <C-w>j
+nnoremap ˚ <C-w>k
+nnoremap ¬ <C-w>l
+
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
+
+inoremap <A-h> <C-w>h
+inoremap <A-j> <C-w>j
+inoremap <A-k> <C-w>k
+inoremap <A-l> <C-w>l
+
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Cursor to yellow on insert mode
+" Blue on command/other mode
+" Note the use of hex codes (ie 3971ED)
+if exists('$TMUX')
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\033]PlFBA922\033\\"
+    silent !echo -ne "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
+    autocmd VimLeave * silent !echo -ne "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
+
+    set t_8f=^[[38;2;%lu;%lu;%lum  " Needed in tmux
+    set t_8b=^[[48;2;%lu;%lu;%lum  " Ditto
+else
+    let &t_EI = "\033]Pl3971ED\033\\"
+    let &t_SI = "\033]PlFBA922\033\\"
+    silent !echo -ne "\033]Pl3971ED\033\\"
+    autocmd VimLeave * silent !echo -ne "\033]Pl3971ED\033\\"
+endif
 
 " Reload all windows, tabs, buffers, etc.
 command! Reload :call s:Reload()
@@ -302,17 +339,61 @@ function! s:Reload()
     set autoread<
 endfunction
 
-" Apply `yapf` to current file
-nnoremap ;f :%!yapf<CR>
-
 " Detect filetype in each tab
 command! Detect :tabdo exec 'filetype detect'
 
 command! Wcd cd ${MY_WORKSPACE_DIR}
-command! Src source ~/.vimrc
+command! Src set all& | source ~/.vimrc
 
 " Remove all buffers
 command! Clear :0,10000bd
 
 Detect
 filetype plugin on
+
+" colors
+colorscheme peachpuff
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
+hi SpellBad ctermfg=1436 ctermbg=NONE
+hi SpellCap ctermfg=202 ctermbg=NONE
+
+" Toggle numbering
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set nornu
+  else
+    set rnu
+  endif
+endfunc
+nnoremap ;n :call NumberToggle()<cr>
+
+if has('nvim')
+    tnoremap <F1> <C-\><C-n>
+
+	tnoremap <F5> <C-\><C-n>:tabp<CR>
+	tnoremap <F6> <C-\><C-n>:bp<CR>
+	tnoremap <F7> <C-\><C-n>:bn<CR>
+	tnoremap <F8> <C-\><C-n>:tabn<CR>
+	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
+
+    tnoremap ˙ <C-\><C-n><C-w>h
+    tnoremap ∆ <C-\><C-n><C-w>j
+    tnoremap ˚ <C-\><C-n><C-w>k
+    tnoremap ¬ <C-\><C-n><C-w>l
+
+    tnoremap <C-h> <C-\><C-n><C-w>h
+    tnoremap <C-j> <C-\><C-n><C-w>j
+    tnoremap <C-k> <C-\><C-n><C-w>k
+    tnoremap <C-l> <C-\><C-n><C-w>l
+
+	tnoremap <C-u> <C-\><C-n><C-u>
+	tnoremap <C-d> <C-\><C-n><C-d>
+
+    highlight TermCursor ctermfg=red guifg=red
+
+    augroup terminal
+		autocmd!
+        autocmd TermOpen * setlocal nospell
+        autocmd BufWinEnter,WinEnter term://* startinsert
+    augroup END
+endif

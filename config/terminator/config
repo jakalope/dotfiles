@@ -1,0 +1,21 @@
+[global_config]
+[keybindings]
+  cycle_next = <Shift>Tab
+[profiles]
+  [[default]]
+    background_image = None
+    scrollback_lines = 50000
+    use_system_font = False
+    foreground_color = "#839496"
+    scroll_on_output = False
+    font = Monospace 11
+    background_color = "#002b36"
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+    [[[window0]]]
+      type = Window
+      parent = ""
+[plugins]

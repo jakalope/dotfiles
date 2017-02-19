@@ -1,2 +1,2 @@
 #!/bin/bash
-greps cfiles "${@}"
+greps "${@}" $(cfiles)

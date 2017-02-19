@@ -22,15 +22,18 @@ augroup filetypedetect
             %!yapf
             call winrestview(view)
         elseif &filetype=='cpp'
-			let view = winsaveview()
+            let view = winsaveview()
             %!clang_format
-			call winrestview(view)
+            call winrestview(view)
+        elseif &filetype=='proto'
+            let view = winsaveview()
+            %!clang_format
+            call winrestview(view)
         endif
     endfunction
 
     autocmd BufNewFile,BufRead CMakeLists.txt silent! call SetCMakeOptions()
     autocmd BufNewFile,BufRead *.cmake silent! call SetCMakeOptions()
-
     autocmd BufNewFile,BufRead *.md silent! call SetMarkdownOptions()
     autocmd BufNewFile,BufRead COMMIT_EDITMSG silent! call SetCommitOptions()
 augroup END

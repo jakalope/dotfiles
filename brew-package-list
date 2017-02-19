@@ -1,0 +1,8 @@
+postgresql
+clang-format
+cppcheck
+ssh-copy-id
+wget
+python3
+ctags-exuberant
+libevent

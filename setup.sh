@@ -1,13 +1,32 @@
 #!/usr/bin/env bash
 
-set -eou pipefail
+add_ppa() {
+  for i in "$@"; do
+    grep -h "^deb.*$i" /etc/apt/sources.list.d/* > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+      echo "Adding ppa:$i"
+      sudo add-apt-repository -y ppa:$i
+    else
+      echo "ppa:$i already exists"
+    fi
+  done
+}
 
 # install dependencies
-sudo add-apt-repository ppa:webupd8team/java      # oracle-java8-installer
-sudo add-apt-repository ppa:kubuntu-ppa/backports # massif-visualizer
+# oracle-java8-installer # massif-visualizer
+add_ppa webupd8team/java kubuntu-ppa/backports
+
+set -eou pipefail
+
 sudo apt-get update
 sudo apt-get install -y $(cat apt-package-list)
+sudo apt-get remove python3-pip; sudo apt-get install python3-pip
+sudo pip install --upgrade neovim
+sudo pip2 install --upgrade neovim
+sudo pip3 install --upgrade neovim
 sudo pip install $(cat pip-package-list)
+sudo pip3 install $(cat pip3-package-list)
 
 git config --global core.excludesfile "${HOME}/dotfiles/global_gitignore"
 
@@ -25,11 +44,11 @@ sudo make install install-doc install-html install-info
 popd
 popd
 
-# Install neovim
 ./setup_neovim.sh
-
-# Install yapf
 ./setup_yapf.sh
+./setup_tmux.sh
+./setup_rust.sh
+./setup_alacrity.sh
 
 # run indicator multiload for the first time
 indicator-multiload &
@@ -42,43 +61,9 @@ fi
 sudo dpkg --install bazel_0.2.0-linux-x86_64.deb 
 popd
 
-# setup specific tmux version
-if [[ ! -e tmux_1.8.orig.tar.gz ]]; then
-    gunzip -c tmux_1.8.orig.tar.gz | tar xvf -
-    pushd tmux-1.8
-    ./configure
-    make
-    sudo make install
-    popd
-    rm -rf tmux-1.8
-fi
-
-# install powerline fonts
-pushd ~/Downloads
-if [[ ! -e fonts ]]; then
-    git clone https://github.com/powerline/fonts.git
-    cd fonts
-    ./install.sh
-fi
-popd
-
 # create backups
-pushd ~/dotfiles
-stamp=$(date +%Y-%m-%d-%H-%M-%S)
-mkdir -p "${HOME}/backup/${stamp}"
-echo "backing up old files to ~/backup/${stamp}..."
+./setup_symlinks.py
 
-while read file
-do
-    if [[ -e "${HOME}/${file}" ]]; then
-        mv "${HOME}/${file}" "${HOME}/backup/${stamp}/"
-    fi
-    ln --symbolic --target "${HOME}/.${file}" "$(pwd)/${file}"
-done < home-files
-
-popd
-
-# clone hg workspace
 mkdir -p ~/workspace
 
 if [[ ! -e ~/.ssh/id_rsa ]]; then
