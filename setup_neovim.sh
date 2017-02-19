@@ -9,6 +9,6 @@ if [[ ! -e v0.1.6.zip ]]; then
 fi
 unzip v0.1.6.zip
 cd neovim-0.1.6
-make -j
+make
 sudo make install
 

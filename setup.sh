@@ -6,8 +6,8 @@ set -eou pipefail
 sudo add-apt-repository ppa:webupd8team/java      # oracle-java8-installer
 sudo add-apt-repository ppa:kubuntu-ppa/backports # massif-visualizer
 sudo apt-get update
-sudo apt-get install -y "$(cat apt-package-list)"
-sudo pip install "$(cat pip-package-list)"
+sudo apt-get install -y $(cat apt-package-list)
+sudo pip install $(cat pip-package-list)
 
 git config --global core.excludesfile "${HOME}/dotfiles/global_gitignore"
 
