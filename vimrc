@@ -352,10 +352,9 @@ Detect
 filetype plugin on
 
 " colors
-colorscheme peachpuff
 set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
-hi SpellBad ctermfg=1436 ctermbg=NONE
-hi SpellCap ctermfg=202 ctermbg=NONE
+hi SpellBad ctermfg=red ctermbg=NONE
+hi SpellCap ctermfg=green ctermbg=NONE
 
 " Toggle numbering
 function! NumberToggle()
