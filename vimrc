@@ -97,6 +97,9 @@ let g:easytags_include_members = 1
 let g:easytags_auto_highlight = 0
 let vbs=1  " check timing with :messages
 
+"""""""""" VAM
+"source ~/.vim/vam_setup.vim
+
 """""""""" Vundle
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -122,7 +125,6 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-scripts/restore_view.vim'
 Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'PeterRincker/vim-argumentative'

@@ -26,7 +26,6 @@ fi
 
 ./setup_yapf.sh
 ./setup_neovim.sh
-./setup_tmux.sh
 ./setup_rust.sh
 ./setup_alacrity.sh
 
