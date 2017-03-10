@@ -355,6 +355,7 @@ filetype plugin on
 
 " colors
 set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
+colorscheme peachpuff
 hi SpellBad ctermfg=red ctermbg=NONE
 hi SpellCap ctermfg=green ctermbg=NONE
 
