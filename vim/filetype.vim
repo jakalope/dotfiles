@@ -40,6 +40,7 @@ augroup filetypedetect
     autocmd BufNewFile,BufRead *.cmake silent! call SetCMakeOptions()
     autocmd BufNewFile,BufRead *.md silent! call SetMarkdownOptions()
     autocmd BufNewFile,BufRead COMMIT_EDITMSG silent! call SetCommitOptions()
+    autocmd BufNewFile,BufRead *.pbtxt silent! call SetMarkdownOptions()
 augroup END
 
 function! SetMarkdownOptions()
