@@ -1,2 +1,4 @@
 #!/bin/bash
-grep --recursive --color --line-number --with-filename ${@}
+pattern="${1}"
+shift
+grep --recursive --color --line-number --with-filename --regexp="${pattern}" ${@}

@@ -9,7 +9,8 @@ function ncode() {
 }
 
 function tcode() {
-    tmux -2 new -s "$(basename "$(pwd)")" 'nvim -c vs -c vs -c vs -c "3wincmd l" -c term'
+    SESSION_NAME="$(basename "$(pwd)")"
+    tmux -2 new -s "${SESSION_NAME}" "MY_WORKSPACE_DIR=\"${PWD}\" nvim -c vs -c vs -c vs -c \"3wincmd l\" -c term"
 }
 
 function tjoin() {
