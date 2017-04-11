@@ -21,6 +21,10 @@ augroup filetypedetect
             let view = winsaveview()
             %!yapf
             call winrestview(view)
+        elseif &filetype=='c'
+            let view = winsaveview()
+            %!clang_format
+            call winrestview(view)
         elseif &filetype=='cpp'
             let view = winsaveview()
             %!clang_format

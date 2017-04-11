@@ -259,23 +259,46 @@ nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 "this.
 inoremap <CR> <C-]><C-G>u<CR>
 
+function! g:Sequence(prefix, list)
+    let l:out = []
+    for item in a:list
+        let l:out += [a:prefix.".".item]
+    endfor
+    return l:out
+endfunction
+
+function! g:GitLs(fn)
+    let l:git_ls_command = "git ls-files --full-name ".a:fn
+    exec "let l:companion_file = system(\"".l:git_ls_command."\")"
+    return l:companion_file
+endfunction
+
 " Open companion file, if it exists (e.g. test.h -> test.cpp)
 function! g:Companion()
     let l:fn_ext = expand("%:e")
     let l:fn_root = expand("%:r")
-    if l:fn_ext == "cpp" || l:fn_ext == "c" || l:fn_ext == "cc" || 
-            \l:fn_ext == "cx" || l:fn_ext == "cxx"
-        " TODO see if this file exists; otherwise try other extensions
-        let l:fn = l:fn_root.".h"
-    elseif l:fn_ext == "h" || l:fn_ext == "hpp"
-        " TODO see if this file exists; otherwise try other extensions
-        let l:fn = l:fn_root.".cpp"
-    else
-        return expand("%")
+    let l:c_ext = ["cpp", "c", "cc", "cx", "cxx"]
+    let l:h_ext = ["h", "hpp", "hxx", "hh"]
+    if index(l:c_ext, l:fn_ext) != -1
+        let l:fns = g:Sequence(l:fn_root, l:h_ext)
+        for l:fn in l:fns
+            let l:companion_file = g:GitLs(l:fn)
+            if l:companion_file != ""
+                return l:companion_file
+            endif 
+        endfor
+    elseif index(l:h_ext, l:fn_ext) != -1
+        let l:fns = g:Sequence(l:fn_root, l:c_ext)
+        for l:fn in l:fns
+            echom l:fn
+            let l:companion_file = g:GitLs(l:fn)
+            echom l:companion_file
+            if l:companion_file != ""
+                return l:companion_file
+            endif 
+        endfor
     endif
-    let l:git_ls_command = "git ls-files --full-name ".l:fn
-    exec "let l:companion_file = system(\"".l:git_ls_command."\")"
-    return l:companion_file
+    return expand("%")
 endfunction
 
 nnoremap ze :execute 'edit '.g:Companion()<CR>
