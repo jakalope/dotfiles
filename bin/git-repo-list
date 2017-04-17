@@ -1,0 +1,55 @@
+#!/usr/bin/env python
+
+import os
+import argparse
+import subprocess
+
+
+def directories(path):
+    return [
+        name for name in os.listdir(path)
+        if os.path.isdir(os.path.join(path, name))
+    ]
+
+
+def isGitRepo(path):
+    return os.path.isdir(os.path.join(path, '.git'))
+
+
+def gitBranchName(path):
+    cwd = os.getcwd()
+    os.chdir(path)
+    try:
+        branch_result = subprocess.check_output(['git', 'branch'])
+        branch_list = branch_result.split('\n')
+        for branch_name in branch_list:
+            if branch_name.startswith('*'):
+                return ' '.join(branch_name.split()[1:])
+    finally:
+        os.chdir(cwd)
+    raise Exception('No current branch listed.')
+
+
+def columnize(rows):
+    '''
+    Acts like `column -t`
+    http://stackoverflow.com/a/12065663/6706264
+    '''
+    widths = [max(map(len, col)) for col in zip(*rows)]
+    for row in rows:
+        print '  '.join((val.ljust(width) for val, width in zip(row, widths)))
+
+
+def main(args):
+    repo_paths = [path for path in directories(args.path) if isGitRepo(path)]
+    data = []
+    for repo_path in repo_paths:
+        data.append([os.path.basename(repo_path), gitBranchName(repo_path)])
+    columnize(data)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser('')
+    parser.add_argument('path', default='.', nargs='?')
+    args = parser.parse_args()
+    main(args)
