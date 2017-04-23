@@ -1,5 +1,1 @@
-#!/usr/bin/env bash
-
-set -eou pipefail
-
-git branch | grep '^*' | awk '{print $2}'
+this
