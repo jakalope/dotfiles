@@ -276,6 +276,7 @@ endfunction
 
 " Open companion file, if it exists (e.g. test.h -> test.cpp)
 function! g:Companion()
+    cd ${MY_WORKSPACE_DIR}
     let l:fn_ext = expand("%:e")
     let l:fn_root = expand("%:r")
     let l:c_ext = ["cpp", "c", "cc", "cx", "cxx"]

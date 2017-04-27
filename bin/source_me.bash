@@ -13,6 +13,13 @@ function tcode() {
     tmux -2 new -s "${SESSION_NAME}" "MY_WORKSPACE_DIR=\"${PWD}\" nvim -c vs -c vs -c vs -c \"3wincmd l\" -c term"
 }
 
+# fix delete key in neovim for the time being
+# https://github.com/neovim/neovim/issues/3211
+function nvim(){
+    tput smkx
+    command nvim $@
+}
+
 function tjoin() {
     tmux attach-session -t "${@}"
 }
