@@ -6,7 +6,12 @@ Prints C++ code for toString() and operator<<() methods to stdout.
 Example usage:
     echo 'enum class Foo : unsigned char {kA,kB = 3,}' | cpp_switch.py
 
+Or in vim, make a visual selection of the enum and then:
+    :'<,'>!cpp_switch.py
+
 Results in:
+    enum class Foo : unsigned char {kA,kB = 3,}
+
     const char* toString(Foo value);
 
     std::ostream& operator<<(std::ostream& out, Foo value);
@@ -28,7 +33,7 @@ import sys
 import fileinput
 from string import Template
 
-body_template = Template('''
+body_template = Template('''\
 const char* toString($typename value);
 
 std::ostream& operator<<(std::ostream& out, $typename value);
@@ -71,4 +76,6 @@ def generate(line):
 
 
 if __name__ == '__main__':
-    print(generate(' '.join(fileinput.input())))
+    lines = [line for line in fileinput.input()]
+    print(''.join(lines))
+    print(generate(' '.join(lines)))
