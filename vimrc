@@ -46,7 +46,7 @@ endfunction
 let g:ctrlp_clear_cache_on_exit = 1
 let g:ctrlp_max_files = 0
 let g:ctrlp_max_depth = 40
-let g:ctrlp_regexp = 1
+let g:ctrlp_regexp = 0
 nnoremap ;p :CtrlP<CR>
 nnoremap ;b :CtrlPBuffer<CR>
 nnoremap ;m :CtrlPMRU<CR>
@@ -379,7 +379,7 @@ Detect
 filetype plugin on
 
 " colors
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
 colorscheme peachpuff
 hi SpellBad ctermfg=red ctermbg=NONE
 hi SpellCap ctermfg=green ctermbg=NONE
