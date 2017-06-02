@@ -131,7 +131,7 @@ alias cwd='pwd | xsel -ib'
 alias gs='git status'
 alias gc='git commit'
 alias gd='git diff'
-alias gf='git fetch'
+alias gf='git fetch -p && git prune'
 alias ga='git add'
 alias Src='source ~/.bashrc'
 alias bbnc='bazel build --spawn_strategy=standalone --genrule_strategy=standalone'
@@ -185,10 +185,6 @@ export wcd="${WORKSPACE_DIR}"
 alias wcd='cd "${wcd}"'
 
 source ~/bin/source_me.bash
-
-if [[ -e /usr/local/lib/bazel/bin/bazel-complete.bash ]]; then
-    source /usr/local/lib/bazel/bin/bazel-complete.bash
-fi
 
 if [[ -e /opt/ros/indigo ]]; then
     source /opt/ros/indigo/setup.bash
