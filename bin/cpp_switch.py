@@ -40,8 +40,8 @@ Results in:
 
     const char* toString(Foo value) {
       switch (value) {
-      case kA: return "kA";
-      case kB: return "kB";
+      case Foo::kA: return "kA";
+      case Foo::kB: return "kB";
       }
     }
 
@@ -63,6 +63,7 @@ const char* toString($typename value) {
   switch (value) {
 $case
   }
+  return "";
 }
 
 std::ostream& operator<<(std::ostream& out, $typename value) {
@@ -71,11 +72,11 @@ std::ostream& operator<<(std::ostream& out, $typename value) {
 }
 ''')
 
-case_template = Template('  case $value: return "$value";')
+case_template = Template('  case $typename::$value: return "$value";')
 
 
 def type_split(line):
-    return line.split(':')[0].split()[-1]
+    return line.split('{')[0].split(':')[0].split()[-1]
 
 
 def case_split(line):
@@ -90,10 +91,12 @@ def cases_split(line):
 
 
 def generate(line):
+    typename = type_split(line)
     case = '\n'.join([
-        case_template.substitute(value=symbol) for symbol in cases_split(line)
+        case_template.substitute(
+            typename=typename, value=symbol) for symbol in cases_split(line)
     ])
-    return body_template.substitute(typename=type_split(line), case=case)
+    return body_template.substitute(typename=typename, case=case)
 
 
 if __name__ == '__main__':
