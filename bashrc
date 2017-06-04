@@ -72,13 +72,6 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-# if [ "$color_prompt" = yes ]; then
-#     PS1='$(hg_ps1)${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
-# else
-#     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-# fi
-# unset color_prompt force_color_prompt
-
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
@@ -88,10 +81,6 @@ xterm*|rxvt*)
     ;;
 esac
 
-# hg-prompt
-function hg_ps1() {
-    hg prompt "{{branch}}{@{bookmark}}:" 2> /dev/null
-}
 function parse_git_dirty {
   [[ $(git status 2> /dev/null | tail -n1) == "nothing to commit (working directory clean)" ]] && echo "*"
 }
@@ -100,13 +89,11 @@ function parse_git_branch {
 }
 
 if [ "$color_prompt" = yes ]; then
-    # PS1='$(hg_ps1)${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
-    export PS1='\u@\h:$(tty):\[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)\n$ '
+    #export PS1='\u@\h:$(tty):\[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)\n$ '
+    export PS1='\u@\h:\[\033[2;33m\]\w\[\033[0m\]$(parse_git_branch)\n$ '
 else
-    # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
     export PS1='\u@\h\w\$(parse_git_branch)$ '
 fi
-export PS1='\u@\h:\[\033[2;33m\]\w\[\033[0m\]$(parse_git_branch)\n$ '
 # unset color_prompt force_color_prompt
 
 # enable color support of ls and also add handy aliases
