@@ -368,8 +368,8 @@ function! s:Reload()
     set autoread<
 endfunction
 
-command! Setup :call s:Setup()
-function! s:Setup()
+command! Vsplits :call s:Vsplits()
+function! s:Vsplits()
     only                           " close all splits but this one
     let l:splits =  &columns / 82  " determine the number of splits to create
                                    " create the splits
@@ -438,3 +438,12 @@ if has('nvim')
         autocmd BufWinEnter,WinEnter term://* startinsert
     augroup END
 endif
+
+" Sometimes the current working directory changes when I execute lots of
+" shell commands. This locks me into my workspace directory if I've set it.
+augroup! dir_change
+augroup dir_change
+    if !empty($MY_WORKSPACE_DIR)
+        autocmd DirChanged * Wcd
+    endif
+augroup END
