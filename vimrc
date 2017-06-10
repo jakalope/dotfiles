@@ -219,6 +219,8 @@ inoremap jk 
 
 """"""""""""""
 
+set clipboard=unnamed
+
 nnoremap _g :grep! "\b<C-R><C-W>\b" * 2>/dev/null<CR>
 
 command! CompileVisible exe "silent !make_this_package % 2>&1 \| grep ".
@@ -364,6 +366,15 @@ function! s:Reload()
     setlocal autoread
     checktime
     set autoread<
+endfunction
+
+command! Setup :call s:Setup()
+function! s:Setup()
+    only                           " close all splits but this one
+    let l:splits =  &columns / 82  " determine the number of splits to create
+                                   " create the splits
+    exe l:splits . 'vsplit'
+    wincmd =                       " set all splits to equal width
 endfunction
 
 " Detect filetype in each tab
