@@ -15,7 +15,7 @@ add_ppa() {
 
 # install dependencies
 # oracle-java8-installer # massif-visualizer
-add_ppa webupd8team/java kubuntu-ppa/backports
+add_ppa webupd8team/java kubuntu-ppa/backports neovim-ppa/stable
 
 set -eou pipefail
 
@@ -48,7 +48,7 @@ popd
 ./setup_yapf.sh
 ./setup_tmux.sh
 ./setup_rust.sh
-./setup_alacrity.sh
+#./setup_alacrity.sh
 
 # run indicator multiload for the first time
 indicator-multiload &

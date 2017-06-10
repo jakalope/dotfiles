@@ -3,7 +3,7 @@ username = Jake Askeland <jake.askeland@gmail.com>
 ignore = ~/.hgignore
 
 [extensions]
-prompt = ~/hg-prompt/prompt.py
+#prompt = ~/hg-prompt/prompt.py
 color = 
 graphlog = 
 shelve = 

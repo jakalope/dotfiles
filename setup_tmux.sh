@@ -13,4 +13,4 @@ cd tmux-2.3
 
 ./configure 
 make -j
-make install
+sudo make install

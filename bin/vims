@@ -77,7 +77,7 @@ if [[ ! -t 0 && $# == 0 ]]; then
     # If so, expect it in "<filename>[:linenumber[:garbage]]" format,
     # separated by newlines and open each file in a separate tab by calling
     # this script recursively
-    $(awk '{print $1}' | awk -F: '{print "vims " $1 ":" $2}')
+    awk '{print $1}' | awk -F: '{print "vims " $1 ":" $2}' | bash
 # Check if we have some arguments
 elif [[ $# > 0 ]]; then
     if [[ ${1} == '-v' ]]; then

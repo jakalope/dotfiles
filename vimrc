@@ -46,7 +46,7 @@ endfunction
 let g:ctrlp_clear_cache_on_exit = 1
 let g:ctrlp_max_files = 0
 let g:ctrlp_max_depth = 40
-let g:ctrlp_regexp = 1
+let g:ctrlp_regexp = 0
 nnoremap ;p :CtrlP<CR>
 nnoremap ;b :CtrlPBuffer<CR>
 nnoremap ;m :CtrlPMRU<CR>
@@ -390,7 +390,7 @@ Detect
 filetype plugin on
 
 " colors
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
 colorscheme peachpuff
 hi SpellBad ctermfg=red ctermbg=NONE
 hi SpellCap ctermfg=green ctermbg=NONE
@@ -406,13 +406,16 @@ endfunc
 nnoremap ;n :call NumberToggle()<cr>
 
 if has('nvim')
-    tnoremap <F1> <C-\><C-n>
+    let g:terminal_scrollback_buffer_size = 100000
+    tnoremap jk <C-\><C-n>
 
 	tnoremap <F5> <C-\><C-n>:tabp<CR>
 	tnoremap <F6> <C-\><C-n>:bp<CR>
 	tnoremap <F7> <C-\><C-n>:bn<CR>
 	tnoremap <F8> <C-\><C-n>:tabn<CR>
 	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
+
+    tnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
 
     tnoremap ˙ <C-\><C-n><C-w>h
     tnoremap ∆ <C-\><C-n><C-w>j

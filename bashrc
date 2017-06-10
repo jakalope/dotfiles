@@ -72,13 +72,6 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-# if [ "$color_prompt" = yes ]; then
-#     PS1='$(hg_ps1)${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
-# else
-#     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-# fi
-# unset color_prompt force_color_prompt
-
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
@@ -88,10 +81,6 @@ xterm*|rxvt*)
     ;;
 esac
 
-# hg-prompt
-function hg_ps1() {
-    hg prompt "{{branch}}{@{bookmark}}:" 2> /dev/null
-}
 function parse_git_dirty {
   [[ $(git status 2> /dev/null | tail -n1) == "nothing to commit (working directory clean)" ]] && echo "*"
 }
@@ -100,13 +89,11 @@ function parse_git_branch {
 }
 
 if [ "$color_prompt" = yes ]; then
-    # PS1='$(hg_ps1)${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
-    export PS1='$(hg_ps1)\u@\h:$(tty):\[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)\n$ '
+    #export PS1='\u@\h:$(tty):\[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)\n$ '
+    export PS1='\u@\h:\[\033[2;33m\]\w\[\033[0m\]$(parse_git_branch)\n$ '
 else
-    # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-    export PS1='$(hg_ps1)\u@\h\w\$(parse_git_branch)$ '
+    export PS1='\u@\h\w\$(parse_git_branch)$ '
 fi
-export PS1='$(hg_ps1)\u@\h:\[\033[2;33m\]\w\[\033[0m\]$(parse_git_branch)\n$ '
 # unset color_prompt force_color_prompt
 
 # enable color support of ls and also add handy aliases
@@ -131,7 +118,7 @@ alias cwd='pwd | xsel -ib'
 alias gs='git status'
 alias gc='git commit'
 alias gd='git diff'
-alias gf='git fetch'
+alias gf='git fetch -p && git prune'
 alias ga='git add'
 alias Src='source ~/.bashrc'
 alias bbnc='bazel build --spawn_strategy=standalone --genrule_strategy=standalone'
@@ -164,6 +151,11 @@ then
     export PATH=${PATH}:"${HOME}/bin"
 fi
 
+if [[ ! ${PATH} == *"${HOME}/.local/bin"* ]]
+then
+    export PATH=${PATH}:"${HOME}/.local/bin"
+fi
+
 if [[ -e "/opt/PostgreSQL/9.5/bin" && ! ${PATH} == *"/opt/PostgreSQL/9.5/bin"* ]]
 then
     source /opt/PostgreSQL/9.5/pg_env.sh
@@ -181,10 +173,6 @@ alias wcd='cd "${wcd}"'
 
 source ~/bin/source_me.bash
 
-if [[ -e /usr/local/lib/bazel/bin/bazel-complete.bash ]]; then
-    source /usr/local/lib/bazel/bin/bazel-complete.bash
-fi
-
 if [[ -e /opt/ros/indigo ]]; then
     source /opt/ros/indigo/setup.bash
 fi
@@ -198,6 +186,9 @@ if [[ -d ${WORKSPACE_DIR}/scripts/shell ]]; then
     done
 fi
 
+
+export CUDA_HOME=${HOME}/cuda
+export LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
 
 type fakeros >/dev/null 2>&1
 if [[ $? == 0 ]]; then
