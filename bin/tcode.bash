@@ -13,7 +13,7 @@ function tcode() {
     SESSION_NAME="$(basename "$(pwd)")"
     tmux -2 new \
         -s "${SESSION_NAME}" \
-        "MY_WORKSPACE_DIR=\"${PWD}\" nvim -c Vsplit -c term"
+        "MY_WORKSPACE_DIR=\"${PWD}\" nvim"
 }
 
 function tws() {

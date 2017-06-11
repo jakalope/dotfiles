@@ -84,7 +84,7 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
-nnoremap ;j <Plug>(easymotion-bd-W)
+nnoremap ;l <Plug>(easymotion-bd-W)
 
 " Easy-tags
 set tags="./tags,~/.vim/tags";
@@ -130,6 +130,7 @@ Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'PeterRincker/vim-argumentative'
 Plugin 'moll/vim-bbye'
+Plugin 'jakalope/vim-utilities'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -429,29 +430,14 @@ if has('nvim')
     augroup END
 endif
 
-" Generates maximum number of vertical splits with at least `col` columns each.
-command! Vsplits :call s:Vsplits(83)
-function! s:Vsplits(col)
-    silent only!                      " close all splits but this one
-    let l:splits =  &columns / a:col  " determine the number of splits to create
-                                      " create the splits
-    exe l:splits . 'vsplit'
-    wincmd =                          " set all splits to equal width
-endfunction
-
-" Locks your working directory to `dir`.
-command! LockCWD :call s:LockCWD($MY_WORKSPACE_DIR)
-function! s:LockCWD(dir) 
-    augroup lock_cwd  " make this function replaceable upon sourcing
-        " remove previous definition
+if !exists('s:vimrc')
+    let s:vimrc = 1
+    call jakalope#utilities#lock_cwd($MY_WORKSPACE_DIR)
+    augroup startup
         autocmd!
-        if !empty(a:dir)   " only generate the autocmd if we have a real input
-            " change directories to `dir`, then lock us into that directory
-            exec 'cd '.a:dir
-            exec 'autocmd DirChanged * cd '.a:dir
-        endif
-    augroup end
-endfunction
-
-LockCWD
-Vsplits
+        autocmd VimEnter * call jakalope#utilities#vsplits(83)
+    augroup END
+    if has('nvim')
+        term
+    endif
+endif
