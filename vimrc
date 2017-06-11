@@ -278,7 +278,6 @@ endfunction
 
 " Open companion file, if it exists (e.g. test.h -> test.cpp)
 function! g:Companion()
-    cd ${MY_WORKSPACE_DIR}
     let l:fn_ext = expand("%:e")
     let l:fn_root = expand("%:r")
     let l:c_ext = ["cpp", "c", "cc", "cx", "cxx"]
@@ -368,15 +367,6 @@ function! s:Reload()
     set autoread<
 endfunction
 
-command! Vsplits :call s:Vsplits()
-function! s:Vsplits()
-    only                           " close all splits but this one
-    let l:splits =  &columns / 82  " determine the number of splits to create
-                                   " create the splits
-    exe l:splits . 'vsplit'
-    wincmd =                       " set all splits to equal width
-endfunction
-
 " Detect filetype in each tab
 command! Detect :tabdo exec 'filetype detect'
 
@@ -439,11 +429,29 @@ if has('nvim')
     augroup END
 endif
 
-" Sometimes the current working directory changes when I execute lots of
-" shell commands. This locks me into my workspace directory if I've set it.
-augroup! dir_change
-augroup dir_change
-    if !empty($MY_WORKSPACE_DIR)
-        autocmd DirChanged * Wcd
-    endif
-augroup END
+" Generates maximum number of vertical splits with at least `col` columns each.
+command! Vsplits :call s:Vsplits(83)
+function! s:Vsplits(col)
+    silent only!                      " close all splits but this one
+    let l:splits =  &columns / a:col  " determine the number of splits to create
+                                      " create the splits
+    exe l:splits . 'vsplit'
+    wincmd =                          " set all splits to equal width
+endfunction
+
+" Locks your working directory to `dir`.
+command! LockCWD :call s:LockCWD($MY_WORKSPACE_DIR)
+function! s:LockCWD(dir) 
+    augroup lock_cwd  " make this function replaceable upon sourcing
+        " remove previous definition
+        autocmd!
+        if !empty(a:dir)   " only generate the autocmd if we have a real input
+            " change directories to `dir`, then lock us into that directory
+            exec 'cd '.a:dir
+            exec 'autocmd DirChanged * cd '.a:dir
+        endif
+    augroup end
+endfunction
+
+LockCWD
+Vsplits
