@@ -1,7 +1,7 @@
-" Remove all autocommands for the current group.
-autocmd!
-
 """""""""" Script opts
+let g:util_min_split_cols = 83
+let g:util_workspace_dir = $MY_WORKSPACE_DIR
+
 let g:python_host_prog="/usr/bin/python"
 let g:python3_host_prog="/usr/local/bin/python3"
 if !filereadable(g:python3_host_prog)
@@ -353,11 +353,6 @@ if exists('$TMUX')
 
     set t_8f=^[[38;2;%lu;%lu;%lum  " Needed in tmux
     set t_8b=^[[48;2;%lu;%lu;%lum  " Ditto
-else
-    let &t_EI = "\033]Pl3971ED\033\\"
-    let &t_SI = "\033]PlFBA922\033\\"
-    silent !echo -ne "\033]Pl3971ED\033\\"
-    autocmd VimLeave * silent !echo -ne "\033]Pl3971ED\033\\"
 endif
 
 " Reload all windows, tabs, buffers, etc.
@@ -428,16 +423,6 @@ if has('nvim')
         autocmd TermOpen * setlocal nospell
         autocmd BufWinEnter,WinEnter term://* startinsert
     augroup END
-endif
 
-if !exists('s:vimrc')
-    let s:vimrc = 1
-    call jakalope#utilities#lock_cwd($MY_WORKSPACE_DIR)
-    augroup startup
-        autocmd!
-        autocmd VimEnter * call jakalope#utilities#vsplits(83)
-    augroup END
-    if has('nvim')
-        term
-    endif
+    autocmd VimEnter * nested vsplit term://bash
 endif
