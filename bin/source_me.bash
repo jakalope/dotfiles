@@ -5,12 +5,7 @@ function bbcd() {
 }
 
 function ncode() {
-    nvim -c vs -c vs -c vs -c '3wincmd l' -c term
-}
-
-function tcode() {
-    SESSION_NAME="$(basename "$(pwd)")"
-    tmux -2 new -s "${SESSION_NAME}" "MY_WORKSPACE_DIR=\"${PWD}\" nvim -c vs -c vs -c vs -c \"3wincmd l\" -c term"
+    nvim -c Vsplits -c term
 }
 
 # fix delete key in neovim for the time being
@@ -34,3 +29,4 @@ source ~/bin/scd.bash
 source ~/bin/code-window
 source ~/bin/bin_dir
 source ~/bin/cd_buddy.sh
+source ~/bin/tcode.bash

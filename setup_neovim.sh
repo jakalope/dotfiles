@@ -5,8 +5,8 @@ set -eou pipefail
 # Build and install NeoVim
 if [[ "$(uname -s)" == "Darwin" ]]; then
     brew tap neovim/neovim
-    brew install neovim
-    sudo -H pip2 install neovim
+    brew install neovim || brew upgrade neovim
+    sudo -H pip2 install --upgrade neovim
 else
 #    cd ~/Downloads
 #    if [[ ! -e v0.1.6.zip ]]; then

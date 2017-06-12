@@ -1,7 +1,7 @@
-" Remove all autocommands for the current group.
-autocmd!
-
 """""""""" Script opts
+let g:util_min_split_cols = 83
+let g:util_workspace_dir = $MY_WORKSPACE_DIR
+
 let g:python_host_prog="/usr/bin/python"
 let g:python3_host_prog="/usr/local/bin/python3"
 if !filereadable(g:python3_host_prog)
@@ -84,7 +84,7 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
-nnoremap ;j <Plug>(easymotion-bd-W)
+nnoremap ;l <Plug>(easymotion-bd-W)
 
 " Easy-tags
 set tags="./tags,~/.vim/tags";
@@ -130,6 +130,7 @@ Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'PeterRincker/vim-argumentative'
 Plugin 'moll/vim-bbye'
+Plugin 'jakalope/vim-utilities'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -213,11 +214,9 @@ command! Wa :wa
 " Stop accidental entry into Ex mode
 nnoremap Q <CR>
 
-" Remap to <Esc>
-map! <F1> <ESC>
-inoremap jk 
-
 """"""""""""""
+
+" set clipboard=unnamed
 
 nnoremap _g :grep! "\b<C-R><C-W>\b" * 2>/dev/null<CR>
 
@@ -276,7 +275,6 @@ endfunction
 
 " Open companion file, if it exists (e.g. test.h -> test.cpp)
 function! g:Companion()
-    cd ${MY_WORKSPACE_DIR}
     let l:fn_ext = expand("%:e")
     let l:fn_root = expand("%:r")
     let l:c_ext = ["cpp", "c", "cc", "cx", "cxx"]
@@ -351,11 +349,6 @@ if exists('$TMUX')
 
     set t_8f=^[[38;2;%lu;%lu;%lum  " Needed in tmux
     set t_8b=^[[48;2;%lu;%lu;%lum  " Ditto
-else
-    let &t_EI = "\033]Pl3971ED\033\\"
-    let &t_SI = "\033]PlFBA922\033\\"
-    silent !echo -ne "\033]Pl3971ED\033\\"
-    autocmd VimLeave * silent !echo -ne "\033]Pl3971ED\033\\"
 endif
 
 " Reload all windows, tabs, buffers, etc.
@@ -414,7 +407,7 @@ nnoremap ;n :call NumberToggle()<cr>
 
 if has('nvim')
     let g:terminal_scrollback_buffer_size = 100000
-    tnoremap jk <C-\><C-n>
+    tnoremap <ESC><ESC> <C-\><C-n>
 
 	tnoremap <F5> <C-\><C-n>:tabp<CR>
 	tnoremap <F6> <C-\><C-n>:bp<CR>
@@ -444,4 +437,6 @@ if has('nvim')
         autocmd TermOpen * setlocal nospell
         autocmd BufWinEnter,WinEnter term://* startinsert
     augroup END
+
+    autocmd VimEnter * nested vsplit term://bash
 endif
