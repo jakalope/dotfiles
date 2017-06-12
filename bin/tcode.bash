@@ -17,7 +17,7 @@ function tcode() {
             tmux attach-session -t "$SESSION_NAME"
         else
             # create a new session
-            tmux -2 new-seesion \
+            tmux -2 new-session \
                 -s "${SESSION_NAME}" \
                 "MY_WORKSPACE_DIR=\"${PWD}\" ${EDITOR}"
         fi
