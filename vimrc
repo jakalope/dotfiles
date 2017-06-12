@@ -372,8 +372,26 @@ command! Detect :tabdo exec 'filetype detect'
 command! Wcd cd ${MY_WORKSPACE_DIR}
 command! Src set all& | source ~/.vimrc
 
-" Remove all buffers
-command! Clear :0,10000bd
+" Remove all non-terminal buffers
+function! IsATerm()
+    if bufname("%")=~#"term://.*"
+        return 1
+    endif
+    return 0
+endfunction
+
+function! BdeleteNonTerm()
+    if !IsATerm()
+        Bdelete
+    endif
+endfunction
+
+function! ClearNonTerminals()
+    bufdo call BdeleteNonTerm()
+    enew
+endfunction
+command! Clear :call ClearNonTerminals()
+
 
 Detect
 filetype plugin on
