@@ -214,13 +214,9 @@ command! Wa :wa
 " Stop accidental entry into Ex mode
 nnoremap Q <CR>
 
-" Remap to <Esc>
-map! <F1> <ESC>
-inoremap jk 
-
 """"""""""""""
 
-set clipboard=unnamed
+" set clipboard=unnamed
 
 nnoremap _g :grep! "\b<C-R><C-W>\b" * 2>/dev/null<CR>
 
@@ -393,7 +389,7 @@ nnoremap ;n :call NumberToggle()<cr>
 
 if has('nvim')
     let g:terminal_scrollback_buffer_size = 100000
-    tnoremap jk <C-\><C-n>
+    tnoremap <ESC><ESC> <C-\><C-n>
 
 	tnoremap <F5> <C-\><C-n>:tabp<CR>
 	tnoremap <F6> <C-\><C-n>:bp<CR>
