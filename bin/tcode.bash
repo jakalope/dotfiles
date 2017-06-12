@@ -1,15 +1,34 @@
 #!/usr/bin/env bash
 
 function tcode() {
+    # session name is the basename of the current directory
+    export SESSION_NAME="$(basename "${PWD}")"
+
+    # the current directory is the root of the workspace
+    export MY_WORKSPACE_DIR="${PWD}"
+
+    # determine if a tmux session $SESSION_NAME already exists
+    session_exists=$(tmux ls | awk -F: '{print $1}' | \
+        grep $SESSION_NAME | wc -l)
+
     if [[ $TMUX == "" ]]; then
-        SESSION_NAME="$(basename "$(pwd)")"
-        tmux -2 new \
-            -s "${SESSION_NAME}" \
-            "MY_WORKSPACE_DIR=\"${PWD}\" nvim"
+        if ((session_exists)); then
+            # attach to an existing session
+            tmux attach-session -t "$SESSION_NAME"
+        else
+            # create a new session
+            tmux -2 new-seesion \
+                -s "${SESSION_NAME}" \
+                "MY_WORKSPACE_DIR=\"${PWD}\" nvim"
+        fi
     else
-        export SESSION_NAME="$(basename "$(pwd)")"
-        tmux rename-session $SESSION_NAME 2> /dev/null
-        nvim
+        if ((session_exists)); then
+            echo You are already in this session!
+        else
+            # take over the current session
+            tmux rename-session $SESSION_NAME 2> /dev/null
+            nvim
+        fi
     fi
 }
 
