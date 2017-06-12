@@ -19,7 +19,7 @@ function tcode() {
             # create a new session
             tmux -2 new-seesion \
                 -s "${SESSION_NAME}" \
-                "MY_WORKSPACE_DIR=\"${PWD}\" nvim"
+                "MY_WORKSPACE_DIR=\"${PWD}\" ${EDITOR}"
         fi
     else
         if ((session_exists)); then
@@ -27,7 +27,7 @@ function tcode() {
         else
             # take over the current session
             tmux rename-session $SESSION_NAME 2> /dev/null
-            nvim
+            $EDITOR
         fi
     fi
 }
