@@ -62,7 +62,7 @@ SLEEP_TIME='0.5'
 
 if [[ "$NVIM_LISTEN_ADDRESS" != "" ]]; then
 	# Get the name of our Neovim server.
-	VIMSERVER="$(nvr --serverlist)"
+	# VIMSERVER="$(nvr --serverlist)"
 	# Use NeoVimRemote.
 	VIMEXEC="nvr -l"
 else
@@ -103,7 +103,9 @@ elif [[ $# > 0 ]]; then
 # Nothing from stdin, no arguemnts, so start a server
 else
     #TODO Check if a server is already running under this name
-    pwd > ~/${VIMSERVER}
+	if [[ ${VIMSERVER} != "" ]]; then
+        pwd > ~/${VIMSERVER}
+    fi
     $VIMEXEC 
 fi
 

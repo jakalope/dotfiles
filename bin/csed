@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 set -eou pipefail
 cfiles | _sed.sh "${@}"
+git checkout -- $(git status -s | grep '^ T' | awk '{print $2}')
+git clang-format -f

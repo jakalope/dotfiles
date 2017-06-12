@@ -1,7 +1,7 @@
-" Remove all autocommands for the current group.
-autocmd!
-
 """""""""" Script opts
+let g:util_min_split_cols = 83
+let g:util_workspace_dir = $MY_WORKSPACE_DIR
+
 let g:python_host_prog="/usr/bin/python"
 let g:python3_host_prog="/usr/local/bin/python3"
 if !filereadable(g:python3_host_prog)
@@ -23,6 +23,7 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 0
 let g:ycm_key_invoke_completion = '<C-m>'
 let g:ycm_collect_identifiers_from_tags_files = 0
+let g:ycm_confirm_extra_conf = 0
 let g:ycm_filetype_specific_completion_to_disable = {
     \ 'gitcommit': 1,
     \}
@@ -45,7 +46,7 @@ endfunction
 let g:ctrlp_clear_cache_on_exit = 1
 let g:ctrlp_max_files = 0
 let g:ctrlp_max_depth = 40
-let g:ctrlp_regexp = 1
+let g:ctrlp_regexp = 0
 nnoremap ;p :CtrlP<CR>
 nnoremap ;b :CtrlPBuffer<CR>
 nnoremap ;m :CtrlPMRU<CR>
@@ -83,7 +84,7 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
-nnoremap ;j <Plug>(easymotion-bd-W)
+nnoremap ;l <Plug>(easymotion-bd-W)
 
 " Easy-tags
 set tags="./tags,~/.vim/tags";
@@ -96,6 +97,9 @@ let g:easytags_auto_update = 1
 let g:easytags_include_members = 1
 let g:easytags_auto_highlight = 0
 let vbs=1  " check timing with :messages
+
+"""""""""" VAM
+"source ~/.vim/vam_setup.vim
 
 """""""""" Vundle
 set nocompatible              " be iMproved, required
@@ -119,14 +123,14 @@ Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'vim-airline/vim-airline'
+" Plugin 'vim-airline/vim-airline'
 Plugin 'vim-scripts/restore_view.vim'
 Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'PeterRincker/vim-argumentative'
 Plugin 'moll/vim-bbye'
+Plugin 'jakalope/vim-utilities'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -210,11 +214,9 @@ command! Wa :wa
 " Stop accidental entry into Ex mode
 nnoremap Q <CR>
 
-" Remap to <Esc>
-map! <F1> <ESC>
-inoremap jk 
-
 """"""""""""""
+
+" set clipboard=unnamed
 
 nnoremap _g :grep! "\b<C-R><C-W>\b" * 2>/dev/null<CR>
 
@@ -257,23 +259,46 @@ nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 "this.
 inoremap <CR> <C-]><C-G>u<CR>
 
+function! g:Sequence(prefix, list)
+    let l:out = []
+    for item in a:list
+        let l:out += [a:prefix.".".item]
+    endfor
+    return l:out
+endfunction
+
+function! g:GitLs(fn)
+    let l:git_ls_command = "git ls-files --full-name ".a:fn
+    exec "let l:companion_file = system(\"".l:git_ls_command."\")"
+    return l:companion_file
+endfunction
+
 " Open companion file, if it exists (e.g. test.h -> test.cpp)
 function! g:Companion()
     let l:fn_ext = expand("%:e")
     let l:fn_root = expand("%:r")
-    if l:fn_ext == "cpp" || l:fn_ext == "c" || l:fn_ext == "cc" || 
-            \l:fn_ext == "cx" || l:fn_ext == "cxx"
-        " TODO see if this file exists; otherwise try other extensions
-        let l:fn = l:fn_root.".h"
-    elseif l:fn_ext == "h" || l:fn_ext == "hpp"
-        " TODO see if this file exists; otherwise try other extensions
-        let l:fn = l:fn_root.".cpp"
-    else
-        return expand("%")
+    let l:c_ext = ["cpp", "c", "cc", "cx", "cxx"]
+    let l:h_ext = ["h", "hpp", "hxx", "hh"]
+    if index(l:c_ext, l:fn_ext) != -1
+        let l:fns = g:Sequence(l:fn_root, l:h_ext)
+        for l:fn in l:fns
+            let l:companion_file = g:GitLs(l:fn)
+            if l:companion_file != ""
+                return l:companion_file
+            endif 
+        endfor
+    elseif index(l:h_ext, l:fn_ext) != -1
+        let l:fns = g:Sequence(l:fn_root, l:c_ext)
+        for l:fn in l:fns
+            echom l:fn
+            let l:companion_file = g:GitLs(l:fn)
+            echom l:companion_file
+            if l:companion_file != ""
+                return l:companion_file
+            endif 
+        endfor
     endif
-    let l:git_ls_command = "git ls-files --full-name ".l:fn
-    exec "let l:companion_file = system(\"".l:git_ls_command."\")"
-    return l:companion_file
+    return expand("%")
 endfunction
 
 nnoremap ze :execute 'edit '.g:Companion()<CR>
@@ -324,11 +349,6 @@ if exists('$TMUX')
 
     set t_8f=^[[38;2;%lu;%lu;%lum  " Needed in tmux
     set t_8b=^[[48;2;%lu;%lu;%lum  " Ditto
-else
-    let &t_EI = "\033]Pl3971ED\033\\"
-    let &t_SI = "\033]PlFBA922\033\\"
-    silent !echo -ne "\033]Pl3971ED\033\\"
-    autocmd VimLeave * silent !echo -ne "\033]Pl3971ED\033\\"
 endif
 
 " Reload all windows, tabs, buffers, etc.
@@ -352,10 +372,10 @@ Detect
 filetype plugin on
 
 " colors
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
 colorscheme peachpuff
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 11
-hi SpellBad ctermfg=1436 ctermbg=NONE
-hi SpellCap ctermfg=202 ctermbg=NONE
+hi SpellBad ctermfg=red ctermbg=NONE
+hi SpellCap ctermfg=green ctermbg=NONE
 
 " Toggle numbering
 function! NumberToggle()
@@ -368,13 +388,16 @@ endfunc
 nnoremap ;n :call NumberToggle()<cr>
 
 if has('nvim')
-    tnoremap <F1> <C-\><C-n>
+    let g:terminal_scrollback_buffer_size = 100000
+    tnoremap <ESC><ESC> <C-\><C-n>
 
 	tnoremap <F5> <C-\><C-n>:tabp<CR>
 	tnoremap <F6> <C-\><C-n>:bp<CR>
 	tnoremap <F7> <C-\><C-n>:bn<CR>
 	tnoremap <F8> <C-\><C-n>:tabn<CR>
 	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
+
+    tnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
 
     tnoremap ˙ <C-\><C-n><C-w>h
     tnoremap ∆ <C-\><C-n><C-w>j
@@ -396,4 +419,6 @@ if has('nvim')
         autocmd TermOpen * setlocal nospell
         autocmd BufWinEnter,WinEnter term://* startinsert
     augroup END
+
+    autocmd VimEnter * nested vsplit term://bash
 endif

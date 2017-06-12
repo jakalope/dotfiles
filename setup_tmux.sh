@@ -10,6 +10,7 @@ if [[ ! -e "$FILE" ]]; then
 fi
 gunzip -c "$FILE" | tar xvf -
 cd tmux-2.3
-./configure
+
+./configure 
 make -j
 sudo make install

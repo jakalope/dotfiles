@@ -1,2 +1,3 @@
 # Build with cuda, caching, and optimized builds (no symbols)
 build -c opt
+test --test_output=errors

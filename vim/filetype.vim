@@ -21,6 +21,10 @@ augroup filetypedetect
             let view = winsaveview()
             %!yapf
             call winrestview(view)
+        elseif &filetype=='c'
+            let view = winsaveview()
+            %!clang_format
+            call winrestview(view)
         elseif &filetype=='cpp'
             let view = winsaveview()
             %!clang_format
@@ -36,6 +40,7 @@ augroup filetypedetect
     autocmd BufNewFile,BufRead *.cmake silent! call SetCMakeOptions()
     autocmd BufNewFile,BufRead *.md silent! call SetMarkdownOptions()
     autocmd BufNewFile,BufRead COMMIT_EDITMSG silent! call SetCommitOptions()
+    autocmd BufNewFile,BufRead *.pbtxt silent! call SetMarkdownOptions()
 augroup END
 
 function! SetMarkdownOptions()

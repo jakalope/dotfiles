@@ -51,18 +51,18 @@ $ cgrep chgd_thng | vims
 
 ### My most used commands
 
-| Rank | Usage % | Command  |
-|------|---------|----------|
-|1.    |  55.5%  | git      |
-|2.    |  9.2%   |  cd      |
-|3.    |  6.2%   |  jf      |
-|4.    |  4%     |  bcd     |
-|5.    |  2.9%   |  ls      |
-|6.    |  2.8%   |  vims    |
-|7.    |  2.6%   | valgrind |
-|8.    |  2.3%   |  cgrep   |
-|9.    |  2%     |  gdb     |
-|10.   |  1.7%   |  ll      |
+| Usage  |Command|
+|--------|-------|
+|   3645 |git    |
+|   3267 |bazel  |
+|   2674 |cd     |
+|   2378 |vims   |
+|   2113 |gs     |
+|   1910 |ls     |
+|   1536 |jf     |
+|   1041 |gc     |
+|    731 |bcd    |
+|    644 |cgrep  |
 
 Git
 ---

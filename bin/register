@@ -2,5 +2,5 @@
 
 inside_nvim="$(nvr --serverlist | wc -l)"
 if ((inside_nvim == 1)); then
-    nvr -l --remote-send "<ESC>:let g:tty = \"$(tty)\"<CR>:wincmd p<CR>"
+    nvr --remote-send "<C-\><C-n>:let g:tty = \"$(tty)\"<CR>"
 fi
