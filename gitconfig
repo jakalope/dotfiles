@@ -4,7 +4,7 @@
 [push]
 	default = simple
 [core]
-	excludesfile = /home/jake/dotfiles/global_gitignore
     editor = "nvim -u NONE"
+	excludesfile = /home/jake/dotfiles/global_gitignore
 [rerere]
 	enabled = false
