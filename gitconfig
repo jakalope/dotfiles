@@ -5,5 +5,6 @@
 	default = simple
 [core]
 	excludesfile = /home/jake/dotfiles/global_gitignore
+    editor = "nvim -u NONE"
 [rerere]
 	enabled = false
