@@ -430,6 +430,8 @@ if has('nvim')
 	tnoremap <C-u> <C-\><C-n><C-u>
 	tnoremap <C-d> <C-\><C-n><C-d>
 
+    tnoremap <C-e> <C-\><C-n>:enew<CR>
+
     highlight TermCursor ctermfg=red guifg=red
 
     augroup terminal
