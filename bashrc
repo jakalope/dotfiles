@@ -1,3 +1,5 @@
+echo Loading ~/.bashrc
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -165,7 +167,7 @@ fi
 set -o vi
 
 # set some development environment variables
-export EDITOR=vim
+export EDITOR=nvim
 export WORKSPACE_DIR="$(pwd)"
 export SOURCE_DIR="${WORKSPACE_DIR}"
 export wcd="${WORKSPACE_DIR}"
