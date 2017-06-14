@@ -13,4 +13,5 @@ while [[ $# > 0 ]]; do
 done
 template='.*\.\(X\)'
 regex="${template/X/${pattern}}"
+[[ $VERBOSE ]] && echo regex=$regex
 2>/dev/null find ./ -regex "${regex}"
