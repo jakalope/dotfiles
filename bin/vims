@@ -30,14 +30,14 @@ function open_file_to_line() {
 
     if [[ -e "$raw" ]]; then
         echo RAW >> ${HOME}/vims_usage
-        $VIMEXEC --remote-wait-silent ${line} ${raw}
+        $VIMEXEC --remote-wait-silent ${line} ${raw} &
         echo "$VIMEXEC --remote-wait-silent ${line} ${raw}"
     elif [[ -e "$vim_cwd_file" ]]; then
         echo VIM_CWD >> ${HOME}/vims_usage
-        $VIMEXEC --remote-wait-silent ${line} ${vim_cwd_file}
+        $VIMEXEC --remote-wait-silent ${line} ${vim_cwd_file} &
     elif [[ -e "$cmd_cwd_file" ]]; then
         echo CMD_CWD >> ${HOME}/vims_usage
-        $VIMEXEC --remote-wait-silent ${line} ${cmd_cwd_file}
+        $VIMEXEC --remote-wait-silent ${line} ${cmd_cwd_file} &
     else
         echo "Couldn't find any of the following:"
         echo "  $raw"
@@ -50,7 +50,7 @@ function open_file_to_line() {
         echo
         if [[ "$line" == "" ]]; then
             echo "No line specified. Creating new file..."
-            $VIMEXEC --remote-wait-silent ${raw}
+            $VIMEXEC --remote-wait-silent ${raw} &
         else
             return 1
         fi

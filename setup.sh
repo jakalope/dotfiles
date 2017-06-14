@@ -76,7 +76,7 @@ fi
 
 # Install vim plugins
 vim +PluginInstall +qall
-pushd ~/dotfiles/.vim/bundle/YouCompleteMe/
+pushd ~/dotfiles/vim/bundle/YouCompleteMe/
 ./install.py --clang-completer
 popd
 vim +PluginInstall +qall
