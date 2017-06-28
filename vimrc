@@ -90,7 +90,7 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
-nnoremap ;l <Plug>(easymotion-bd-W)
+map ;l <Plug>(easymotion-prefix)
 
 " Easy-tags
 set tags="./tags,~/.vim/tags";
@@ -120,7 +120,7 @@ Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
 
 Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'drmikehenry/vim-fontsize'
-" Plugin 'easymotion/vim-easymotion'
+Plugin 'easymotion/vim-easymotion'
 Plugin 'kana/vim-operator-user'
 Plugin 'kana/vim-smartword'
 " Plugin 'octol/vim-cpp-enhanced-highlight'
@@ -165,7 +165,7 @@ set nohlsearch
 set number
 set nopaste
 set relativenumber
-set scrolloff=2
+set scrolloff=111112
 set shiftwidth=4
 set showcmd " Show partial commands in the last line of the screen
 set showmode
