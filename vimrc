@@ -15,7 +15,6 @@ let g:syntastic_java_javac_config_file_enabled = 1
 " YouCompleteMe
 " let g:ycm_register_as_syntastic_checker = 0
 set completeopt-=preview
-let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:ycm_always_populate_location_list = 0
 let g:ycm_open_loclist_on_ycm_diags = 1
 let g:ycm_add_preview_to_completeopt = 0
@@ -27,6 +26,13 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_filetype_specific_completion_to_disable = {
     \ 'gitcommit': 1,
     \}
+
+let s:proposed_ycm_conf = g:util_workspace_dir.'/scripts/editors/vim/ycm_extra_conf.py'
+if filereadable(s:proposed_ycm_conf)
+    let g:ycm_global_ycm_extra_conf = s:proposed_ycm_conf
+else
+    let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+endif
 
 nnoremap <C-\> :YcmCompleter GoTo<CR>
 nnoremap <C-g> :YcmCompleter FixIt<CR>
@@ -59,10 +65,10 @@ let g:airline_powerline_fonts = 0
 
 " UltiSnips
 " Trigger configuration. Do not use <tab> if you use YCM
-let g:UltiSnipsExpandTrigger="<C-space>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
+" let g:UltiSnipsExpandTrigger="<C-space>"
+" let g:UltiSnipsJumpForwardTrigger="<c-b>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
 
 " Smartword
 map <SPACE>  <Plug>(smartword-w)
@@ -113,22 +119,22 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
 
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'drmikehenry/vim-fontsize'
-Plugin 'easymotion/vim-easymotion'
+" Plugin 'drmikehenry/vim-fontsize'
+" Plugin 'easymotion/vim-easymotion'
 Plugin 'kana/vim-operator-user'
 Plugin 'kana/vim-smartword'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'scrooloose/syntastic'
+" Plugin 'octol/vim-cpp-enhanced-highlight'
+" Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
 Plugin 'Valloric/YouCompleteMe'
 " Plugin 'vim-airline/vim-airline'
-Plugin 'vim-scripts/restore_view.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'xolox/vim-easytags'
-Plugin 'xolox/vim-misc'
-Plugin 'PeterRincker/vim-argumentative'
+" Plugin 'vim-scripts/restore_view.vim'
+" Plugin 'SirVer/ultisnips'
+" Plugin 'xolox/vim-easytags'
+" Plugin 'xolox/vim-misc'
+" Plugin 'PeterRincker/vim-argumentative'
 Plugin 'moll/vim-bbye'
 Plugin 'jakalope/vim-utilities'
 
@@ -382,6 +388,7 @@ endfunction
 function! ClearNonTerminals()
     bufdo call BdeleteNonTerm()
     enew
+    stopinsert
 endfunction
 command! Clear :call ClearNonTerminals()
 
@@ -430,6 +437,8 @@ if has('nvim')
 	tnoremap <C-u> <C-\><C-n><C-u>
 	tnoremap <C-d> <C-\><C-n><C-d>
 
+    tnoremap <C-e> <C-\><C-n>:enew<CR>
+
     highlight TermCursor ctermfg=red guifg=red
 
     augroup terminal
@@ -440,3 +449,5 @@ if has('nvim')
 
     autocmd VimEnter * nested vsplit term://bash
 endif
+
+" autocmd VimEnter * Wcd
