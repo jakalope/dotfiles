@@ -1,3 +1,4 @@
 # Build with cuda, caching, and optimized builds (no symbols)
-build -c opt --config=kraken -X CppLink
+# build -c opt --config=kraken -X CppLink
+build -c opt 
 test --test_output=errors
