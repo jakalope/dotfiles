@@ -145,6 +145,8 @@ syntax on
 
 """""""""" End Vundle
 
+set clipboard=unnamed
+
 " Used by restore_view.vim
 set autoindent
 set autoread
@@ -450,4 +452,6 @@ if has('nvim')
     autocmd VimEnter * nested vsplit term://bash
 endif
 
+" vmap <C-x> :!pbcopy<CR>  
+" vmap <C-c> :w !pbcopy<CR><CR> 
 " autocmd VimEnter * Wcd

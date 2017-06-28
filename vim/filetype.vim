@@ -5,13 +5,13 @@ endif
 augroup filetypedetect
     autocmd!
 
-    autocmd BufNewFile,BufRead *.tex setfiletype tex
-    autocmd BufNewFile,BufRead *.launch setfiletype xml
-    autocmd BufNewFile,BufRead *.bash setfiletype sh
-    autocmd BufNewFile,BufRead *.sdl setfiletype python
+    " autocmd BufNewFile,BufRead *.tex setfiletype tex
+    " autocmd BufNewFile,BufRead *.launch setfiletype xml
+    " autocmd BufNewFile,BufRead *.bash setfiletype sh
+    " autocmd BufNewFile,BufRead *.sdl setfiletype python
 
-    autocmd BufNewFile,BufRead CMakeLists.txt setfiletype cmake
-    autocmd BufNewFile,BufRead *.cmake setfiletype cmake
+    " autocmd BufNewFile,BufRead CMakeLists.txt setfiletype cmake
+    " autocmd BufNewFile,BufRead *.cmake setfiletype cmake
 
     " Handle all BufWritePre events for specific filetypes.
     " Especially useful for auto-formatting commands.
