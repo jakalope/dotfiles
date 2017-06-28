@@ -7,6 +7,7 @@ augroup bazel_group
         let view = winsaveview()
         %!buildifier
         call winrestview(view)
+        YcmRestartServer
     endfunction
 
     function! DoBazel()

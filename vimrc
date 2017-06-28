@@ -123,7 +123,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'kana/vim-operator-user'
 Plugin 'kana/vim-smartword'
-" Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'octol/vim-cpp-enhanced-highlight'
 " Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
@@ -174,6 +174,7 @@ set spell spelllang=en_us
 set splitbelow
 set splitright
 set tabstop=4
+set timeoutlen=1000 ttimeoutlen=0
 set title
 set viewoptions=cursor,folds,slash,unix
 set viminfo='20,\"50
@@ -414,7 +415,7 @@ nnoremap ;n :call NumberToggle()<cr>
 
 if has('nvim')
     let g:terminal_scrollback_buffer_size = 100000
-    tnoremap <ESC><ESC> <C-\><C-n>
+    " tnoremap <ESC><ESC> <C-\><C-n>
 
 	tnoremap <F5> <C-\><C-n>:tabp<CR>
 	tnoremap <F6> <C-\><C-n>:bp<CR>
