@@ -179,23 +179,13 @@ if [[ -e /opt/ros/indigo ]]; then
     source /opt/ros/indigo/setup.bash
 fi
 
-if [[ -d ${WORKSPACE_DIR}/scripts/shell ]]; then
-    for file in "${WORKSPACE_DIR}/scripts/shell/"* ; do
-        if [ -f "$file" ] ; then
-            echo "Sourcing ${file}..."
-            source "$file"
-        fi
-    done
+if [[ -e ${WORKSPACE_DIR}/scripts/shell/zooxrc.sh ]]; then
+    source ${WORKSPACE_DIR}/scripts/shell/zooxrc.sh
 fi
 
 
 export CUDA_HOME=${HOME}/cuda
 export LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
-
-type fakeros >/dev/null 2>&1
-if [[ $? == 0 ]]; then
-    fakeros
-fi
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
