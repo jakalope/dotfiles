@@ -8,6 +8,26 @@ if !filereadable(g:python3_host_prog)
 	let g:python3_host_prog="/usr/bin/python3"
 endif
 
+" Sneak
+let g:sneak#s_next = 1
+
+map f <Plug>Sneak_f
+map F <Plug>Sneak_F
+map t <Plug>Sneak_t
+map T <Plug>Sneak_T
+map S <Plug>Sneak_s
+
+" CtrlP
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+
+nnoremap <Leader>b :CtrlPBuffer<CR>
+
+
+" CommandT
+let g:CommandTMaxFiles=1000000
+let g:CommandTFileScanner="git"
+let g:CommandTGitScanSubmodules=1
+
 " Syntastic
 let g:syntastic_java_checkers=['javac']
 let g:syntastic_java_javac_config_file_enabled = 1
@@ -16,18 +36,19 @@ let g:syntastic_java_javac_config_file_enabled = 1
 " let g:ycm_register_as_syntastic_checker = 0
 set completeopt-=preview
 let g:ycm_always_populate_location_list = 0
-let g:ycm_open_loclist_on_ycm_diags = 1
+let g:ycm_open_loclist_on_ycm_diags = 0
 let g:ycm_add_preview_to_completeopt = 0
 let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 0
-let g:ycm_key_invoke_completion = '<C-m>'
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_key_invoke_completion = '<C-space>'
 let g:ycm_collect_identifiers_from_tags_files = 0
 let g:ycm_confirm_extra_conf = 0
+let g:ycm_filepath_completion_use_working_dir = 1
 let g:ycm_filetype_specific_completion_to_disable = {
     \ 'gitcommit': 1,
     \}
 
-let s:proposed_ycm_conf = g:util_workspace_dir.'/scripts/editors/vim/ycm_extra_conf.py'
+let s:proposed_ycm_conf = g:util_workspace_dir.'/.ycm_extra_conf.py'
 if filereadable(s:proposed_ycm_conf)
     let g:ycm_global_ycm_extra_conf = s:proposed_ycm_conf
 else
@@ -38,6 +59,7 @@ nnoremap <C-\> :YcmCompleter GoTo<CR>
 nnoremap <C-g> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
+nnoremap <C-F> :YcmRestartServer<CR>:YcmForceCompileAndDiagnostics<CR>
 
 
 function! YcmToggle()
@@ -47,17 +69,6 @@ function! YcmToggle()
         let b:ycm_largefile=1
     endif
 endfunction
-
-" CtrlP
-let g:ctrlp_clear_cache_on_exit = 1
-let g:ctrlp_max_files = 0
-let g:ctrlp_max_depth = 40
-let g:ctrlp_regexp = 0
-nnoremap ;p :CtrlP<CR>
-nnoremap ;b :CtrlPBuffer<CR>
-nnoremap ;m :CtrlPMRU<CR>
-nnoremap ;] :CtrlPTag<CR>
-nnoremap ;c :CtrlPClearAllCaches<CR>
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -90,7 +101,7 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
-map ;l <Plug>(easymotion-prefix)
+" map ;l <Plug>(easymotion-prefix)
 
 " Easy-tags
 set tags="./tags,~/.vim/tags";
@@ -118,15 +129,15 @@ call vundle#begin()
 " let Vundle manage Vundle; disable Git because we hate git submodules
 Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
 
-Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'drmikehenry/vim-fontsize'
-Plugin 'easymotion/vim-easymotion'
+" Plugin 'easymotion/vim-easymotion'
 Plugin 'kana/vim-operator-user'
 Plugin 'kana/vim-smartword'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 " Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fugitive'
 Plugin 'Valloric/YouCompleteMe'
 " Plugin 'vim-airline/vim-airline'
@@ -137,6 +148,9 @@ Plugin 'Valloric/YouCompleteMe'
 " Plugin 'PeterRincker/vim-argumentative'
 Plugin 'moll/vim-bbye'
 Plugin 'jakalope/vim-utilities'
+Plugin 'wincent/command-t'
+Plugin 'justinmk/vim-sneak'
+Plugin 'kien/ctrlp.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -174,7 +188,6 @@ set spell spelllang=en_us
 set splitbelow
 set splitright
 set tabstop=4
-set timeoutlen=1000 ttimeoutlen=0
 set title
 set viewoptions=cursor,folds,slash,unix
 set viminfo='20,\"50
@@ -227,6 +240,12 @@ nnoremap Q <CR>
 
 nnoremap _g :grep! "\b<C-R><C-W>\b" * 2>/dev/null<CR>
 
+function! s:Maker()
+    return system("> /dev/null make_this_package ".expand('%')." 2>&1 \| grep ".
+                  \"-E \' error:\'")
+endfunction
+command! Make cexpr s:Maker()
+
 command! CompileVisible exe "silent !make_this_package % 2>&1 \| grep ".
                         \"--color -E \'error:\|\$\' &>".g:tty." &"
 
@@ -265,6 +284,9 @@ nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 "This breaks undo at each line break.  It also expands abbreviations before
 "this.
 inoremap <CR> <C-]><C-G>u<CR>
+
+" I often hit tab instead of <Capslock> (which I have hard remapped to <Esc>.
+inoremap <Tab>:w<CR> <Esc>:w<CR>
 
 function! g:Sequence(prefix, list)
     let l:out = []
@@ -451,4 +473,25 @@ if has('nvim')
     autocmd VimEnter * nested vsplit term://bash
 endif
 
-" autocmd VimEnter * Wcd
+augroup cpp_group
+    autocmd!
+    autocmd BufNewFile,BufRead *.[hCH],*.cc,*.hh,*.[ch]xx setfiletype cpp
+augroup END
+
+function! s:OnBazelBufWritePre()
+    let view = winsaveview()
+    %!buildifier
+    call winrestview(view)
+endfunction
+
+augroup bazel_group
+    autocmd!
+    autocmd BufNewFile BUILD setfiletype bazel
+    autocmd BufNewFile *.bzl setfiletype bazel
+    autocmd BufWritePre BUILD call s:OnBazelBufWritePre()
+augroup END
+
+augroup proto_group
+    autocmd!
+    autocmd BufNewFile *.proto setfiletype proto
+augroup END
