@@ -44,6 +44,7 @@ let g:ycm_key_invoke_completion = '<C-space>'
 let g:ycm_collect_identifiers_from_tags_files = 0
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_filepath_completion_use_working_dir = 1
+let g:ycm_auto_trigger = 0
 let g:ycm_filetype_specific_completion_to_disable = {
     \ 'gitcommit': 1,
     \}
