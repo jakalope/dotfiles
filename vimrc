@@ -131,7 +131,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
 
 " Plugin 'drmikehenry/vim-fontsize'
-" Plugin 'easymotion/vim-easymotion'
+Plugin 'easymotion/vim-easymotion'
 Plugin 'kana/vim-operator-user'
 Plugin 'kana/vim-smartword'
 Plugin 'octol/vim-cpp-enhanced-highlight'
@@ -150,7 +150,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'moll/vim-bbye'
 Plugin 'jakalope/vim-utilities'
 Plugin 'wincent/command-t'
-Plugin 'justinmk/vim-sneak'
+" Plugin 'justinmk/vim-sneak'
 Plugin 'kien/ctrlp.vim'
 
 " All of your Plugins must be added before the following line
