@@ -208,6 +208,9 @@ set t_vb=
 
 "============================================================
 
+" Disable matchparen highlighting
+let loaded_matchparen = 1
+
 let DoxygenToolkit_commentType=1
 
 nnoremap + maO<esc>`a
@@ -408,10 +411,6 @@ function! ClearNonTerminals()
 endfunction
 command! Clear :call ClearNonTerminals()
 
-
-Detect
-filetype plugin on
-
 " colors
 set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
 colorscheme peachpuff
@@ -468,29 +467,36 @@ if has('nvim')
     autocmd VimEnter * nested vsplit term://bash
 endif
 
-" vmap <C-x> :!pbcopy<CR>  
-" vmap <C-c> :w !pbcopy<CR><CR> 
-" autocmd VimEnter * Wcd
-
-augroup cpp_group
+augroup formatting_and_filetypes
     autocmd!
+
+    " Handle all BufWritePre events for specific filetypes.
+    " Especially useful for auto-formatting commands.
+    autocmd BufWritePre * call OnBufWritePre()
+    autocmd BufWritePre BUILD call OnBufWritePre()
+
+    autocmd BufNewFile,BufRead CMakeLists.txt,*.cmake setfiletype cmake
+    autocmd BufNewFile,BufRead COMMIT_EDITMSG setfiletype commit_editmsg
     autocmd BufNewFile,BufRead *.[hCH],*.cc,*.hh,*.[ch]xx setfiletype cpp
+    autocmd BufNewFile,BufRead BUILD setfiletype bazel
+    autocmd BufNewFile,BufRead *.bzl setfiletype bazel
+    autocmd BufNewFile,BufRead *.proto setfiletype proto
 augroup END
 
-function! s:OnBazelBufWritePre()
+function! OnBuildWritePre()
     let view = winsaveview()
-    %!buildifier
+    silent! undojoin | keepmarks keepjumps %!buildifier
     call winrestview(view)
 endfunction
 
-augroup bazel_group
-    autocmd!
-    autocmd BufNewFile BUILD setfiletype bazel
-    autocmd BufNewFile *.bzl setfiletype bazel
-    autocmd BufWritePre BUILD call s:OnBazelBufWritePre()
-augroup END
-
-augroup proto_group
-    autocmd!
-    autocmd BufNewFile *.proto setfiletype proto
-augroup END
+function! OnBufWritePre()
+    if &filetype=='python'
+        let view = winsaveview()
+        silent! undojoin | keepmarks keepjumps %!yapf
+        call winrestview(view)
+    elseif &filetype=='c' || &filetype=='cpp' || &filetype=='proto'
+        let view = winsaveview()
+        silent! undojoin | keepmarks keepjumps %!clang_format
+        call winrestview(view)
+    endif
+endfunction
