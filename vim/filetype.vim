@@ -18,21 +18,21 @@ augroup filetypedetect
     autocmd BufWritePre * call OnBufWritePre()
     function! OnBufWritePre()
         if &filetype=='python'
-            let view = winsaveview()
-            %!yapf
-            call winrestview(view)
+            keepjumps let view = winsaveview()
+            keepjumps %!yapf
+            keepjumps call winrestview(view)
         elseif &filetype=='c'
-            let view = winsaveview()
-            %!clang_format
-            call winrestview(view)
+            keepjumps let view = winsaveview()
+            keepjumps %!clang_format
+            keepjumps call winrestview(view)
         elseif &filetype=='cpp'
-            let view = winsaveview()
-            %!clang_format
-            call winrestview(view)
+            keepjumps let view = winsaveview()
+            keepjumps %!clang_format
+            keepjumps keepjumps call winrestview(view)
         elseif &filetype=='proto'
-            let view = winsaveview()
-            %!clang_format
-            call winrestview(view)
+            keepjumps let view = winsaveview()
+            keepjumps %!clang_format
+            keepjumps call winrestview(view)
         endif
     endfunction
 
@@ -44,33 +44,33 @@ augroup filetypedetect
 augroup END
 
 function! SetMarkdownOptions()
-    setl filetype=markdown
-    setl cc=80
-    setl shiftwidth=2
-    setl tabstop=2
-    setl softtabstop=2
-    setl autoindent
-    setl smartindent
+    set filetype=markdown
+    set cc=80
+    set shiftwidth=2
+    set tabstop=2
+    set softtabstop=2
+    set autoindent
+    set smartindent
 endfunction
 
 function! SetCommitOptions()
-    setl filetype=markdown
-    setl cc=70
-    setl shiftwidth=2
-    setl tabstop=2
-    setl softtabstop=2
-    setl autoindent
-    setl smartindent
-    setl spell spelllang=
+    set filetype=markdown
+    set cc=70
+    set shiftwidth=2
+    set tabstop=2
+    set softtabstop=2
+    set autoindent
+    set smartindent
+    set spell spelllang=
 endfunction
 
 function! SetCMakeOptions()
-    setl filetype=cmake
-    setl commentstring=#\ %s
-    setl cc=100
-    setl shiftwidth=2
-    setl tabstop=2
-    setl softtabstop=2
-    setl autoindent
-    setl smartindent
+    set filetype=cmake
+    set commentstring=#\ %s
+    set cc=100
+    set shiftwidth=2
+    set tabstop=2
+    set softtabstop=2
+    set autoindent
+    set smartindent
 endfunction
