@@ -1,21 +1,12 @@
 """""""""" Script opts
 let g:util_min_split_cols = 83
-let g:util_workspace_dir = $MY_WORKSPACE_DIR
+" let g:util_workspace_dir = $MY_WORKSPACE_DIR
 
 let g:python_host_prog="/usr/bin/python"
 let g:python3_host_prog="/usr/local/bin/python3"
 if !filereadable(g:python3_host_prog)
 	let g:python3_host_prog="/usr/bin/python3"
 endif
-
-" Sneak
-let g:sneak#s_next = 1
-
-map f <Plug>Sneak_f
-map F <Plug>Sneak_F
-map t <Plug>Sneak_t
-map T <Plug>Sneak_T
-map S <Plug>Sneak_s
 
 " CtrlP
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
@@ -49,7 +40,7 @@ let g:ycm_filetype_specific_completion_to_disable = {
     \ 'gitcommit': 1,
     \}
 
-let s:proposed_ycm_conf = g:util_workspace_dir.'/.ycm_extra_conf.py'
+let s:proposed_ycm_conf = 'scripts/editors/vim/ycm_extra_conf.py'
 if filereadable(s:proposed_ycm_conf)
     let g:ycm_global_ycm_extra_conf = s:proposed_ycm_conf
 else
@@ -150,7 +141,6 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'moll/vim-bbye'
 Plugin 'jakalope/vim-utilities'
 Plugin 'wincent/command-t'
-" Plugin 'justinmk/vim-sneak'
 Plugin 'kien/ctrlp.vim'
 
 " All of your Plugins must be added before the following line
@@ -180,6 +170,7 @@ set laststatus=2 " Always display the status line, even if only one window is di
 set nofoldenable
 set nohlsearch
 set number
+set notimeout
 set nopaste
 set relativenumber
 set scrolloff=111112
