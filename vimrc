@@ -1,6 +1,5 @@
 """""""""" Script opts
 let g:util_min_split_cols = 83
-" let g:util_workspace_dir = $MY_WORKSPACE_DIR
 
 let g:python_host_prog="/usr/bin/python"
 let g:python3_host_prog="/usr/local/bin/python3"
@@ -431,7 +430,9 @@ nnoremap ;n :call NumberToggle()<cr>
 
 if has('nvim')
     let g:terminal_scrollback_buffer_size = 100000
-    " tnoremap <ESC><ESC> <C-\><C-n>
+    let g:util_workspace_dir = $MY_WORKSPACE_DIR
+
+    tnoremap <C-\> <C-\><C-n>
 
 	tnoremap <F5> <C-\><C-n>:tabp<CR>
 	tnoremap <F6> <C-\><C-n>:bp<CR>
