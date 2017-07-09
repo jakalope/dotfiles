@@ -363,19 +363,6 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-" Cursor to yellow on insert mode
-" Blue on command/other mode
-" Note the use of hex codes (ie 3971ED)
-if exists('$TMUX')
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\033]PlFBA922\033\\"
-    silent !echo -ne "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
-    autocmd VimLeave * silent !echo -ne "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
-
-    set t_8f=^[[38;2;%lu;%lu;%lum  " Needed in tmux
-    set t_8b=^[[48;2;%lu;%lu;%lum  " Ditto
-endif
-
 " Reload all windows, tabs, buffers, etc.
 command! Reload :call s:Reload()
 function! s:Reload()
