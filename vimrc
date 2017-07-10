@@ -55,10 +55,6 @@ function! YcmToggle()
     endif
 endfunction
 
-" Airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 0
-
 " Smartword
 map <SPACE>  <Plug>(smartword-w)
 map <BackSpace>  <Plug>(smartword-b)
@@ -77,7 +73,8 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
-" map ;l <Plug>(easymotion-prefix)
+map - <Plug>(easymotion-prefix)
+map -l <Plug>(easymotion-bd-wl)
 
 """""""""" VAM
 "source ~/.vim/vam_setup.vim
@@ -339,9 +336,8 @@ endfunction
 
 " Detect filetype in each tab
 command! Detect :tabdo exec 'filetype detect'
-
 command! Wcd cd ${MY_WORKSPACE_DIR}
-command! Src set all& | source ~/.vimrc
+command! Src exec 'set all&' | exec 'source ~/.vimrc' | Detect
 
 " Remove all non-terminal buffers
 function! IsATerm()
@@ -366,7 +362,7 @@ command! Clear :call ClearNonTerminals()
 
 " colors
 set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
-colorscheme peachpuff
+colorscheme elflord
 hi SpellBad ctermfg=red ctermbg=NONE
 hi SpellCap ctermfg=green ctermbg=NONE
 
