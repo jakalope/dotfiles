@@ -7,37 +7,31 @@ if !filereadable(g:python3_host_prog)
 	let g:python3_host_prog="/usr/bin/python3"
 endif
 
-" CtrlP
+let s:uname = system("uname")
+
+" CtrlP (mostly just for buffer search)
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 
 nnoremap <Leader>b :CtrlPBuffer<CR>
 
-
-" CommandT
+" CommandT (for file search)
 let g:CommandTMaxFiles=1000000
 let g:CommandTFileScanner="git"
 let g:CommandTGitScanSubmodules=1
 
-" Syntastic
-let g:syntastic_java_checkers=['javac']
-let g:syntastic_java_javac_config_file_enabled = 1
-
 " YouCompleteMe
-" let g:ycm_register_as_syntastic_checker = 0
 set completeopt-=preview
-let g:ycm_always_populate_location_list = 0
-let g:ycm_open_loclist_on_ycm_diags = 0
 let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_always_populate_location_list = 0
+let g:ycm_auto_trigger = 0
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_key_invoke_completion = '<C-space>'
 let g:ycm_collect_identifiers_from_tags_files = 0
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_filepath_completion_use_working_dir = 1
-let g:ycm_auto_trigger = 0
-let g:ycm_filetype_specific_completion_to_disable = {
-    \ 'gitcommit': 1,
-    \}
+let g:ycm_filetype_specific_completion_to_disable = { 'gitcommit': 1, }
+let g:ycm_key_invoke_completion = '<C-space>'
+let g:ycm_open_loclist_on_ycm_diags = 0
 
 let s:proposed_ycm_conf = 'scripts/editors/vim/ycm_extra_conf.py'
 if filereadable(s:proposed_ycm_conf)
@@ -65,19 +59,10 @@ endfunction
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 0
 
-" UltiSnips
-" Trigger configuration. Do not use <tab> if you use YCM
-" let g:UltiSnipsExpandTrigger="<C-space>"
-" let g:UltiSnipsJumpForwardTrigger="<c-b>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-" let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
-
 " Smartword
 map <SPACE>  <Plug>(smartword-w)
 map <BackSpace>  <Plug>(smartword-b)
 map <S-SPACE>  W
-" map e  <Plug>(smartword-e)
-" map ge  <Plug>(smartword-ge)
 
 " Argumentitive
 " nmap [; <Plug>Argumentative_Prev
@@ -94,18 +79,6 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " Easymotion
 " map ;l <Plug>(easymotion-prefix)
 
-" Easy-tags
-set tags="./tags,~/.vim/tags";
-let g:easytags_file = '~/.vim/tags'   " global tags file
-let g:easytags_dynamic_files = 1
-let g:easytags_async = 1
-let g:easytags_events = []
-let g:easytags_on_cursorhold = 0
-let g:easytags_auto_update = 1
-let g:easytags_include_members = 1
-let g:easytags_auto_highlight = 0
-let vbs=1  " check timing with :messages
-
 """""""""" VAM
 "source ~/.vim/vam_setup.vim
 
@@ -120,27 +93,21 @@ call vundle#begin()
 " let Vundle manage Vundle; disable Git because we hate git submodules
 Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
 
-" Plugin 'drmikehenry/vim-fontsize'
+" Plugin 'PeterRincker/vim-argumentative'
+" Plugin 'xolox/vim-misc'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'jakalope/vim-utilities'
 Plugin 'kana/vim-operator-user'
 Plugin 'kana/vim-smartword'
+Plugin 'kien/ctrlp.vim'
+Plugin 'moll/vim-bbye'
 Plugin 'octol/vim-cpp-enhanced-highlight'
-" Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fugitive'
-Plugin 'Valloric/YouCompleteMe'
-" Plugin 'vim-airline/vim-airline'
-" Plugin 'vim-scripts/restore_view.vim'
-" Plugin 'SirVer/ultisnips'
-" Plugin 'xolox/vim-easytags'
-" Plugin 'xolox/vim-misc'
-" Plugin 'PeterRincker/vim-argumentative'
-Plugin 'moll/vim-bbye'
-Plugin 'jakalope/vim-utilities'
 Plugin 'wincent/command-t'
-Plugin 'kien/ctrlp.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -165,7 +132,7 @@ set expandtab
 set fileencoding=utf-8
 set history=50
 set incsearch
-set laststatus=2 " Always display the status line, even if only one window is displayed
+set laststatus=2 " Always display status line
 set nofoldenable
 set nohlsearch
 set number
@@ -282,7 +249,7 @@ nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 inoremap <CR> <C-]><C-G>u<CR>
 
 " I often hit tab instead of <Capslock> (which I have hard remapped to <Esc>.
-inoremap <Tab>:w<CR> <Esc>:w<CR>
+inoremap :w<CR> <Esc>:w<CR>
 
 function! g:Sequence(prefix, list)
     let l:out = []
@@ -331,7 +298,6 @@ nnoremap zt :execute 'tabnew '.g:Companion()<CR>
 nnoremap zv :execute 'vsplit '.g:Companion()<CR>
 nnoremap zs :execute 'split '.g:Companion()<CR>
 nnoremap zn :execute '!vims <C-R><C-A>'<CR>
-
 
 " Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
@@ -459,31 +425,28 @@ augroup formatting_and_filetypes
 
     " Handle all BufWritePre events for specific filetypes.
     " Especially useful for auto-formatting commands.
-    autocmd BufWritePre * call OnBufWritePre()
-    autocmd BufWritePre BUILD call OnBufWritePre()
+    autocmd BufWritePre * call s:OnBufWritePre()
 
-    autocmd BufNewFile,BufRead CMakeLists.txt,*.cmake setfiletype cmake
-    autocmd BufNewFile,BufRead COMMIT_EDITMSG setfiletype commit_editmsg
     autocmd BufNewFile,BufRead *.[hCH],*.cc,*.hh,*.[ch]xx setfiletype cpp
-    autocmd BufNewFile,BufRead BUILD setfiletype bazel
     autocmd BufNewFile,BufRead *.bzl setfiletype bazel
     autocmd BufNewFile,BufRead *.proto setfiletype proto
+    autocmd BufNewFile,BufRead BUILD setfiletype bazel
+    autocmd BufNewFile,BufRead CMakeLists.txt,*.cmake setfiletype cmake
+    autocmd BufNewFile,BufRead COMMIT_EDITMSG setfiletype commit_editmsg
 augroup END
 
-function! OnBuildWritePre()
+function! s:Format(formatter)
     let view = winsaveview()
-    silent! undojoin | keepmarks keepjumps %!buildifier
+    exec 'silent! undojoin | keepmarks keepjumps %!'.a:formatter
     call winrestview(view)
 endfunction
 
-function! OnBufWritePre()
+function! s:OnBufWritePre()
     if &filetype=='python'
-        let view = winsaveview()
-        silent! undojoin | keepmarks keepjumps %!yapf
-        call winrestview(view)
+        call s:Format('yapf')
     elseif &filetype=='c' || &filetype=='cpp' || &filetype=='proto'
-        let view = winsaveview()
-        silent! undojoin | keepmarks keepjumps %!clang_format
-        call winrestview(view)
+        call s:Format('clang_format')
+    elseif expand('%:t')=='BUILD' && s:uname == "Linux\n"
+        call s:Format('buildifier')
     endif
 endfunction
