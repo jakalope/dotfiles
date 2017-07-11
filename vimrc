@@ -1,3 +1,7 @@
+" Reset all options and mappings.
+set all&
+mapclear | mapclear <buffer> | mapclear! | mapclear! <buffer>
+
 """""""""" Script opts
 let g:util_min_split_cols = 83
 
@@ -7,9 +11,17 @@ if !filereadable(g:python3_host_prog)
 	let g:python3_host_prog="/usr/bin/python3"
 endif
 
-let s:uname = system("uname")
+" Determine the OS type (Darwin, Unix, Linux)
+let g:uname=split(system("uname"), "\000")[0]
 
-" CtrlP (mostly just for buffer search)
+" Use the appropriate clipboard CLI for the given OS.
+if g:uname=='Darwin'
+    let g:copy='pbcopy'
+else
+    let g:copy='xsel -ipbs'
+endif
+
+" CtrlP (just for buffer search)
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 
 nnoremap <Leader>b :CtrlPBuffer<CR>
@@ -92,7 +104,6 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
 
 " Plugin 'PeterRincker/vim-argumentative'
-" Plugin 'xolox/vim-misc'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'jakalope/vim-utilities'
@@ -106,11 +117,20 @@ Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fugitive'
 Plugin 'wincent/command-t'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-reload'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 syntax on
+
+" Reload scripts that were unmapped at the top of this file.
+unlet! g:loaded_smartword
+ReloadScript vim/bundle/vim-smartword/plugin/smartword.vim
+
+unlet! g:command_t_loaded
+ReloadScript vim/bundle/command-t/plugin/command-t.vim
 
 """""""""" End Vundle
 
@@ -236,8 +256,8 @@ nnoremap _c :CompileOpt<CR>
 
 " Copy current file:line to the system clipboard, preceded by "b"
 " Used to set breakpoints in GDB
-nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".
-        \line(".")."\" \| xsel --clipboard --input"<CR>:redraw!<CR>
+nnoremap _b :exe "silent !echo b ${PWD}/".expand("%").":".
+        \line(".")." \| ".g:copy<CR>
 
 " yank name of current file to register 0 and to system clipboard
 nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
@@ -364,14 +384,7 @@ hi SpellBad ctermfg=red ctermbg=NONE
 hi SpellCap ctermfg=green ctermbg=NONE
 
 " Toggle numbering
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set nornu
-  else
-    set rnu
-  endif
-endfunc
-nnoremap ;n :call NumberToggle()<cr>
+nnoremap ;n :set invrnu<CR>
 
 if has('nvim')
     let g:terminal_scrollback_buffer_size = 100000
@@ -439,7 +452,8 @@ function! s:OnBufWritePre()
         call s:Format('yapf')
     elseif &filetype=='c' || &filetype=='cpp' || &filetype=='proto'
         call s:Format('clang_format')
-    elseif expand('%:t')=='BUILD' && s:uname == "Linux\n"
+    elseif expand('%:t')=='BUILD' && g:uname == "Linux\n"
         call s:Format('buildifier')
     endif
 endfunction
+
