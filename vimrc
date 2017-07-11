@@ -60,6 +60,8 @@ map <SPACE>  <Plug>(smartword-w)
 map <BackSpace>  <Plug>(smartword-b)
 map <S-SPACE>  W
 
+" TODO server2client({clientid}, {string})			*server2client()*
+
 " Argumentitive
 " nmap [; <Plug>Argumentative_Prev
 " nmap ]; <Plug>Argumentative_Next
@@ -73,8 +75,7 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
-map - <Plug>(easymotion-prefix)
-map -l <Plug>(easymotion-bd-wl)
+map gh <Plug>(easymotion-bd-w)
 
 """""""""" VAM
 "source ~/.vim/vam_setup.vim
@@ -241,12 +242,8 @@ nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".
 " yank name of current file to register 0 and to system clipboard
 nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 
-"This breaks undo at each line break.  It also expands abbreviations before
-"this.
+" Breaks undo at each line break. It also expands abbreviations before this.
 inoremap <CR> <C-]><C-G>u<CR>
-
-" I often hit tab instead of <Capslock> (which I have hard remapped to <Esc>.
-inoremap :w<CR> <Esc>:w<CR>
 
 function! g:Sequence(prefix, list)
     let l:out = []
