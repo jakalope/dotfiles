@@ -263,9 +263,11 @@ nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 inoremap <CR> <C-]><C-G>u<CR>
 
 " Open the file under the cursor in the previous window.
-nnoremap zn :let cur_file='<C-R><C-A>'<CR>
+nnoremap zn :let cur_file=expand('<cfile>')<CR>
+            \:let cur_line=split('<C-R><C-A>', ':')[1]<CR>
             \:wincmd p<CR>
             \:exec 'edit '.cur_file<CR>
+            \:call cursor(cur_line, 0)<CR>
 
 " Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
