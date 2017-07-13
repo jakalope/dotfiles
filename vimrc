@@ -311,6 +311,8 @@ nnoremap ze :execute 'edit '.g:Companion()<CR>
 nnoremap zt :execute 'tabnew '.g:Companion()<CR>
 nnoremap zv :execute 'vsplit '.g:Companion()<CR>
 nnoremap zs :execute 'split '.g:Companion()<CR>
+
+" Open the file under the cursor in the previous window.
 nnoremap zn :let cur_file='<C-R><C-A>'<CR>
             \:wincmd p<CR>
             \:exec 'edit '.cur_file<CR>
@@ -374,7 +376,11 @@ endfunction
 
 function! ClearNonTerminals()
     bufdo call BdeleteNonTerm()
-    enew
+    windo b1
+    wincmd b
+    if has("nvim")
+        b2
+    endif
     stopinsert
 endfunction
 command! Clear :call ClearNonTerminals()
