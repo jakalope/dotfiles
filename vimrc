@@ -311,7 +311,9 @@ nnoremap ze :execute 'edit '.g:Companion()<CR>
 nnoremap zt :execute 'tabnew '.g:Companion()<CR>
 nnoremap zv :execute 'vsplit '.g:Companion()<CR>
 nnoremap zs :execute 'split '.g:Companion()<CR>
-nnoremap zn :execute '!vims <C-R><C-A>'<CR>
+nnoremap zn :let cur_file='<C-R><C-A>'<CR>
+            \:wincmd p<CR>
+            \:exec 'edit '.cur_file<CR>
 
 " Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
