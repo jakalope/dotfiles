@@ -1,15 +1,31 @@
-"""""""""" Script opts
-let g:util_min_split_cols = 83
-
+" Support for neovim
 let g:python_host_prog="/usr/bin/python"
 let g:python3_host_prog="/usr/local/bin/python3"
 if !filereadable(g:python3_host_prog)
 	let g:python3_host_prog="/usr/bin/python3"
 endif
 
-let s:uname = system("uname")
+" Determine the OS type (Darwin, Unix, Linux)
+let g:uname=split(system("uname"), "\000")[0]
 
-" CtrlP (mostly just for buffer search)
+" Use the appropriate clipboard CLI for the given OS.
+if g:uname=='Darwin'
+    let g:copy='pbcopy'
+else
+    let g:copy='xsel -ipbs'
+endif
+
+"""""""""" Plugin opts
+
+" Utilities
+let g:util_min_split_cols = 83
+
+nnoremap ze :execute 'edit '.jakalope#utilities#companion()<CR>
+nnoremap zt :execute 'tabnew '.jakalope#utilities#companion()<CR>
+nnoremap zv :execute 'vsplit '.jakalope#utilities#companion()<CR>
+nnoremap zs :execute 'split '.jakalope#utilities#companion()<CR>
+
+" CtrlP (just for buffer search)
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 
 nnoremap <Leader>b :CtrlPBuffer<CR>
@@ -60,6 +76,8 @@ map <SPACE>  <Plug>(smartword-w)
 map <BackSpace>  <Plug>(smartword-b)
 map <S-SPACE>  W
 
+" TODO server2client({clientid}, {string})			*server2client()*
+
 " Argumentitive
 " nmap [; <Plug>Argumentative_Prev
 " nmap ]; <Plug>Argumentative_Next
@@ -73,8 +91,7 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
-map - <Plug>(easymotion-prefix)
-map -l <Plug>(easymotion-bd-wl)
+map gh <Plug>(easymotion-bd-w)
 
 """""""""" VAM
 "source ~/.vim/vam_setup.vim
@@ -91,7 +108,6 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
 
 " Plugin 'PeterRincker/vim-argumentative'
-" Plugin 'xolox/vim-misc'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'jakalope/vim-utilities'
@@ -105,6 +121,8 @@ Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fugitive'
 Plugin 'wincent/command-t'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-reload'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -200,11 +218,11 @@ nnoremap Q <CR>
 
 nnoremap _g :grep! "\b<C-R><C-W>\b" * 2>/dev/null<CR>
 
+command! Make cexpr s:Maker()
 function! s:Maker()
     return system("> /dev/null make_this_package ".expand('%')." 2>&1 \| grep ".
                   \"-E \' error:\'")
 endfunction
-command! Make cexpr s:Maker()
 
 command! CompileVisible exe "silent !make_this_package % 2>&1 \| grep ".
                         \"--color -E \'error:\|\$\' &>".g:tty." &"
@@ -235,66 +253,19 @@ nnoremap _c :CompileOpt<CR>
 
 " Copy current file:line to the system clipboard, preceded by "b"
 " Used to set breakpoints in GDB
-nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".
-        \line(".")."\" \| xsel --clipboard --input"<CR>:redraw!<CR>
+nnoremap _b :exe "silent !echo b ${PWD}/".expand("%").":".
+        \line(".")." \| ".g:copy<CR>
 
 " yank name of current file to register 0 and to system clipboard
 nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 
-"This breaks undo at each line break.  It also expands abbreviations before
-"this.
+" Breaks undo at each line break. It also expands abbreviations before this.
 inoremap <CR> <C-]><C-G>u<CR>
 
-" I often hit tab instead of <Capslock> (which I have hard remapped to <Esc>.
-inoremap :w<CR> <Esc>:w<CR>
-
-function! g:Sequence(prefix, list)
-    let l:out = []
-    for item in a:list
-        let l:out += [a:prefix.".".item]
-    endfor
-    return l:out
-endfunction
-
-function! g:GitLs(fn)
-    let l:git_ls_command = "git ls-files --full-name ".a:fn
-    exec "let l:companion_file = system(\"".l:git_ls_command."\")"
-    return l:companion_file
-endfunction
-
-" Open companion file, if it exists (e.g. test.h -> test.cpp)
-function! g:Companion()
-    let l:fn_ext = expand("%:e")
-    let l:fn_root = expand("%:r")
-    let l:c_ext = ["cpp", "c", "cc", "cx", "cxx"]
-    let l:h_ext = ["h", "hpp", "hxx", "hh"]
-    if index(l:c_ext, l:fn_ext) != -1
-        let l:fns = g:Sequence(l:fn_root, l:h_ext)
-        for l:fn in l:fns
-            let l:companion_file = g:GitLs(l:fn)
-            if l:companion_file != ""
-                return l:companion_file
-            endif 
-        endfor
-    elseif index(l:h_ext, l:fn_ext) != -1
-        let l:fns = g:Sequence(l:fn_root, l:c_ext)
-        for l:fn in l:fns
-            echom l:fn
-            let l:companion_file = g:GitLs(l:fn)
-            echom l:companion_file
-            if l:companion_file != ""
-                return l:companion_file
-            endif 
-        endfor
-    endif
-    return expand("%")
-endfunction
-
-nnoremap ze :execute 'edit '.g:Companion()<CR>
-nnoremap zt :execute 'tabnew '.g:Companion()<CR>
-nnoremap zv :execute 'vsplit '.g:Companion()<CR>
-nnoremap zs :execute 'split '.g:Companion()<CR>
-nnoremap zn :execute '!vims <C-R><C-A>'<CR>
+" Open the file under the cursor in the previous window.
+nnoremap zn :let cur_file='<C-R><C-A>'<CR>
+            \:wincmd p<CR>
+            \:exec 'edit '.cur_file<CR>
 
 " Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
@@ -305,60 +276,12 @@ nnoremap <F8> :tabn<CR>
 " fast buffer deletion
 nnoremap <F9><F9> :Bdelete<CR>
 
-" Map <A-{h,j,k,l}> to <C-w>{h,j,k,l}
-nnoremap ˙ <C-w>h
-nnoremap ∆ <C-w>j
-nnoremap ˚ <C-w>k
-nnoremap ¬ <C-w>l
-
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
-
-inoremap <A-h> <C-w>h
-inoremap <A-j> <C-w>j
-inoremap <A-k> <C-w>k
-inoremap <A-l> <C-w>l
-
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-" Reload all windows, tabs, buffers, etc.
-command! Reload :call s:Reload()
-function! s:Reload()
-    setlocal autoread
-    checktime
-    set autoread<
-endfunction
-
-" Detect filetype in each tab
-command! Detect :tabdo exec 'filetype detect'
 command! Wcd cd ${MY_WORKSPACE_DIR}
-command! Src exec 'set all&' | exec 'source ~/.vimrc' | Detect
-
-" Remove all non-terminal buffers
-function! IsATerm()
-    if bufname("%")=~#"term://.*"
-        return 1
-    endif
-    return 0
-endfunction
-
-function! BdeleteNonTerm()
-    if !IsATerm()
-        Bdelete
-    endif
-endfunction
-
-function! ClearNonTerminals()
-    bufdo call BdeleteNonTerm()
-    enew
-    stopinsert
-endfunction
-command! Clear :call ClearNonTerminals()
 
 " colors
 set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
@@ -367,14 +290,7 @@ hi SpellBad ctermfg=red ctermbg=NONE
 hi SpellCap ctermfg=green ctermbg=NONE
 
 " Toggle numbering
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set nornu
-  else
-    set rnu
-  endif
-endfunc
-nnoremap ;n :call NumberToggle()<cr>
+nnoremap ;n :set invrnu<CR>
 
 if has('nvim')
     let g:terminal_scrollback_buffer_size = 100000
@@ -390,11 +306,6 @@ if has('nvim')
 
     tnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
 
-    tnoremap ˙ <C-\><C-n><C-w>h
-    tnoremap ∆ <C-\><C-n><C-w>j
-    tnoremap ˚ <C-\><C-n><C-w>k
-    tnoremap ¬ <C-\><C-n><C-w>l
-
     tnoremap <C-h> <C-\><C-n><C-w>h
     tnoremap <C-j> <C-\><C-n><C-w>j
     tnoremap <C-k> <C-\><C-n><C-w>k
@@ -402,8 +313,6 @@ if has('nvim')
 
 	tnoremap <C-u> <C-\><C-n><C-u>
 	tnoremap <C-d> <C-\><C-n><C-d>
-
-    tnoremap <C-e> <C-\><C-n>:enew<CR>
 
     highlight TermCursor ctermfg=red guifg=red
 
@@ -414,6 +323,8 @@ if has('nvim')
     augroup END
 
     autocmd VimEnter * nested vsplit term://bash
+    autocmd VimEnter * enew
+    autocmd VimEnter * b2
 endif
 
 augroup formatting_and_filetypes
@@ -431,18 +342,13 @@ augroup formatting_and_filetypes
     autocmd BufNewFile,BufRead COMMIT_EDITMSG setfiletype commit_editmsg
 augroup END
 
-function! s:Format(formatter)
-    let view = winsaveview()
-    exec 'silent! undojoin | keepmarks keepjumps %!'.a:formatter
-    call winrestview(view)
-endfunction
-
 function! s:OnBufWritePre()
     if &filetype=='python'
-        call s:Format('yapf')
+        call jakalope#utilities#format('yapf')
     elseif &filetype=='c' || &filetype=='cpp' || &filetype=='proto'
-        call s:Format('clang_format')
-    elseif expand('%:t')=='BUILD' && s:uname == "Linux\n"
-        call s:Format('buildifier')
+        call jakalope#utilities#format('clang_format')
+    elseif expand('%:t')=='BUILD' && g:uname == "Linux\n"
+        call jakalope#utilities#format('buildifier')
     endif
 endfunction
+
