@@ -5,11 +5,11 @@ function set_cwd_file() {
 }
 
 function paste() {
-	if [[ "$(uname -s)" == "Darwin" ]]; then
-		pbpaste
-	else
-		xsel --clipboard --output
-	fi
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        pbpaste
+    else
+        xsel --clipboard --output
+    fi
 }
 
 function open_file_to_line() {
@@ -18,12 +18,12 @@ function open_file_to_line() {
     local line="${1#*:}" # keep only the suffix after the filename
     local line="${line%%:*}"  # keep only the prefix of the suffix; the line#
 
-	# Correct the case where no colon is given.
-	if [[ "$raw" == "$line" ]]; then
-		line=""
+    # Correct the case where no colon is given.
+    if [[ "$raw" == "$line" ]]; then
+        line=""
     else
         line="+$line"
-	fi
+    fi
 
     local vim_cwd_file="$(readlink "${MY_WORKSPACE_DIR}/$raw")"
     local cmd_cwd_file="$(readlink "$(pwd)/$raw")"
@@ -61,15 +61,15 @@ function open_file_to_line() {
 SLEEP_TIME='0.5'
 
 if [[ "$NVIM_LISTEN_ADDRESS" != "" ]]; then
-	# Get the name of our Neovim server.
-	# VIMSERVER="$(nvr --serverlist)"
-	# Use NeoVimRemote.
-	VIMEXEC="nvr -l"
+    # Get the name of our Neovim server.
+    # VIMSERVER="$(nvr --serverlist)"
+    # Use NeoVimRemote.
+    VIMEXEC="nvr -l"
 else
-	if [[ ${VIMSERVER} == "" ]]; then
-		VIMSERVER="VIM"
-	fi
-	VIMEXEC="gvim --servername $VIMSERVER"
+    if [[ ${VIMSERVER} == "" ]]; then
+        VIMSERVER="VIM"
+    fi
+    VIMEXEC="gvim --servername $VIMSERVER"
 fi
 
 # Check if we're being piped some input
@@ -78,7 +78,7 @@ if [[ ! -t 0 && $# == 0 ]]; then
     # separated by newlines and open each file in a separate tab by calling
     # this script recursively
     awk '{print $1}' | awk -F: '{print "vims " $1 ":" $2}' | bash
-# Check if we have some arguments
+    # Check if we have some arguments
 elif [[ $# > 0 ]]; then
     if [[ ${1} == '-v' ]]; then
         # remove the -v
@@ -100,12 +100,13 @@ elif [[ $# > 0 ]]; then
     else
         open_file_to_line "${@}"
     fi
-# Nothing from stdin, no arguemnts, so start a server
+    # Nothing from stdin, no arguemnts, so start a server
 else
     #TODO Check if a server is already running under this name
-	if [[ ${VIMSERVER} != "" ]]; then
+    if [[ ${VIMSERVER} != "" ]]; then
         pwd > ~/${VIMSERVER}
     fi
-    $VIMEXEC 
+    $VIMEXEC
 fi
+
 
