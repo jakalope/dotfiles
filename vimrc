@@ -347,7 +347,7 @@ function! s:OnBufWritePre()
         call jakalope#utilities#format('yapf')
     elseif &filetype=='c' || &filetype=='cpp' || &filetype=='proto'
         call jakalope#utilities#format('clang_format')
-    elseif expand('%:t')=='BUILD' && g:uname == "Linux\n"
+    elseif expand('%:t')=='BUILD' && g:uname == "Linux"
         call jakalope#utilities#format('buildifier')
     elseif &filetype=='bash' || &filetype=='sh'
         call jakalope#utilities#format('beautify_bash.py -')
