@@ -175,10 +175,6 @@ alias wcd='cd "${wcd}"'
 
 source ~/bin/source_me.bash
 
-if [[ -e /opt/ros/indigo ]]; then
-    source /opt/ros/indigo/setup.bash
-fi
-
 if [[ -e ${WORKSPACE_DIR}/scripts/shell/zooxrc.sh ]]; then
     source ${WORKSPACE_DIR}/scripts/shell/zooxrc.sh
 fi
