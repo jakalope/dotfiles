@@ -263,6 +263,9 @@ nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 inoremap <CR> <C-]><C-G>u<CR>
 
 " Open the file under the cursor in the previous window.
+" TODO fix:
+" E684: list index out of range: 1
+" E15: Invalid expression: split('"vehicle/common/pub_sub/ros_native_publisher.h"', ':')[1]
 nnoremap zn :let cur_file=expand('<cfile>')<CR>
             \:let cur_line=split('<C-R><C-A>', ':')[1]<CR>
             \:wincmd p<CR>
@@ -349,7 +352,7 @@ function! s:OnBufWritePre()
         call jakalope#utilities#format('yapf')
     elseif &filetype=='c' || &filetype=='cpp' || &filetype=='proto'
         call jakalope#utilities#format('clang_format')
-    elseif expand('%:t')=='BUILD' && g:uname == "Linux\n"
+    elseif expand('%:t')=='BUILD' && g:uname == "Linux"
         call jakalope#utilities#format('buildifier')
     endif
 endfunction

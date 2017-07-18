@@ -11,6 +11,10 @@ export TERM=screen-256color
 # Get OS name
 OS="$(uname -s)"
 
+function set_title() {
+    printf '\e]2;%s\a' "$*";
+}
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -188,4 +192,5 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 export PATH="${HOME}/.cargo/bin:${PATH}"
 
+set_title ${WORKSPACE_DIR}
 register
