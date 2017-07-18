@@ -2,7 +2,7 @@
 
 cd ~/Downloads
 if [[ ! -d alacritty ]]; then
-    git clone https://github.com/jwilm/alacritty.git
+  git clone https://github.com/jwilm/alacritty.git
 fi
 cd alacritty
 rustup override set nightly
