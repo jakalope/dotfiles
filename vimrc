@@ -288,6 +288,26 @@ nnoremap <C-l> <C-w>l
 
 command! Wcd cd ${MY_WORKSPACE_DIR}
 
+function! CurrentBranch()
+    return system('git rev-parse --abbrev-ref HEAD')
+endfunction
+
+function! SaveBranchSession()
+    let l:sessionops = &sessionoptions
+    set sessionoptions=buffers,sesdir
+    let l:current_branch=CurrentBranch()
+    exec 'mksession! '.l:current_branch
+    exec 'set sessionoptions='.l:sessionops
+endfunction
+
+function! LoadBranchSession()
+    let l:sessionops = &sessionoptions
+    set sessionoptions=buffers,sesdir
+    let l:current_branch=CurrentBranch()
+    exec 'source '.l:current_branch
+    exec 'set sessionoptions='.l:sessionops
+endfunction
+
 " colors
 set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
 colorscheme elflord
