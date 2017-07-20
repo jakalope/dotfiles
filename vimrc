@@ -263,6 +263,9 @@ nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 inoremap <CR> <C-]><C-G>u<CR>
 
 " Open the file under the cursor in the previous window.
+" TODO fix:
+" E684: list index out of range: 1
+" E15: Invalid expression: split('"vehicle/common/pub_sub/ros_native_publisher.h"', ':')[1]
 nnoremap zn :let cur_file=expand('<cfile>')<CR>
             \:let cur_line=split('<C-R><C-A>', ':')[1]<CR>
             \:wincmd p<CR>
@@ -284,6 +287,26 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 command! Wcd cd ${MY_WORKSPACE_DIR}
+
+function! CurrentBranch()
+    return system('git rev-parse --abbrev-ref HEAD')
+endfunction
+
+function! SaveBranchSession()
+    let l:sessionops = &sessionoptions
+    set sessionoptions=buffers,sesdir
+    let l:current_branch=CurrentBranch()
+    exec 'mksession! '.l:current_branch
+    exec 'set sessionoptions='.l:sessionops
+endfunction
+
+function! LoadBranchSession()
+    let l:sessionops = &sessionoptions
+    set sessionoptions=buffers,sesdir
+    let l:current_branch=CurrentBranch()
+    exec 'source '.l:current_branch
+    exec 'set sessionoptions='.l:sessionops
+endfunction
 
 " colors
 set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
