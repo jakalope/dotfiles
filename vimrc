@@ -35,6 +35,8 @@ let g:CommandTMaxFiles=1000000
 let g:CommandTFileScanner="git"
 let g:CommandTGitScanSubmodules=1
 
+nnoremap <Leader>c :CommandTFlush<CR>
+
 " YouCompleteMe
 set completeopt-=preview
 let g:ycm_add_preview_to_completeopt = 0
@@ -146,6 +148,9 @@ set equalalways
 set expandtab
 set fileencoding=utf-8
 set history=50
+set noswapfile
+set nobackup
+set noswapfile
 set incsearch
 set laststatus=2 " Always display status line
 set nofoldenable
@@ -295,7 +300,7 @@ endfunction
 function! SaveBranchSession()
     let l:sessionops = &sessionoptions
     set sessionoptions=buffers,sesdir
-    let l:current_branch=CurrentBranch()
+    let l:current_branch=xolox#misc#str#slug(CurrentBranch())
     exec 'mksession! '.l:current_branch
     exec 'set sessionoptions='.l:sessionops
 endfunction
@@ -303,7 +308,7 @@ endfunction
 function! LoadBranchSession()
     let l:sessionops = &sessionoptions
     set sessionoptions=buffers,sesdir
-    let l:current_branch=CurrentBranch()
+    let l:current_branch=xolox#misc#str#slug(CurrentBranch())
     exec 'source '.l:current_branch
     exec 'set sessionoptions='.l:sessionops
 endfunction
@@ -378,4 +383,3 @@ function! s:OnBufWritePre()
         call jakalope#utilities#format('beautify_bash.py -')
     endif
 endfunction
-
