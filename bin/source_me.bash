@@ -30,3 +30,7 @@ source ~/bin/code-window
 source ~/bin/bin_dir
 source ~/bin/cd_buddy.sh
 source ~/bin/tcode.bash
+
+source ~/dotfiles/worktree/worktree.sh
+export WORKTREE_WORKTREE_ROOT="${HOME}/driving"
+export WORKTREE_BRANCH_NAME_PREFIX="jake/"
