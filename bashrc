@@ -11,6 +11,10 @@ export TERM=screen-256color
 # Get OS name
 OS="$(uname -s)"
 
+function set_title() {
+    printf '\e]2;%s\a' "$*";
+}
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -68,26 +72,26 @@ if [ -n "$force_color_prompt" ]; then
     # We have color support; assume it's compliant with Ecma-48
     # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
     # a case would tend to support setf rather than setaf.)
-    color_prompt=yes
+        color_prompt=yes
     else
-    color_prompt=
+        color_prompt=
     fi
 fi
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
+    xterm*|rxvt*)
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+        ;;
+    *)
+        ;;
 esac
 
 function parse_git_dirty {
-  [[ $(git status 2> /dev/null | tail -n1) == "nothing to commit (working directory clean)" ]] && echo "*"
+    [[ $(git rev-parse --abbrev-ref HEAD 2> /dev/null | tail -n1) == "nothing to commit (working directory clean)" ]] && echo "*"
 }
 function parse_git_branch {
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
 }
 
 if [ "$color_prompt" = yes ]; then
@@ -175,31 +179,18 @@ alias wcd='cd "${wcd}"'
 
 source ~/bin/source_me.bash
 
-if [[ -e /opt/ros/indigo ]]; then
-    source /opt/ros/indigo/setup.bash
-fi
-
-if [[ -d ${WORKSPACE_DIR}/scripts/shell ]]; then
-    for file in "${WORKSPACE_DIR}/scripts/shell/"* ; do
-        if [ -f "$file" ] ; then
-            echo "Sourcing ${file}..."
-            source "$file"
-        fi
-    done
+if [[ -e ${WORKSPACE_DIR}/scripts/shell/zooxrc.sh ]]; then
+    source ${WORKSPACE_DIR}/scripts/shell/zooxrc.sh
 fi
 
 
 export CUDA_HOME=${HOME}/cuda
 export LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
 
-type fakeros >/dev/null 2>&1
-if [[ $? == 0 ]]; then
-    fakeros
-fi
-
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
 export PATH="${HOME}/.cargo/bin:${PATH}"
 
+set_title ${WORKSPACE_DIR}
 register
