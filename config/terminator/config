@@ -15,7 +15,7 @@
   [[default]]
     background_color = "#002b36"
     background_image = None
-    font = Monospace 11
+    font = Monospace 10
     foreground_color = "#839496"
     scroll_on_output = False
     scrollback_lines = 50000
