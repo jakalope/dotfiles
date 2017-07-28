@@ -9,6 +9,7 @@ clang-format-3.6
 cmake
 cppcheck
 curl
+dconf-tools
 docbook2x
 exuberant-ctags
 g++
