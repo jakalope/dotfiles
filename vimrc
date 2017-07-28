@@ -383,3 +383,7 @@ function! s:OnBufWritePre()
         call jakalope#utilities#format('beautify_bash.py -')
     endif
 endfunction
+
+if isdirectory("bazel-genfiles")
+    set path+=bazel-genfiles
+endif
