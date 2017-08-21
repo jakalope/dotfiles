@@ -50,6 +50,8 @@ let g:ycm_filepath_completion_use_working_dir = 1
 let g:ycm_filetype_specific_completion_to_disable = { 'gitcommit': 1, }
 let g:ycm_key_invoke_completion = '<C-space>'
 let g:ycm_open_loclist_on_ycm_diags = 0
+let g:ycm_server_python_interpreter='/usr/bin/python'
+let g:ycm_keep_logfiles = 1
 
 let s:proposed_ycm_conf = 'scripts/editors/vim/ycm_extra_conf.py'
 if filereadable(s:proposed_ycm_conf)
