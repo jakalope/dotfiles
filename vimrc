@@ -286,10 +286,15 @@ nnoremap <F8> :tabn<CR>
 " fast buffer deletion
 nnoremap <F9><F9> :Bdelete<CR>
 
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+
+imap <C-h> <Esc><C-w>h
+imap <C-j> <Esc><C-w>j
+imap <C-k> <Esc><C-w>k
+imap <C-l> <Esc><C-w>l
 
 command! Wcd cd ${MY_WORKSPACE_DIR}
 
