@@ -359,6 +359,9 @@ if has('nvim')
     autocmd VimEnter * nested vsplit term://bash
     autocmd VimEnter * enew
     autocmd VimEnter * b2
+elseif has('terminal')
+    terminal ++curwin
+    " or: call term_start(&shell, {"curwin": "1"})
 endif
 
 augroup formatting_and_filetypes
