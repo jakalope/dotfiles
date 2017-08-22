@@ -60,12 +60,12 @@ function open_file_to_line() {
 
 SLEEP_TIME='0.5'
 
-if [[ "$NVIM_LISTEN_ADDRESS" != "" ]]; then
+if printenv NVIM_LISTEN_ADDRESS; then
     # Get the name of our Neovim server using NeoVimRemote.
     VIMEXEC="nvr -l"
 else
     # As of vim 8.0.0829, this env will be set on `:terminal`s.
-    if [[ ${VIM_SERVERNAME} == "" ]]; then
+    if ! printenv VIM_SERVERNAME; then
         VIM_SERVERNAME="VIM"
     fi
     VIMEXEC="vim --servername $VIM_SERVERNAME"
@@ -101,7 +101,7 @@ elif [[ $# > 0 ]]; then
     fi
     # Nothing from stdin, no arguemnts, so start a server
 else
-    if [[ ${VIM_SERVERNAME} != "" ]]; then
+    if printenv VIM_SERVERNAME; then
         pwd > ~/${VIM_SERVERNAME}
     fi
     $VIMEXEC
