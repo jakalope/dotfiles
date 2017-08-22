@@ -320,6 +320,7 @@ set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
 colorscheme elflord
 hi SpellBad ctermfg=red ctermbg=NONE
 hi SpellCap ctermfg=green ctermbg=NONE
+hi SpellRare ctermfg=blue ctermbg=NONE
 
 " Toggle numbering
 nnoremap ;n :set invrnu<CR>

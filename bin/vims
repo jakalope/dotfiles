@@ -13,7 +13,7 @@ function paste() {
 }
 
 function open_file_to_line() {
-    # tell the vim server to open the file
+    # Tell the vim server to open the file
     local raw="${1//:*}" # remove trailing characters after the filename
     local line="${1#*:}" # keep only the suffix after the filename
     local line="${line%%:*}"  # keep only the prefix of the suffix; the line#
