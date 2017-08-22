@@ -358,10 +358,13 @@ if has('nvim')
 
     augroup terminal
 		autocmd!
-        autocmd TermOpen * setlocal nospell
         autocmd BufWinEnter,WinEnter term://* startinsert
+        autocmd BufWinEnter,WinEnter term://* setlocal nospell
     augroup END
 elseif has('terminal')
+    augroup terminal
+        autocmd BufWinEnter,WinEnter &shell setlocal nospell
+    augroup END
 endif
 
 augroup formatting_and_filetypes
