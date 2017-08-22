@@ -62,7 +62,7 @@ SLEEP_TIME='0.5'
 
 if printenv NVIM_LISTEN_ADDRESS; then
     # Get the name of our Neovim server using NeoVimRemote.
-    VIMEXEC="nvr -l"
+    VIMEXEC="nvr"
 else
     # As of vim 8.0.0829, this env will be set on `:terminal`s.
     if ! printenv VIM_SERVERNAME; then
@@ -77,30 +77,11 @@ if [[ ! -t 0 && $# == 0 ]]; then
     # separated by newlines and open each file in a separate tab by calling
     # this script recursively
     awk '{print $1}' | awk -F: '{print "vims " $1 ":" $2}' | bash
-    # Check if we have some arguments
 elif [[ $# > 0 ]]; then
-    if [[ ${1} == '-v' ]]; then
-        # remove the -v
-        shift
-        # tell the vim server to open the file in a new tab
-        $VIMEXEC --remote-tab "$1"
-        # wait for vim to open the file
-        sleep $SLEEP_TIME
-        # open a new v-split
-        $VIMEXEC --remote-send ':vsp<CR>'
-        # wait for the new v-split to open
-        sleep $SLEEP_TIME
-        # remove the first file from the argument list
-        shift
-        # open the second file in the new vsplit
-        $VIMEXEC --remote "$1"
-    elif [[ ${1} == '-t' ]]; then
-        open_file_to_line "$(paste)"
-    else
-        open_file_to_line "${@}"
-    fi
-    # Nothing from stdin, no arguemnts, so start a server
+    # If we have some arguments, treat them as a single file[:line] argument.
+    open_file_to_line "${@}"
 else
+    # Nothing from stdin, no arguemnts, so start a server
     if printenv VIM_SERVERNAME; then
         pwd > ~/${VIM_SERVERNAME}
     fi
