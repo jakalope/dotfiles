@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-inside_nvim="$(nvr --serverlist | wc -l)"
-if ((inside_nvim == 1)); then
+if [[ $VIM_SERVERNAME != "" ]]; then
+    vim --servername ${VIM_SERVERNAME} \
+        --remote-send '<C-W>:let g:tty = "'$(tty)'"<CR>'
+elif [[ $NVIM_LISTEN_ADDRESS != "" ]]; then
     nvr --remote-send "<C-\><C-n>:let g:tty = \"$(tty)\"<CR>"
 fi

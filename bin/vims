@@ -13,7 +13,7 @@ function paste() {
 }
 
 function open_file_to_line() {
-    # tell the vim server to open the file
+    # Tell the vim server to open the file
     local raw="${1//:*}" # remove trailing characters after the filename
     local line="${1#*:}" # keep only the suffix after the filename
     local line="${line%%:*}"  # keep only the prefix of the suffix; the line#
@@ -21,12 +21,15 @@ function open_file_to_line() {
     # Correct the case where no colon is given.
     if [[ "$raw" == "$line" ]]; then
         line=""
-    else
+    elif [[ "$line" != "" ]]; then
         line="+$line"
     fi
 
     local vim_cwd_file="$(readlink "${MY_WORKSPACE_DIR}/$raw")"
     local cmd_cwd_file="$(readlink "$(pwd)/$raw")"
+
+    # Move the window focus to the left.
+    $VIMEXEC --remote-send '<C-\><C-n>:wincmd h<CR>'
 
     if [[ -e "$raw" ]]; then
         echo RAW >> ${HOME}/vims_usage
@@ -60,16 +63,15 @@ function open_file_to_line() {
 
 SLEEP_TIME='0.5'
 
-if [[ "$NVIM_LISTEN_ADDRESS" != "" ]]; then
-    # Get the name of our Neovim server.
-    # VIMSERVER="$(nvr --serverlist)"
-    # Use NeoVimRemote.
-    VIMEXEC="nvr -l"
+if >/dev/null printenv NVIM_LISTEN_ADDRESS; then
+    # Get the name of our Neovim server using NeoVimRemote.
+    VIMEXEC="nvr"
 else
-    if [[ ${VIMSERVER} == "" ]]; then
-        VIMSERVER="VIM"
+    # As of vim 8.0.0829, this env will be set on `:terminal`s.
+    if [[ $VIM_SERVERNAME == "" ]]; then
+        VIM_SERVERNAME="VIM"
     fi
-    VIMEXEC="gvim --servername $VIMSERVER"
+    VIMEXEC="vim --servername $VIM_SERVERNAME"
 fi
 
 # Check if we're being piped some input
@@ -78,33 +80,13 @@ if [[ ! -t 0 && $# == 0 ]]; then
     # separated by newlines and open each file in a separate tab by calling
     # this script recursively
     awk '{print $1}' | awk -F: '{print "vims " $1 ":" $2}' | bash
-    # Check if we have some arguments
 elif [[ $# > 0 ]]; then
-    if [[ ${1} == '-v' ]]; then
-        # remove the -v
-        shift
-        # tell the vim server to open the file in a new tab
-        $VIMEXEC --remote-tab "$1"
-        # wait for vim to open the file
-        sleep $SLEEP_TIME
-        # open a new v-split
-        $VIMEXEC --remote-send ':vsp<CR>'
-        # wait for the new v-split to open
-        sleep $SLEEP_TIME
-        # remove the first file from the argument list
-        shift
-        # open the second file in the new vsplit
-        $VIMEXEC --remote "$1"
-    elif [[ ${1} == '-t' ]]; then
-        open_file_to_line "$(paste)"
-    else
-        open_file_to_line "${@}"
-    fi
-    # Nothing from stdin, no arguemnts, so start a server
+    # If we have some arguments, treat them as a single file[:line] argument.
+    open_file_to_line "${@}"
 else
-    #TODO Check if a server is already running under this name
-    if [[ ${VIMSERVER} != "" ]]; then
-        pwd > ~/${VIMSERVER}
+    # Nothing from stdin, no arguemnts, so start a server
+    if >/dev/null printenv VIM_SERVERNAME; then
+        pwd > ~/${VIM_SERVERNAME}
     fi
     $VIMEXEC
 fi

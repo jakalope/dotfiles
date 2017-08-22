@@ -19,16 +19,18 @@ endif
 
 " Utilities
 let g:util_min_split_cols = 83
+let g:util_split_with_terminal = 1
 
 nnoremap ze :execute 'edit '.jakalope#utilities#companion()<CR>
 nnoremap zt :execute 'tabnew '.jakalope#utilities#companion()<CR>
 nnoremap zv :execute 'vsplit '.jakalope#utilities#companion()<CR>
 nnoremap zs :execute 'split '.jakalope#utilities#companion()<CR>
 
-" CtrlP (just for buffer search)
+" CtrlP (for buffer search and CmdT backup option)
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 
 nnoremap <Leader>b :CtrlPBuffer<CR>
+nnoremap <Leader>p :CtrlP<CR>
 
 " CommandT (for file search)
 let g:CommandTMaxFiles=1000000
@@ -50,6 +52,8 @@ let g:ycm_filepath_completion_use_working_dir = 1
 let g:ycm_filetype_specific_completion_to_disable = { 'gitcommit': 1, }
 let g:ycm_key_invoke_completion = '<C-space>'
 let g:ycm_open_loclist_on_ycm_diags = 0
+let g:ycm_server_python_interpreter='/usr/bin/python'
+let g:ycm_keep_logfiles = 1
 
 let s:proposed_ycm_conf = 'scripts/editors/vim/ycm_extra_conf.py'
 if filereadable(s:proposed_ycm_conf)
@@ -323,6 +327,7 @@ set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
 colorscheme elflord
 hi SpellBad ctermfg=red ctermbg=NONE
 hi SpellCap ctermfg=green ctermbg=NONE
+hi SpellRare ctermfg=blue ctermbg=NONE
 
 " Toggle numbering
 nnoremap ;n :set invrnu<CR>
@@ -356,10 +361,7 @@ if has('nvim')
         autocmd TermOpen * setlocal nospell
         autocmd BufWinEnter,WinEnter term://* startinsert
     augroup END
-
-    autocmd VimEnter * nested vsplit term://bash
-    autocmd VimEnter * enew
-    autocmd VimEnter * b2
+elseif has('terminal')
 endif
 
 augroup formatting_and_filetypes
@@ -377,15 +379,27 @@ augroup formatting_and_filetypes
     autocmd BufNewFile,BufRead COMMIT_EDITMSG setfiletype commit_editmsg
 augroup END
 
+let g:enable_auto_format=1
+command AutoFormatToggle call s:AutoFormatToggle()
+function! s:AutoFormatToggle()
+    if exists("g:enable_auto_format") && g:enable_auto_format
+        let g:enable_auto_format=0
+    else
+        let g:enable_auto_format=1
+    endif
+endfunction
+
 function! s:OnBufWritePre()
-    if &filetype=='python'
-        call jakalope#utilities#format('yapf')
-    elseif &filetype=='c' || &filetype=='cpp' || &filetype=='proto'
-        call jakalope#utilities#format('clang_format')
-    elseif expand('%:t')=='BUILD' && g:uname == "Linux"
-        call jakalope#utilities#format('buildifier')
-    elseif &filetype=='bash' || &filetype=='sh'
-        call jakalope#utilities#format('beautify_bash.py -')
+    if g:enable_auto_format==1
+        if &filetype=='python'
+            call jakalope#utilities#format('yapf')
+        elseif &filetype=='c' || &filetype=='cpp' || &filetype=='proto'
+            call jakalope#utilities#format('clang_format')
+        elseif expand('%:t')=='BUILD' && g:uname == "Linux"
+            call jakalope#utilities#format('buildifier')
+        elseif &filetype=='bash' || &filetype=='sh'
+            call jakalope#utilities#format('beautify_bash.py -')
+        endif
     endif
 endfunction
 

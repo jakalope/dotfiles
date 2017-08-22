@@ -154,7 +154,8 @@ fi
 
 if [[ ! ${PATH} == *"${HOME}/bin"* ]]
 then
-    export PATH=${PATH}:"${HOME}/bin"
+    # Prepend, so my stuff gets used.
+    export PATH="${HOME}/bin":${PATH}
 fi
 
 if [[ ! ${PATH} == *"${HOME}/.local/bin"* ]]
