@@ -19,6 +19,7 @@ endif
 
 " Utilities
 let g:util_min_split_cols = 83
+let g:util_split_with_terminal = 1
 
 nnoremap ze :execute 'edit '.jakalope#utilities#companion()<CR>
 nnoremap zt :execute 'tabnew '.jakalope#utilities#companion()<CR>
@@ -355,12 +356,7 @@ if has('nvim')
         autocmd TermOpen * setlocal nospell
         autocmd BufWinEnter,WinEnter term://* startinsert
     augroup END
-
-    autocmd VimEnter * nested vsplit term://bash
-    autocmd VimEnter * enew
-    autocmd VimEnter * b2
 elseif has('terminal')
-    terminal ++curwin
 endif
 
 augroup formatting_and_filetypes
