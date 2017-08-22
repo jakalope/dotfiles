@@ -25,10 +25,11 @@ nnoremap zt :execute 'tabnew '.jakalope#utilities#companion()<CR>
 nnoremap zv :execute 'vsplit '.jakalope#utilities#companion()<CR>
 nnoremap zs :execute 'split '.jakalope#utilities#companion()<CR>
 
-" CtrlP (just for buffer search)
+" CtrlP (for buffer search and CmdT backup option)
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 
 nnoremap <Leader>b :CtrlPBuffer<CR>
+nnoremap <Leader>p :CtrlP<CR>
 
 " CommandT (for file search)
 let g:CommandTMaxFiles=1000000
