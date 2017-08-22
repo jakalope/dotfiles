@@ -21,12 +21,15 @@ function open_file_to_line() {
     # Correct the case where no colon is given.
     if [[ "$raw" == "$line" ]]; then
         line=""
-    else
+    elif [[ "$line" != "" ]]; then
         line="+$line"
     fi
 
     local vim_cwd_file="$(readlink "${MY_WORKSPACE_DIR}/$raw")"
     local cmd_cwd_file="$(readlink "$(pwd)/$raw")"
+
+    # Move the window focus to the left.
+    $VIMEXEC --remote-send '<C-\><C-n>:wincmd h<CR>'
 
     if [[ -e "$raw" ]]; then
         echo RAW >> ${HOME}/vims_usage
@@ -60,12 +63,12 @@ function open_file_to_line() {
 
 SLEEP_TIME='0.5'
 
-if printenv NVIM_LISTEN_ADDRESS; then
+if >/dev/null printenv NVIM_LISTEN_ADDRESS; then
     # Get the name of our Neovim server using NeoVimRemote.
     VIMEXEC="nvr"
 else
     # As of vim 8.0.0829, this env will be set on `:terminal`s.
-    if ! printenv VIM_SERVERNAME; then
+    if >/dev/null ! printenv VIM_SERVERNAME; then
         VIM_SERVERNAME="VIM"
     fi
     VIMEXEC="vim --servername $VIM_SERVERNAME"
@@ -82,7 +85,7 @@ elif [[ $# > 0 ]]; then
     open_file_to_line "${@}"
 else
     # Nothing from stdin, no arguemnts, so start a server
-    if printenv VIM_SERVERNAME; then
+    if >/dev/null printenv VIM_SERVERNAME; then
         pwd > ~/${VIM_SERVERNAME}
     fi
     $VIMEXEC
