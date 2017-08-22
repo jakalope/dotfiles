@@ -361,7 +361,6 @@ if has('nvim')
     autocmd VimEnter * b2
 elseif has('terminal')
     terminal ++curwin
-    " or: call term_start(&shell, {"curwin": "1"})
 endif
 
 augroup formatting_and_filetypes
@@ -379,15 +378,27 @@ augroup formatting_and_filetypes
     autocmd BufNewFile,BufRead COMMIT_EDITMSG setfiletype commit_editmsg
 augroup END
 
+let g:enable_auto_format=1
+command AutoFormatToggle call s:AutoFormatToggle()
+function! s:AutoFormatToggle()
+    if exists("g:enable_auto_format") && g:enable_auto_format
+        let g:enable_auto_format=0
+    else
+        let g:enable_auto_format=1
+    endif
+endfunction
+
 function! s:OnBufWritePre()
-    if &filetype=='python'
-        call jakalope#utilities#format('yapf')
-    elseif &filetype=='c' || &filetype=='cpp' || &filetype=='proto'
-        call jakalope#utilities#format('clang_format')
-    elseif expand('%:t')=='BUILD' && g:uname == "Linux"
-        call jakalope#utilities#format('buildifier')
-    elseif &filetype=='bash' || &filetype=='sh'
-        call jakalope#utilities#format('beautify_bash.py -')
+    if g:enable_auto_format==1
+        if &filetype=='python'
+            call jakalope#utilities#format('yapf')
+        elseif &filetype=='c' || &filetype=='cpp' || &filetype=='proto'
+            call jakalope#utilities#format('clang_format')
+        elseif expand('%:t')=='BUILD' && g:uname == "Linux"
+            call jakalope#utilities#format('buildifier')
+        elseif &filetype=='bash' || &filetype=='sh'
+            call jakalope#utilities#format('beautify_bash.py -')
+        endif
     endif
 endfunction
 
