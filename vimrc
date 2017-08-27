@@ -103,13 +103,13 @@ map gh <Plug>(easymotion-bd-w)
 
 call plug#begin('~/.vim/plugged')
 
-" if !has('nvim')
-"     " Disable YCM in Neovim until the following is solved.
-"     " https://github.com/neovim/neovim/issues/6166
+if !has('nvim')
+    " Disable YCM in Neovim until the following is solved.
+    " https://github.com/neovim/neovim/issues/6166
     Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
     Plug 'Valloric/YouCompleteMe', { 'do':
                 \ './install.py --clang-completer --racer-completer' }
-" endif
+endif
 
 " Plug 'PeterRincker/vim-argumentative'
 Plug 'easymotion/vim-easymotion'
@@ -186,7 +186,6 @@ set laststatus=2 " Always display status line
 set nofoldenable
 set nohlsearch
 set number
-set notimeout
 set nopaste
 set relativenumber
 set scrolloff=111112
@@ -362,6 +361,7 @@ hi SpellRare ctermfg=blue ctermbg=NONE
 nnoremap ;n :set invrnu<CR>
 
 if has('nvim')
+    set notimeout " https://github.com/neovim/neovim/issues/6166
     let g:terminal_scrollback_buffer_size = 100000
     let g:util_workspace_dir = $MY_WORKSPACE_DIR
 
