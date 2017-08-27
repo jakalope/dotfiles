@@ -38,6 +38,10 @@ cd "vim-${REV}"
 make
 make install
 
+# Vim-plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
 vim_path="$(which vim)"
 if [[ "${vim_path}" != "${HOME}/bin/vim" ]]; then
     echo "WARNING: This vim installation is not the current default."

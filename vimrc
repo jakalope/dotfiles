@@ -99,43 +99,39 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " Easymotion
 map gh <Plug>(easymotion-bd-w)
 
-"""""""""" VAM
-"source ~/.vim/vam_setup.vim
+"""""""""" Vim-Plug
 
-"""""""""" Vundle
-set nocompatible              " be iMproved, required
-filetype off                  " required
+call plug#begin('~/.vim/plugged')
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" let Vundle manage Vundle; disable Git because we hate git submodules
-Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
+if !has('nvim')
+    " Disable YCM in Neovim until the following is solved.
+    " https://github.com/neovim/neovim/issues/6166
+    Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+    Plug 'Valloric/YouCompleteMe', { 'do':
+                \ './install.py --clang-completer --racer-completer' }
+endif
 
 " Plugin 'PeterRincker/vim-argumentative'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'jakalope/vim-utilities'
-Plugin 'kana/vim-operator-user'
-Plugin 'kana/vim-smartword'
-Plugin 'kien/ctrlp.vim'
-Plugin 'moll/vim-bbye'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-dispatch'
-Plugin 'tpope/vim-fugitive'
-Plugin 'wincent/command-t'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-reload'
+Plug 'easymotion/vim-easymotion'
+Plug 'jakalope/vim-utilities'
+Plug 'kana/vim-operator-user'
+Plug 'kana/vim-smartword'
+Plug 'kien/ctrlp.vim'
+Plug 'moll/vim-bbye'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
+Plug 'wincent/command-t', { 'do': 
+            \ 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-reload'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call plug#end()
+
+filetype plugin indent on
 syntax on
-
-"""""""""" End Vundle
 
 set clipboard=unnamed
 
