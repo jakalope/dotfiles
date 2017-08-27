@@ -118,6 +118,7 @@ Plug 'kana/vim-operator-user'
 Plug 'kana/vim-smartword'
 Plug 'kien/ctrlp.vim'
 Plug 'moll/vim-bbye'
+Plug 'rust-lang/rust.vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
@@ -355,12 +356,20 @@ if has('nvim')
     augroup terminal
 		autocmd!
         autocmd BufWinEnter,WinEnter term://* startinsert
+       
+        " Don't spellcheck our terminal buffers :-P
         autocmd BufWinEnter,WinEnter term://* setlocal nospell
     augroup END
 elseif has('terminal')
     augroup terminal
+        " Don't spellcheck our terminal buffers :-P
         autocmd BufWinEnter,WinEnter &shell setlocal nospell
     augroup END
+    if v:servername == ""
+        " When vim is started without a servername, set the servername to the
+        " basename of the current working directory.
+        call remote_startserver(fnamemodify(getcwd(), ':t'))
+    endif
 endif
 
 augroup formatting_and_filetypes
