@@ -103,15 +103,15 @@ map gh <Plug>(easymotion-bd-w)
 
 call plug#begin('~/.vim/plugged')
 
-if !has('nvim')
-    " Disable YCM in Neovim until the following is solved.
-    " https://github.com/neovim/neovim/issues/6166
+" if !has('nvim')
+"     " Disable YCM in Neovim until the following is solved.
+"     " https://github.com/neovim/neovim/issues/6166
     Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
     Plug 'Valloric/YouCompleteMe', { 'do':
                 \ './install.py --clang-completer --racer-completer' }
-endif
+" endif
 
-" Plugin 'PeterRincker/vim-argumentative'
+" Plug 'PeterRincker/vim-argumentative'
 Plug 'easymotion/vim-easymotion'
 Plug 'jakalope/vim-utilities'
 Plug 'kana/vim-operator-user'
@@ -130,6 +130,35 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
 
 call plug#end()
+
+" Source vimrc, clear and reload scripts, clear and reset options.
+command! Src call VimRCSource()
+function! VimRCSource()
+    " Reset all options and mappings.
+    set all&
+    mapclear | mapclear <buffer> | mapclear! | mapclear! <buffer>
+
+    " Source vimrc
+    source ~/.vimrc
+
+    " Reload scripts that were unmapped at the top of this file.
+    unlet! g:vim_utilities_loaded
+    unlet! g:loaded_smartword
+    unlet! g:command_t_loaded
+    unlet! g:loaded_abolish
+    unlet! g:loaded_commentary
+    unlet! g:loaded_syntastic_rust_filetype
+    ReloadScript ~/.vim/plugged/vim-utilities/plugin/vim-utilities.vim
+    ReloadScript ~/.vim/plugged/vim-smartword/plugin/smartword.vim
+    ReloadScript ~/.vim/plugged/command-t/plugin/command-t.vim
+    ReloadScript ~/.vim/plugged/vim-abolish/plugin/abolish.vim
+    ReloadScript ~/.vim/plugged/vim-commentary/plugin/commentary.vim
+    ReloadScript ~/.vim/plugged/rust.vim/plugin/rust.vim
+
+    " Re-detect filetypes.
+    " TODO With a rust filetype loaded, this will cause an error.
+    Detect
+endfunction
 
 filetype plugin indent on
 syntax on
