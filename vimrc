@@ -269,14 +269,17 @@ nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 inoremap <CR> <C-]><C-G>u<CR>
 
 " Open the file under the cursor in the previous window.
-" TODO fix:
-" E684: list index out of range: 1
-" E15: Invalid expression: split('"vehicle/common/pub_sub/ros_native_publisher.h"', ':')[1]
-nnoremap zn :let cur_file=expand('<cfile>')<CR>
-            \:let cur_line=split('<C-R><C-A>', ':')[1]<CR>
-            \:wincmd p<CR>
-            \:exec 'edit '.cur_file<CR>
-            \:call cursor(cur_line, 0)<CR>
+nnoremap zn :call OpenToLineInPrevious()<CR>
+function! OpenToLineInPrevious()
+    let cur_file=expand('<cfile>')
+    let split_list=split('<C-R><C-A>', ':')
+    wincmd p
+    exec 'edit '.cur_file
+    if len(split_list) > 1
+        let cur_line=split_list[1]
+        call cursor(cur_line, 0)
+    endif
+endfunction
 
 " Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
