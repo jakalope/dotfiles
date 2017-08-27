@@ -383,7 +383,7 @@ augroup formatting_and_filetypes
 augroup END
 
 let g:enable_auto_format=1
-command AutoFormatToggle call s:AutoFormatToggle()
+command! AutoFormatToggle call s:AutoFormatToggle()
 function! s:AutoFormatToggle()
     if exists("g:enable_auto_format") && g:enable_auto_format
         let g:enable_auto_format=0
