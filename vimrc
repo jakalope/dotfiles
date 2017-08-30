@@ -296,10 +296,10 @@ nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 inoremap <CR> <C-]><C-G>u<CR>
 
 " Open the file under the cursor in the previous window.
-nnoremap zn :call OpenToLineInPrevious()<CR>
-function! OpenToLineInPrevious()
+nnoremap zn :call OpenToLineInPrevious('<C-R><C-A>')<CR>
+function! OpenToLineInPrevious(line)
     let cur_file=expand('<cfile>')
-    let split_list=split('<C-R><C-A>', ':')
+    let split_list=split(a:line, ':')
     wincmd p
     exec 'edit '.cur_file
     if len(split_list) > 1
