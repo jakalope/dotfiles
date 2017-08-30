@@ -68,7 +68,6 @@ nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
 nnoremap <C-F> :YcmRestartServer<CR>:YcmForceCompileAndDiagnostics<CR>
 
-
 function! YcmToggle()
     if exists("b:ycm_largefile") && b:ycm_largefile
         let b:ycm_largefile=0
@@ -81,8 +80,6 @@ endfunction
 map <SPACE>  <Plug>(smartword-w)
 map <BackSpace>  <Plug>(smartword-b)
 map <S-SPACE>  W
-
-" TODO server2client({clientid}, {string})			*server2client()*
 
 " Argumentitive
 " nmap [; <Plug>Argumentative_Prev
@@ -176,9 +173,11 @@ set cmdheight=2
 " set encoding=utf-8
 set equalalways
 set expandtab
+if has('fastwincmd')
+    set fastwincmd
+endif
 set fileencoding=utf-8
 set history=50
-set noswapfile
 set nobackup
 set noswapfile
 set incsearch
@@ -198,7 +197,7 @@ set splitbelow
 set splitright
 set tabstop=4
 set title
-set viewoptions=cursor,folds,slash,unix
+set viewoptions=
 set viminfo='20,\"50
 set visualbell " Use visual bell instead of beeping when doing something wrong
 set wildmenu " Better command-line completion
