@@ -154,7 +154,8 @@ fi
 
 if [[ ! ${PATH} == *"${HOME}/bin"* ]]
 then
-    export PATH=${PATH}:"${HOME}/bin"
+    # Prepend, so my stuff gets used.
+    export PATH="${HOME}/bin":${PATH}
 fi
 
 if [[ ! ${PATH} == *"${HOME}/.local/bin"* ]]
@@ -171,7 +172,7 @@ fi
 set -o vi
 
 # set some development environment variables
-export EDITOR=nvim
+export EDITOR=vim
 export WORKSPACE_DIR="$(pwd)"
 export SOURCE_DIR="${WORKSPACE_DIR}"
 export wcd="${WORKSPACE_DIR}"

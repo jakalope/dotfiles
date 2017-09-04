@@ -1,17 +1,15 @@
 #!/bin/bash
+
 if [[ $# == 0 ]]; then
     # Trivial case.
     2>/dev/null find ./
     exit 0
 fi
 
-pattern="${1}"
+pattern="-name \"*.${1}\""
 shift
-while [[ $# > 0 ]]; do
-    pattern="${pattern}\|${1}"
-    shift
+for arg in "${@}"; do
+    pattern="${pattern} -o -name \"*.${arg}\""
 done
-template='.*\.\(X\)'
-regex="${template/X/${pattern}}"
-[[ $VERBOSE ]] && echo regex=$regex
-2>/dev/null find ./ -regex "${regex}"
+
+echo 2>/dev/null find . ${pattern} | bash
