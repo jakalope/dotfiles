@@ -401,6 +401,24 @@ elseif has('terminal')
         " basename of the current working directory.
         call remote_startserver(fnamemodify(getcwd(), ':t'))
     endif
+
+    tnoremap <C-\> <C-\><C-n>
+
+	tnoremap <F5> <C-\><C-n>:tabp<CR>
+	tnoremap <F6> <C-\><C-n>:bp<CR>
+	tnoremap <F7> <C-\><C-n>:bn<CR>
+	tnoremap <F8> <C-\><C-n>:tabn<CR>
+	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
+
+    tnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
+
+    tnoremap <C-h> <C-w>h
+    tnoremap <C-j> <C-w>j
+    tnoremap <C-k> <C-w>k
+    tnoremap <C-l> <C-w>l
+
+	tnoremap <C-u> <C-\><C-n><C-u>
+	tnoremap <C-d> <C-\><C-n><C-d>
 endif
 
 augroup formatting_and_filetypes
