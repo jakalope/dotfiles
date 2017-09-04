@@ -18,20 +18,21 @@ if [[ ! -e "vim-${REV}" ]]; then
 fi
 
 cd "vim-${REV}"
+make distclean
 ./configure \
-    --with-features=huge \
-    --enable-multibyte \
     --prefix=${HOME} \
-    --enable-gui=gtk2 \
-    --enable-cscope \
-    --enable-pythoninterp=yes \
+    --with-features=huge \
     --with-python-config-dir=/usr/lib/python2.7/config \
-    --enable-perlinterp=yes \
+    --enable-cscope \
+    --enable-gui=gtk2 \
     --enable-luainterp=yes \
+    --enable-multibyte \
+    --enable-perlinterp=yes \
+    --enable-pythoninterp=yes \
     --enable-rubyinterp=yes \
     --enable-terminal=yes \
-    +clientserver \
-    +python
+    --enable-clientserver \
+    --enable-python
 
 make
 make install
