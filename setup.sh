@@ -1,23 +1,23 @@
 #!/usr/bin/env bash
 
 add_ppa() {
-  for i in "$@"; do
-    grep -h "^deb.*$i" /etc/apt/sources.list.d/* > /dev/null 2>&1
-    if [ $? -ne 0 ]
-    then
-      echo "Adding ppa:$i"
-      sudo add-apt-repository -y ppa:$i
-    else
-      echo "ppa:$i already exists"
-    fi
-  done
+    for i in "$@"; do
+        grep -h "^deb.*$i" /etc/apt/sources.list.d/* > /dev/null 2>&1
+        if [ $? -ne 0 ]
+        then
+            echo "Adding ppa:$i"
+            sudo add-apt-repository -y ppa:$i
+        else
+            echo "ppa:$i already exists"
+        fi
+    done
 }
 
 # install dependencies
 # oracle-java8-installer # massif-visualizer
 add_ppa webupd8team/java kubuntu-ppa/backports neovim-ppa/stable
 
-set -eou pipefail
+# set -eou pipefail
 
 sudo apt-get update
 sudo apt-get install -y $(cat apt-package-list)
@@ -58,7 +58,7 @@ pushd ~/Downloads
 if [[ ! -e bazel_0.2.0-linux-x86_64.deb ]]; then
     wget https://github.com/bazelbuild/bazel/releases/download/0.2.0/bazel_0.2.0-linux-x86_64.deb
 fi
-sudo dpkg --install bazel_0.2.0-linux-x86_64.deb 
+sudo dpkg --install bazel_0.2.0-linux-x86_64.deb
 popd
 
 # create backups
@@ -78,5 +78,10 @@ fi
 vim +PluginInstall +qall
 pushd ~/dotfiles/vim/bundle/YouCompleteMe/
 ./install.py --clang-completer
+popd
+pushd ~/dotfiles/vim/bundle/command-t/ruby/command-t/ext/command-t
+make clean
+ruby extconf.rb
+make
 popd
 vim +PluginInstall +qall

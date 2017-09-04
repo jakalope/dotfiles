@@ -25,12 +25,20 @@ libevent-dev
 libexpat1-dev
 libfreetype6-dev
 liblapack-dev
+libncurses-dev
 libpng-dev
 libpq-dev
 libssl-dev
+libtermkey-dev
 libtool
+libunibilium-dev
+libvterm-dev
 libyaml-dev
 libz-dev
+lua-bitop-dev
+lua-lpeg-dev
+lua-mpack
+lua5.1
 massif-visualizer
 mercurial
 oracle-java8-installer
@@ -38,8 +46,9 @@ pkg-config
 python-autopep8
 python-dev
 python-pip
-python3-pip
 python3-dev
+python3-pip
+ruby-dev
 terminator
 tree
 ubuntu-restricted-extras
@@ -51,5 +60,3 @@ xmlto
 xsel
 zip
 zlib1g-dev
-ruby-dev
-libncurses-dev
