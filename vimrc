@@ -69,7 +69,6 @@ nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
 nnoremap <C-F> :YcmRestartServer<CR>:YcmForceCompileAndDiagnostics<CR>
 
-
 function! YcmToggle()
     if exists("b:ycm_largefile") && b:ycm_largefile
         let b:ycm_largefile=0
@@ -82,8 +81,6 @@ endfunction
 map <SPACE>  <Plug>(smartword-w)
 map <BackSpace>  <Plug>(smartword-b)
 map <S-SPACE>  W
-
-" TODO server2client({clientid}, {string})			*server2client()*
 
 " Argumentitive
 " nmap [; <Plug>Argumentative_Prev
@@ -100,47 +97,69 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " Easymotion
 map gh <Plug>(easymotion-bd-w)
 
-"""""""""" VAM
-"source ~/.vim/vam_setup.vim
+"""""""""" Vim-Plug
 
-"""""""""" Vundle
-set nocompatible              " be iMproved, required
-filetype off                  " required
+call plug#begin('~/.vim/plugged')
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" let Vundle manage Vundle; disable Git because we hate git submodules
-Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
-
-" Plugin 'PeterRincker/vim-argumentative'
 if !has('nvim')
-    " Disable YCM in neovim because of operator-pending mode bug.
-    Plugin 'Valloric/YouCompleteMe'
+    " Disable YCM in Neovim until the following is solved.
+    " https://github.com/neovim/neovim/issues/6166
+    Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+    Plug 'Valloric/YouCompleteMe', { 'do':
+                \ './install.py --clang-completer --racer-completer' }
 endif
 
-Plugin 'easymotion/vim-easymotion'
-Plugin 'jakalope/vim-utilities'
-Plugin 'kana/vim-operator-user'
-Plugin 'kana/vim-smartword'
-Plugin 'kien/ctrlp.vim'
-Plugin 'moll/vim-bbye'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-dispatch'
-Plugin 'tpope/vim-fugitive'
-Plugin 'wincent/command-t'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-reload'
+" Plug 'PeterRincker/vim-argumentative'
+Plug 'easymotion/vim-easymotion'
+Plug 'jakalope/vim-utilities'
+Plug 'kana/vim-operator-user'
+Plug 'kana/vim-smartword'
+Plug 'kien/ctrlp.vim'
+Plug 'moll/vim-bbye'
+Plug 'rust-lang/rust.vim'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
+Plug 'wincent/command-t', { 'do': 
+            \ 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-reload'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call plug#end()
+
+" Source vimrc, clear and reload scripts, clear and reset options.
+command! Src call VimRCSource()
+function! VimRCSource()
+    " Reset all options and mappings.
+    set all&
+    mapclear | mapclear <buffer> | mapclear! | mapclear! <buffer>
+
+    " Source vimrc
+    source ~/.vimrc
+
+    " Reload scripts that were unmapped at the top of this file.
+    unlet! g:vim_utilities_loaded
+    unlet! g:loaded_smartword
+    unlet! g:command_t_loaded
+    unlet! g:loaded_abolish
+    unlet! g:loaded_commentary
+    unlet! g:loaded_syntastic_rust_filetype
+    ReloadScript ~/.vim/plugged/vim-utilities/plugin/vim-utilities.vim
+    ReloadScript ~/.vim/plugged/vim-smartword/plugin/smartword.vim
+    ReloadScript ~/.vim/plugged/command-t/plugin/command-t.vim
+    ReloadScript ~/.vim/plugged/vim-abolish/plugin/abolish.vim
+    ReloadScript ~/.vim/plugged/vim-commentary/plugin/commentary.vim
+    ReloadScript ~/.vim/plugged/rust.vim/plugin/rust.vim
+
+    " Re-detect filetypes.
+    " TODO With a rust filetype loaded, this will cause an error.
+    Detect
+endfunction
+
+filetype plugin indent on
 syntax on
-
-"""""""""" End Vundle
 
 set clipboard=unnamed
 
@@ -155,9 +174,11 @@ set cmdheight=2
 " set encoding=utf-8
 set equalalways
 set expandtab
+if has('fastwincmd')
+    set fastwincmd
+endif
 set fileencoding=utf-8
 set history=50
-set noswapfile
 set nobackup
 set noswapfile
 set incsearch
@@ -165,7 +186,6 @@ set laststatus=2 " Always display status line
 set nofoldenable
 set nohlsearch
 set number
-set notimeout
 set nopaste
 set relativenumber
 set scrolloff=111112
@@ -178,7 +198,7 @@ set splitbelow
 set splitright
 set tabstop=4
 set title
-set viewoptions=cursor,folds,slash,unix
+set viewoptions=
 set viminfo='20,\"50
 set visualbell " Use visual bell instead of beeping when doing something wrong
 set wildmenu " Better command-line completion
@@ -277,14 +297,17 @@ nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 inoremap <CR> <C-]><C-G>u<CR>
 
 " Open the file under the cursor in the previous window.
-" TODO fix:
-" E684: list index out of range: 1
-" E15: Invalid expression: split('"vehicle/common/pub_sub/ros_native_publisher.h"', ':')[1]
-nnoremap zn :let cur_file=expand('<cfile>')<CR>
-            \:let cur_line=split('<C-R><C-A>', ':')[1]<CR>
-            \:wincmd p<CR>
-            \:exec 'edit '.cur_file<CR>
-            \:call cursor(cur_line, 0)<CR>
+nnoremap zn :call OpenToLineInPrevious('<C-R><C-A>')<CR>
+function! OpenToLineInPrevious(line)
+    let cur_file=expand('<cfile>')
+    let split_list=split(a:line, ':')
+    wincmd p
+    exec 'edit '.cur_file
+    if len(split_list) > 1
+        let cur_line=split_list[1]
+        call cursor(cur_line, 0)
+    endif
+endfunction
 
 " Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
@@ -338,6 +361,7 @@ hi SpellRare ctermfg=blue ctermbg=NONE
 nnoremap ;n :set invrnu<CR>
 
 if has('nvim')
+    set notimeout " https://github.com/neovim/neovim/issues/6166
     let g:terminal_scrollback_buffer_size = 100000
     let g:util_workspace_dir = $MY_WORKSPACE_DIR
 
@@ -364,12 +388,38 @@ if has('nvim')
     augroup terminal
 		autocmd!
         autocmd BufWinEnter,WinEnter term://* startinsert
+       
+        " Don't spellcheck our terminal buffers :-P
         autocmd BufWinEnter,WinEnter term://* setlocal nospell
     augroup END
 elseif has('terminal')
     augroup terminal
+        " Don't spellcheck our terminal buffers :-P
         autocmd BufWinEnter,WinEnter &shell setlocal nospell
     augroup END
+    if v:servername == ""
+        " When vim is started without a servername, set the servername to the
+        " basename of the current working directory.
+        call remote_startserver(fnamemodify(getcwd(), ':t'))
+    endif
+
+    tnoremap <C-\> <C-\><C-n>
+
+	tnoremap <F5> <C-\><C-n>:tabp<CR>
+	tnoremap <F6> <C-\><C-n>:bp<CR>
+	tnoremap <F7> <C-\><C-n>:bn<CR>
+	tnoremap <F8> <C-\><C-n>:tabn<CR>
+	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
+
+    tnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
+
+    tnoremap <C-h> <C-w>h
+    tnoremap <C-j> <C-w>j
+    tnoremap <C-k> <C-w>k
+    tnoremap <C-l> <C-w>l
+
+	tnoremap <C-u> <C-\><C-n><C-u>
+	tnoremap <C-d> <C-\><C-n><C-d>
 endif
 
 augroup formatting_and_filetypes
