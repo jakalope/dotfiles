@@ -37,6 +37,7 @@ let g:CommandTMaxFiles=1000000
 let g:CommandTFileScanner="git"
 let g:CommandTGitScanSubmodules=1
 
+nnoremap <Leader>t :CommandTFlush<CR>:CommandT<CR>
 nnoremap <Leader>c :CommandTFlush<CR>
 
 " YouCompleteMe
@@ -114,7 +115,11 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
 
 " Plugin 'PeterRincker/vim-argumentative'
-Plugin 'Valloric/YouCompleteMe'
+if !has('nvim')
+    " Disable YCM in neovim because of operator-pending mode bug.
+    Plugin 'Valloric/YouCompleteMe'
+endif
+
 Plugin 'easymotion/vim-easymotion'
 Plugin 'jakalope/vim-utilities'
 Plugin 'kana/vim-operator-user'
@@ -383,7 +388,7 @@ augroup formatting_and_filetypes
 augroup END
 
 let g:enable_auto_format=1
-command AutoFormatToggle call s:AutoFormatToggle()
+command! AutoFormatToggle call s:AutoFormatToggle()
 function! s:AutoFormatToggle()
     if exists("g:enable_auto_format") && g:enable_auto_format
         let g:enable_auto_format=0
