@@ -109,6 +109,7 @@ if !has('nvim')
                 \ './install.py --clang-completer --racer-completer' }
 endif
 
+Plug 'Peaches491/vim-glog-syntax'
 " Plug 'PeterRincker/vim-argumentative'
 Plug 'easymotion/vim-easymotion'
 Plug 'jakalope/vim-utilities'
