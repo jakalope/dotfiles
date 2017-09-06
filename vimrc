@@ -359,20 +359,21 @@ hi SpellRare ctermfg=blue ctermbg=NONE
 " Toggle numbering
 nnoremap ;n :set invrnu<CR>
 
+if has('nvim') || has('terminal')
+    tnoremap <C-\> <C-\><C-n>
+    tnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
+endif
+
 if has('nvim')
     set notimeout " https://github.com/neovim/neovim/issues/6166
     let g:terminal_scrollback_buffer_size = 100000
     let g:util_workspace_dir = $MY_WORKSPACE_DIR
-
-    tnoremap <C-\> <C-\><C-n>
 
 	tnoremap <F5> <C-\><C-n>:tabp<CR>
 	tnoremap <F6> <C-\><C-n>:bp<CR>
 	tnoremap <F7> <C-\><C-n>:bn<CR>
 	tnoremap <F8> <C-\><C-n>:tabn<CR>
 	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
-
-    tnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
 
     tnoremap <C-h> <C-\><C-n><C-w>h
     tnoremap <C-j> <C-\><C-n><C-w>j
@@ -397,20 +398,17 @@ elseif has('terminal')
         autocmd BufWinEnter,WinEnter &shell setlocal nospell
     augroup END
     if v:servername == ""
-        " When vim is started without a servername, set the servername to the
-        " basename of the current working directory.
+        " When vim is started without a servername, set the
+        " servername to the " basename of the current working
+        " directory.
         call remote_startserver(fnamemodify(getcwd(), ':t'))
     endif
 
-    tnoremap <C-\> <C-\><C-n>
-
-	tnoremap <F5> <C-\><C-n>:tabp<CR>
-	tnoremap <F6> <C-\><C-n>:bp<CR>
-	tnoremap <F7> <C-\><C-n>:bn<CR>
-	tnoremap <F8> <C-\><C-n>:tabn<CR>
-	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
-
-    tnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
+	tnoremap <F5> <C-w>:tabp<CR>
+	tnoremap <F6> <C-w>:bp<CR>
+	tnoremap <F7> <C-w>:bn<CR>
+	tnoremap <F8> <C-w>:tabn<CR>
+	tnoremap <F9><F9> <C-w>:Bdelete<CR>
 
     tnoremap <C-h> <C-w>h
     tnoremap <C-j> <C-w>j
