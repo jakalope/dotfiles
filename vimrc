@@ -37,6 +37,7 @@ let g:CommandTMaxFiles=1000000
 let g:CommandTFileScanner="git"
 let g:CommandTGitScanSubmodules=1
 
+nnoremap <Leader>t :CommandTFlush<CR>:CommandT<CR>
 nnoremap <Leader>c :CommandTFlush<CR>
 
 " YouCompleteMe

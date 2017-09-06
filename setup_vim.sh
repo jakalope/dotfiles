@@ -30,9 +30,7 @@ make distclean
     --enable-perlinterp=yes \
     --enable-pythoninterp=yes \
     --enable-rubyinterp=yes \
-    --enable-terminal=yes \
-    --enable-clientserver \
-    --enable-python
+    --enable-terminal=yes
 
 make
 make install
@@ -45,5 +43,6 @@ vim_path="$(which vim)"
 if [[ "${vim_path}" != "${HOME}/bin/vim" ]]; then
     echo "WARNING: This vim installation is not the current default."
 else
+    vim +PlugInstall +qall
     echo "SUCCESS."
 fi
