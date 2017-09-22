@@ -361,8 +361,13 @@ hi SpellRare ctermfg=blue ctermbg=NONE
 " Toggle numbering
 nnoremap ;n :set invrnu<CR>
 
+function! SetTerminalOps()
+    setlocal nospell
+    setlocal nonumber
+    setlocal norelativenumber
+endfunction
+
 if has('nvim') || has('terminal')
-    tnoremap <C-\> <C-\><C-n>
     tnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
 endif
 
@@ -376,6 +381,8 @@ if has('nvim')
 	tnoremap <F7> <C-\><C-n>:bn<CR>
 	tnoremap <F8> <C-\><C-n>:tabn<CR>
 	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
+
+    tnoremap <C-\> <C-\><C-n>
 
     tnoremap <C-h> <C-\><C-n><C-w>h
     tnoremap <C-j> <C-\><C-n><C-w>j
@@ -392,12 +399,12 @@ if has('nvim')
         autocmd BufWinEnter,WinEnter term://* startinsert
        
         " Don't spellcheck our terminal buffers :-P
-        autocmd BufWinEnter,WinEnter term://* setlocal nospell
+        autocmd BufWinEnter,WinEnter term://* call SetTerminalOps()
     augroup END
 elseif has('terminal')
     augroup terminal
         " Don't spellcheck our terminal buffers :-P
-        autocmd BufWinEnter,WinEnter &shell setlocal nospell
+        au BufWinEnter * if &buftype == 'terminal' | call SetTerminalOps() | endif
     augroup END
     if v:servername == ""
         " When vim is started without a servername, set the
@@ -411,6 +418,8 @@ elseif has('terminal')
 	tnoremap <F7> <C-w>:bn<CR>
 	tnoremap <F8> <C-w>:tabn<CR>
 	tnoremap <F9><F9> <C-w>:Bdelete<CR>
+
+    tnoremap <C-\> <C-\><C-n>:call SetTerminalOps()<CR>
 
     tnoremap <C-h> <C-w>h
     tnoremap <C-j> <C-w>j
