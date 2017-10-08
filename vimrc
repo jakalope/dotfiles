@@ -15,6 +15,12 @@ else
     let g:copy='xsel -ipbs'
 endif
 
+augroup Copy
+    autocmd!
+    " autocmd TextYankPost * exec "!echo '".<C-R>".' | ".g:copy
+augroup END
+    
+
 """""""""" Plugin opts
 
 " Utilities
@@ -95,50 +101,44 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
-map gh <Plug>(easymotion-bd-w)
+map <Leader>w <Plug>(easymotion-bd-w)
+map <Leader>s <Plug>(easymotion-s)
 
 """""""""" Vim-Plug
 
 call plug#begin('~/.vim/plugged')
 
-if !has('nvim')
-    " Disable YCM in Neovim until the following is solved.
-    " https://github.com/neovim/neovim/issues/6166
-    Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-    Plug 'Valloric/YouCompleteMe', { 'do':
-                \ './install.py --clang-completer --racer-completer' }
-endif
+" Plug 'PeterRincker/vim-argumentative'
 
 Plug 'Peaches491/vim-glog-syntax'
-" Plug 'PeterRincker/vim-argumentative'
+Plug 'Valloric/YouCompleteMe', { 'do':
+            \ './install.py --clang-completer --racer-completer' }
 Plug 'easymotion/vim-easymotion'
 Plug 'jakalope/vim-utilities'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-smartword'
 Plug 'kien/ctrlp.vim'
 Plug 'moll/vim-bbye'
-Plug 'rust-lang/rust.vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
-Plug 'wincent/command-t', { 'do': 
+Plug 'wincent/command-t', { 'do':
             \ 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
 
 call plug#end()
 
-" Source vimrc, clear and reload scripts, clear and reset options.
-command! Src call VimRCSource()
-function! VimRCSource()
+" Clear and reset options and scripts, source vimrc, reload scripts
+command! Src call ClearAll() | source ~/.vimrc  | call VimRCSource()
+function! ClearAll()
     " Reset all options and mappings.
     set all&
     mapclear | mapclear <buffer> | mapclear! | mapclear! <buffer>
-
-    " Source vimrc
-    source ~/.vimrc
 
     " Reload scripts that were unmapped at the top of this file.
     unlet! g:vim_utilities_loaded
@@ -147,12 +147,16 @@ function! VimRCSource()
     unlet! g:loaded_abolish
     unlet! g:loaded_commentary
     unlet! g:loaded_syntastic_rust_filetype
+    unlet! g:EasyMotion_loaded
+endfunction
+function! VimRCSource()
     ReloadScript ~/.vim/plugged/vim-utilities/plugin/vim-utilities.vim
     ReloadScript ~/.vim/plugged/vim-smartword/plugin/smartword.vim
     ReloadScript ~/.vim/plugged/command-t/plugin/command-t.vim
     ReloadScript ~/.vim/plugged/vim-abolish/plugin/abolish.vim
     ReloadScript ~/.vim/plugged/vim-commentary/plugin/commentary.vim
     ReloadScript ~/.vim/plugged/rust.vim/plugin/rust.vim
+    ReloadScript ~/.vim/plugged/vim-easymotion/plugin/EasyMotion.vim
 
     " Re-detect filetypes.
     " TODO With a rust filetype loaded, this will cause an error.
