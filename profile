@@ -167,7 +167,7 @@ fi
 # set -o vi
 
 # set some development environment variables
-export EDITOR=vim
+export EDITOR=nvim
 export WORKSPACE_DIR="$(pwd)"
 export SOURCE_DIR="${WORKSPACE_DIR}"
 export wcd="${WORKSPACE_DIR}"
