@@ -26,6 +26,7 @@ function tcode() {
     else
         if ((session_exists)); then
             echo You are already in this session!
+            $EDITOR
         else
             # take over the current session
             echo Taking over the current session.

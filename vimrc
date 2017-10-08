@@ -358,6 +358,10 @@ hi SpellBad ctermfg=red ctermbg=NONE
 hi SpellCap ctermfg=green ctermbg=NONE
 hi SpellRare ctermfg=blue ctermbg=NONE
 
+" Insert minuses between EOL and the 80'th column.
+nnoremap -- $a <Esc>:exec 'normal! '.(78 - getcurpos()[2]).'a-'<CR>
+nnoremap -= i <Esc>:exec 'normal! '.(79 - col('$')).'i-'<CR>
+
 " Toggle numbering
 nnoremap ;n :set invrnu<CR>
 
