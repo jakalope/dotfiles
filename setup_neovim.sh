@@ -9,20 +9,23 @@ fi
 git clone git@github.com:neovim/neovim.git
 cd neovim
 git checkout 9ad7529f705c883e13fba9a014696fb37318145f
-mkdir build
-cd build
 
 # Build and install NeoVim
 if [[ "$(uname -s)" == "Darwin" ]]; then
     brew install luajit lua
+    sudo luarocks install lpeg
+    sudo luarocks install mpack
+    sudo luarocks install luabitop
 else
-    sudo apt-get install luajit lua
+    # sudo apt-get install libuv-dev libmsgpack-dev
+    mkdir .deps ; cd .deps
+    cmake ../third-party
+    make
+    cd ..
 fi
 
-sudo luarocks install lpeg
-sudo luarocks install mpack
-sudo luarocks install luabitop
-
+mkdir build
+cd build
 cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo
 make -j
 sudo make install
