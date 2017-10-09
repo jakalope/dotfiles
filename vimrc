@@ -12,12 +12,21 @@ let g:uname=split(system("uname"), "\000")[0]
 if g:uname=='Darwin'
     let g:copy='pbcopy'
 else
-    let g:copy='xsel -ipbs'
+    let g:copy='xsel -i'
 endif
+
+" function! SaveRegContents()
+"     let l:contents = ""
+"     for l:line in v:event['regcontents']
+"         let l:contents = l:contents."\n".l:line
+"     endfor
+"     exec "!echo '".l:contents."' | ".g:copy
+" endfunction
 
 augroup Copy
     autocmd!
-    " autocmd TextYankPost * exec "!echo '".<C-R>".' | ".g:copy
+"     autocmd TextYankPost * call SaveRegContents()
+"     " autocmd TextYankPost * exec "!echo '".v:event['regcontents']."' | ".g:copy
 augroup END
     
 
@@ -104,11 +113,18 @@ nnoremap >; <Plug>Argumentative_MoveRight
 map <Leader>w <Plug>(easymotion-bd-w)
 map <Leader>s <Plug>(easymotion-s)
 
+" MiniYank
+let g:miniyank_filename = $HOME."/.miniyank.mpack"
+
 """""""""" Vim-Plug
 
 call plug#begin('~/.vim/plugged')
 
 " Plug 'PeterRincker/vim-argumentative'
+
+if has('nvim')
+    Plug 'bfredl/nvim-miniyank'
+endif
 
 Plug 'Peaches491/vim-glog-syntax'
 Plug 'Valloric/YouCompleteMe', { 'do':

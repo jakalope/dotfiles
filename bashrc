@@ -193,5 +193,9 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 export PATH="${HOME}/.cargo/bin:${PATH}"
 
+if [[ "$XDG_RUNTIME_DIR" == "" ]]; then
+    export XDG_RUNTIME_DIR="/tmp"
+fi
+
 set_title ${WORKSPACE_DIR}
 register
