@@ -19,4 +19,18 @@ from eigen_printers import register_eigen_printers
 from stl_printers import register_libstdcxx_printers 
 register_eigen_printers (None)
 register_libstdcxx_printers (None)
+end
+
+python
+from skip_std import *
 end 
+
+define hookpost-run
+    skip_folder bazel-driving/external
+end
+define hookpost-start
+    skip_folder bazel-driving/external
+end
+define hookpost-attach
+    skip_folder bazel-driving/external
+end
