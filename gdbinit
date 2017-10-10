@@ -26,11 +26,11 @@ from skip_std import *
 end 
 
 define hookpost-run
-    skip_folder bazel-driving/external
+    skip_stdlib
 end
 define hookpost-start
-    skip_folder bazel-driving/external
+    skip_stdlib
 end
 define hookpost-attach
-    skip_folder bazel-driving/external
+    skip_stdlib
 end
