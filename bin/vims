@@ -29,7 +29,7 @@ function open_file_to_line() {
     local cmd_cwd_file="$(readlink "$(pwd)/$raw")"
 
     # Move the window focus to the left.
-    $VIMEXEC --remote-send '<C-\><C-n>:wincmd h<CR>'
+    $VIMEXEC --remote-send '<C-\><C-n><C-m>:wincmd h<CR>'
 
     if [[ -e "$raw" ]]; then
         echo RAW >> ${HOME}/vims_usage

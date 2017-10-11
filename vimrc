@@ -78,8 +78,8 @@ else
     let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 endif
 
-nnoremap <C-\> :YcmCompleter GoTo<CR>
-nnoremap <C-g> :YcmCompleter FixIt<CR>
+" nnoremap <C-\> :YcmCompleter GoTo<CR>
+" nnoremap <C-g> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
 nnoremap <C-F> :YcmRestartServer<CR>:YcmForceCompileAndDiagnostics<CR>
@@ -351,6 +351,14 @@ imap <C-l> <Esc><C-w>l
 
 command! Wcd cd ${MY_WORKSPACE_DIR}
 
+nnoremap <C-m> :call RotateOthers()<CR>
+function! RotateOthers()
+    " Rotate all windows left except mine.
+    wincmd R
+    wincmd x
+    wincmd l
+endfunction
+
 function! CurrentBranch()
     return system('git rev-parse --abbrev-ref HEAD')
 endfunction
@@ -420,7 +428,7 @@ if has('nvim')
 
     augroup terminal
 		autocmd!
-        autocmd BufWinEnter,WinEnter term://* startinsert
+        " autocmd BufWinEnter,WinEnter term://* startinsert
        
         " Don't spellcheck our terminal buffers :-P
         autocmd BufWinEnter,WinEnter term://* call SetTerminalOps()
