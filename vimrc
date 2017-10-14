@@ -124,11 +124,13 @@ call plug#begin('~/.vim/plugged')
 
 if has('nvim')
     Plug 'bfredl/nvim-miniyank'
+else
+    Plug 'Valloric/YouCompleteMe', { 'do':
+                \ './install.py --clang-completer --racer-completer' }
+    Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 endif
 
 Plug 'Peaches491/vim-glog-syntax'
-Plug 'Valloric/YouCompleteMe', { 'do':
-            \ './install.py --clang-completer --racer-completer' }
 Plug 'easymotion/vim-easymotion'
 Plug 'jakalope/vim-utilities'
 Plug 'kana/vim-operator-user'
@@ -136,7 +138,6 @@ Plug 'kana/vim-smartword'
 Plug 'kien/ctrlp.vim'
 Plug 'moll/vim-bbye'
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
@@ -351,7 +352,7 @@ imap <C-l> <Esc><C-w>l
 
 command! Wcd cd ${MY_WORKSPACE_DIR}
 
-nnoremap <C-m> :call RotateOthers()<CR>
+nnoremap <C-q> :call RotateOthers()<CR>
 function! RotateOthers()
     " Rotate all windows left except mine.
     wincmd R
@@ -401,6 +402,7 @@ endfunction
 
 if has('nvim') || has('terminal')
     tnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
+    nnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
 endif
 
 if has('nvim')
