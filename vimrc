@@ -33,7 +33,8 @@ augroup END
 """""""""" Plugin opts
 
 " Rust.vim
-let g:rustfmt_options="--config-path=$HOME/dotfiles/rustfmt.conf"
+let g:rustfmt_options="--config-path=".$HOME."/dotfiles"
+let g:rustfmt_fail_silently = 1
 
 " Utilities
 let g:util_min_split_cols = 83
