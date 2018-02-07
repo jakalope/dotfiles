@@ -157,6 +157,7 @@ continue a couple of lines, print values of all local variables, step out.
 ### Thread inspection
 * `info threads` Display the list of threads.
 * `thread [num]` Switch to thread `[num]`.
+* `thread apply all backtrace` Backtrace all threads.
 
 VIM
 ---

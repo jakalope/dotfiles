@@ -1,44 +1,88 @@
-"""""""""" Script opts
-let g:util_min_split_cols = 83
-let g:util_workspace_dir = $MY_WORKSPACE_DIR
-
+" Support for neovim
 let g:python_host_prog="/usr/bin/python"
 let g:python3_host_prog="/usr/local/bin/python3"
 if !filereadable(g:python3_host_prog)
 	let g:python3_host_prog="/usr/bin/python3"
 endif
 
-" Syntastic
-let g:syntastic_java_checkers=['javac']
-let g:syntastic_java_javac_config_file_enabled = 1
+" Determine the OS type (Darwin, Unix, Linux)
+let g:uname=split(system("uname"), "\000")[0]
+
+" Use the appropriate clipboard CLI for the given OS.
+if g:uname=='Darwin'
+    let g:copy='pbcopy'
+else
+    let g:copy='xsel -i'
+endif
+
+" function! SaveRegContents()
+"     let l:contents = ""
+"     for l:line in v:event['regcontents']
+"         let l:contents = l:contents."\n".l:line
+"     endfor
+"     exec "!echo '".l:contents."' | ".g:copy
+" endfunction
+
+augroup Copy
+    autocmd!
+"     autocmd TextYankPost * call SaveRegContents()
+"     " autocmd TextYankPost * exec "!echo '".v:event['regcontents']."' | ".g:copy
+augroup END
+    
+
+"""""""""" Plugin opts
+
+" Utilities
+let g:util_min_split_cols = 83
+let g:util_split_with_terminal = 1
+
+nnoremap ze :execute 'edit '.jakalope#utilities#companion()<CR>
+nnoremap zt :execute 'tabnew '.jakalope#utilities#companion()<CR>
+nnoremap zv :execute 'vsplit '.jakalope#utilities#companion()<CR>
+nnoremap zs :execute 'split '.jakalope#utilities#companion()<CR>
+
+" CtrlP (for buffer search and CmdT backup option)
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+
+nnoremap <Leader>b :CtrlPBuffer<CR>
+nnoremap <Leader>p :CtrlP<CR>
+
+" CommandT (for file search)
+let g:CommandTMaxFiles=1000000
+let g:CommandTFileScanner="git"
+let g:CommandTGitScanSubmodules=1
+
+nnoremap <Leader>t :CommandTFlush<CR>:CommandT<CR>
+nnoremap <Leader>c :CommandTFlush<CR>
 
 " YouCompleteMe
-" let g:ycm_register_as_syntastic_checker = 0
 set completeopt-=preview
-let g:ycm_always_populate_location_list = 0
-let g:ycm_open_loclist_on_ycm_diags = 1
 let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_always_populate_location_list = 0
+let g:ycm_auto_trigger = 0
 let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 0
-let g:ycm_key_invoke_completion = '<C-m>'
+let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_collect_identifiers_from_tags_files = 0
 let g:ycm_confirm_extra_conf = 0
-let g:ycm_filetype_specific_completion_to_disable = {
-    \ 'gitcommit': 1,
-    \}
+let g:ycm_filepath_completion_use_working_dir = 1
+let g:ycm_filetype_specific_completion_to_disable = { 'gitcommit': 1, }
+let g:ycm_key_invoke_completion = '<C-space>'
+let g:ycm_open_loclist_on_ycm_diags = 0
+let g:ycm_server_python_interpreter='/usr/bin/python'
+let g:ycm_keep_logfiles = 1
 
-let s:proposed_ycm_conf = g:util_workspace_dir.'/scripts/editors/vim/ycm_extra_conf.py'
+let s:proposed_ycm_conf = 'scripts/editors/vim/ycm_extra_conf.py'
 if filereadable(s:proposed_ycm_conf)
     let g:ycm_global_ycm_extra_conf = s:proposed_ycm_conf
 else
     let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 endif
 
-nnoremap <C-\> :YcmCompleter GoTo<CR>
-nnoremap <C-g> :YcmCompleter FixIt<CR>
+" nnoremap <C-\> :YcmCompleter GoTo<CR>
+" nnoremap <C-g> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
-
+nnoremap <C-F> :YcmRestartServer<CR>:YcmForceCompileAndDiagnostics<CR>
 
 function! YcmToggle()
     if exists("b:ycm_largefile") && b:ycm_largefile
@@ -48,34 +92,10 @@ function! YcmToggle()
     endif
 endfunction
 
-" CtrlP
-let g:ctrlp_clear_cache_on_exit = 1
-let g:ctrlp_max_files = 0
-let g:ctrlp_max_depth = 40
-let g:ctrlp_regexp = 0
-nnoremap ;p :CtrlP<CR>
-nnoremap ;b :CtrlPBuffer<CR>
-nnoremap ;m :CtrlPMRU<CR>
-nnoremap ;] :CtrlPTag<CR>
-nnoremap ;c :CtrlPClearAllCaches<CR>
-
-" Airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 0
-
-" UltiSnips
-" Trigger configuration. Do not use <tab> if you use YCM
-" let g:UltiSnipsExpandTrigger="<C-space>"
-" let g:UltiSnipsJumpForwardTrigger="<c-b>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-" let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
-
 " Smartword
 map <SPACE>  <Plug>(smartword-w)
 map <BackSpace>  <Plug>(smartword-b)
 map <S-SPACE>  W
-" map e  <Plug>(smartword-e)
-" map ge  <Plug>(smartword-ge)
 
 " Argumentitive
 " nmap [; <Plug>Argumentative_Prev
@@ -90,60 +110,80 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
-map ;l <Plug>(easymotion-prefix)
+map <Leader>w <Plug>(easymotion-bd-w)
+map <Leader>s <Plug>(easymotion-s)
 
-" Easy-tags
-set tags="./tags,~/.vim/tags";
-let g:easytags_file = '~/.vim/tags'   " global tags file
-let g:easytags_dynamic_files = 1
-let g:easytags_async = 1
-let g:easytags_events = []
-let g:easytags_on_cursorhold = 0
-let g:easytags_auto_update = 1
-let g:easytags_include_members = 1
-let g:easytags_auto_highlight = 0
-let vbs=1  " check timing with :messages
+" MiniYank
+let g:miniyank_filename = $HOME."/.miniyank.mpack"
 
-"""""""""" VAM
-"source ~/.vim/vam_setup.vim
+"""""""""" Vim-Plug
 
-"""""""""" Vundle
-set nocompatible              " be iMproved, required
-filetype off                  " required
+call plug#begin('~/.vim/plugged')
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" Plug 'PeterRincker/vim-argumentative'
 
-" let Vundle manage Vundle; disable Git because we hate git submodules
-Plugin 'VundleVim/Vundle.vim', {'pinned': 1}
+if has('nvim')
+    Plug 'bfredl/nvim-miniyank'
+else
+    Plug 'Valloric/YouCompleteMe', { 'do':
+                \ './install.py --clang-completer --racer-completer' }
+    Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+endif
 
-Plugin 'ctrlpvim/ctrlp.vim'
-" Plugin 'drmikehenry/vim-fontsize'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'kana/vim-operator-user'
-Plugin 'kana/vim-smartword'
-" Plugin 'octol/vim-cpp-enhanced-highlight'
-" Plugin 'scrooloose/syntastic'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-fugitive'
-Plugin 'Valloric/YouCompleteMe'
-" Plugin 'vim-airline/vim-airline'
-" Plugin 'vim-scripts/restore_view.vim'
-" Plugin 'SirVer/ultisnips'
-" Plugin 'xolox/vim-easytags'
-" Plugin 'xolox/vim-misc'
-" Plugin 'PeterRincker/vim-argumentative'
-Plugin 'moll/vim-bbye'
-Plugin 'jakalope/vim-utilities'
+Plug 'Peaches491/vim-glog-syntax'
+Plug 'easymotion/vim-easymotion'
+Plug 'jakalope/vim-utilities'
+Plug 'kana/vim-operator-user'
+Plug 'kana/vim-smartword'
+Plug 'kien/ctrlp.vim'
+Plug 'moll/vim-bbye'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'rust-lang/rust.vim'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
+Plug 'wincent/command-t', { 'do':
+            \ 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-reload'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call plug#end()
+
+" Clear and reset options and scripts, source vimrc, reload scripts
+command! Src call ClearAll() | source ~/.vimrc  | call VimRCSource()
+function! ClearAll()
+    " Reset all options and mappings.
+    set all&
+    mapclear | mapclear <buffer> | mapclear! | mapclear! <buffer>
+
+    " Reload scripts that were unmapped at the top of this file.
+    unlet! g:vim_utilities_loaded
+    unlet! g:loaded_smartword
+    unlet! g:command_t_loaded
+    unlet! g:loaded_abolish
+    unlet! g:loaded_commentary
+    unlet! g:loaded_syntastic_rust_filetype
+    unlet! g:EasyMotion_loaded
+endfunction
+function! VimRCSource()
+    ReloadScript ~/.vim/plugged/vim-utilities/plugin/vim-utilities.vim
+    ReloadScript ~/.vim/plugged/vim-smartword/plugin/smartword.vim
+    ReloadScript ~/.vim/plugged/command-t/plugin/command-t.vim
+    ReloadScript ~/.vim/plugged/vim-abolish/plugin/abolish.vim
+    ReloadScript ~/.vim/plugged/vim-commentary/plugin/commentary.vim
+    ReloadScript ~/.vim/plugged/rust.vim/plugin/rust.vim
+    ReloadScript ~/.vim/plugged/vim-easymotion/plugin/EasyMotion.vim
+
+    " Re-detect filetypes.
+    " TODO With a rust filetype loaded, this will cause an error.
+    Detect
+endfunction
+
+filetype plugin indent on
 syntax on
 
-"""""""""" End Vundle
+set clipboard=unnamed
 
 " Used by restore_view.vim
 set autoindent
@@ -156,10 +196,15 @@ set cmdheight=2
 " set encoding=utf-8
 set equalalways
 set expandtab
+if has('fastwincmd')
+    set fastwincmd
+endif
 set fileencoding=utf-8
 set history=50
+set nobackup
+set noswapfile
 set incsearch
-set laststatus=2 " Always display the status line, even if only one window is displayed
+set laststatus=2 " Always display status line
 set nofoldenable
 set nohlsearch
 set number
@@ -175,7 +220,7 @@ set splitbelow
 set splitright
 set tabstop=4
 set title
-set viewoptions=cursor,folds,slash,unix
+set viewoptions=
 set viminfo='20,\"50
 set visualbell " Use visual bell instead of beeping when doing something wrong
 set wildmenu " Better command-line completion
@@ -201,6 +246,9 @@ set t_vb=
 
 "============================================================
 
+" Disable matchparen highlighting
+let loaded_matchparen = 1
+
 let DoxygenToolkit_commentType=1
 
 nnoremap + maO<esc>`a
@@ -225,6 +273,12 @@ nnoremap Q <CR>
 " set clipboard=unnamed
 
 nnoremap _g :grep! "\b<C-R><C-W>\b" * 2>/dev/null<CR>
+
+command! Make cexpr s:Maker()
+function! s:Maker()
+    return system("> /dev/null make_this_package ".expand('%')." 2>&1 \| grep ".
+                  \"-E \' error:\'")
+endfunction
 
 command! CompileVisible exe "silent !make_this_package % 2>&1 \| grep ".
                         \"--color -E \'error:\|\$\' &>".g:tty." &"
@@ -255,64 +309,27 @@ nnoremap _c :CompileOpt<CR>
 
 " Copy current file:line to the system clipboard, preceded by "b"
 " Used to set breakpoints in GDB
-nnoremap _b :exe "silent !echo \"b $(pwd)/".expand("%").":".
-        \line(".")."\" \| xsel --clipboard --input"<CR>:redraw!<CR>
+nnoremap _b :exe "silent !echo b ${PWD}/".expand("%").":".
+        \line(".")." \| ".g:copy<CR>
 
 " yank name of current file to register 0 and to system clipboard
 nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 
-"This breaks undo at each line break.  It also expands abbreviations before
-"this.
+" Breaks undo at each line break. It also expands abbreviations before this.
 inoremap <CR> <C-]><C-G>u<CR>
 
-function! g:Sequence(prefix, list)
-    let l:out = []
-    for item in a:list
-        let l:out += [a:prefix.".".item]
-    endfor
-    return l:out
-endfunction
-
-function! g:GitLs(fn)
-    let l:git_ls_command = "git ls-files --full-name ".a:fn
-    exec "let l:companion_file = system(\"".l:git_ls_command."\")"
-    return l:companion_file
-endfunction
-
-" Open companion file, if it exists (e.g. test.h -> test.cpp)
-function! g:Companion()
-    let l:fn_ext = expand("%:e")
-    let l:fn_root = expand("%:r")
-    let l:c_ext = ["cpp", "c", "cc", "cx", "cxx"]
-    let l:h_ext = ["h", "hpp", "hxx", "hh"]
-    if index(l:c_ext, l:fn_ext) != -1
-        let l:fns = g:Sequence(l:fn_root, l:h_ext)
-        for l:fn in l:fns
-            let l:companion_file = g:GitLs(l:fn)
-            if l:companion_file != ""
-                return l:companion_file
-            endif 
-        endfor
-    elseif index(l:h_ext, l:fn_ext) != -1
-        let l:fns = g:Sequence(l:fn_root, l:c_ext)
-        for l:fn in l:fns
-            echom l:fn
-            let l:companion_file = g:GitLs(l:fn)
-            echom l:companion_file
-            if l:companion_file != ""
-                return l:companion_file
-            endif 
-        endfor
+" Open the file under the cursor in the previous window.
+nnoremap zn :call OpenToLineInPrevious('<C-R><C-A>')<CR>
+function! OpenToLineInPrevious(line)
+    let cur_file=expand('<cfile>')
+    let split_list=split(a:line, ':')
+    wincmd p
+    exec 'edit '.cur_file
+    if len(split_list) > 1
+        let cur_line=split_list[1]
+        call cursor(cur_line, 0)
     endif
-    return expand("%")
 endfunction
-
-nnoremap ze :execute 'edit '.g:Companion()<CR>
-nnoremap zt :execute 'tabnew '.g:Companion()<CR>
-nnoremap zv :execute 'vsplit '.g:Companion()<CR>
-nnoremap zs :execute 'split '.g:Companion()<CR>
-nnoremap zn :execute '!vims <C-R><C-A>'<CR>
-
 
 " Cycle through tabs and buffers
 nnoremap <F5> :tabp<CR>
@@ -323,98 +340,75 @@ nnoremap <F8> :tabn<CR>
 " fast buffer deletion
 nnoremap <F9><F9> :Bdelete<CR>
 
-" Map <A-{h,j,k,l}> to <C-w>{h,j,k,l}
-nnoremap ˙ <C-w>h
-nnoremap ∆ <C-w>j
-nnoremap ˚ <C-w>k
-nnoremap ¬ <C-w>l
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
 
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
-
-inoremap <A-h> <C-w>h
-inoremap <A-j> <C-w>j
-inoremap <A-k> <C-w>k
-inoremap <A-l> <C-w>l
-
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-" Cursor to yellow on insert mode
-" Blue on command/other mode
-" Note the use of hex codes (ie 3971ED)
-if exists('$TMUX')
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\033]PlFBA922\033\\"
-    silent !echo -ne "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
-    autocmd VimLeave * silent !echo -ne "\<Esc>Ptmux;\<Esc>\033]Pl3971ED\033\\"
-
-    set t_8f=^[[38;2;%lu;%lu;%lum  " Needed in tmux
-    set t_8b=^[[48;2;%lu;%lu;%lum  " Ditto
-endif
-
-" Reload all windows, tabs, buffers, etc.
-command! Reload :call s:Reload()
-function! s:Reload()
-    setlocal autoread
-    checktime
-    set autoread<
-endfunction
-
-" Detect filetype in each tab
-command! Detect :tabdo exec 'filetype detect'
+imap <C-h> <Esc><C-w>h
+imap <C-j> <Esc><C-w>j
+imap <C-k> <Esc><C-w>k
+imap <C-l> <Esc><C-w>l
 
 command! Wcd cd ${MY_WORKSPACE_DIR}
-command! Src set all& | source ~/.vimrc
 
-" Remove all non-terminal buffers
-function! IsATerm()
-    if bufname("%")=~#"term://.*"
-        return 1
-    endif
-    return 0
+nnoremap <C-q> :call RotateOthers()<CR>
+function! RotateOthers()
+    " Rotate all windows left except mine.
+    wincmd R
+    wincmd x
+    wincmd l
 endfunction
 
-function! BdeleteNonTerm()
-    if !IsATerm()
-        Bdelete
-    endif
+function! CurrentBranch()
+    return system('git rev-parse --abbrev-ref HEAD')
 endfunction
 
-function! ClearNonTerminals()
-    bufdo call BdeleteNonTerm()
-    enew
-    stopinsert
+function! SaveBranchSession()
+    let l:sessionops = &sessionoptions
+    set sessionoptions=buffers,sesdir
+    let l:current_branch=xolox#misc#str#slug(CurrentBranch())
+    exec 'mksession! '.l:current_branch
+    exec 'set sessionoptions='.l:sessionops
 endfunction
-command! Clear :call ClearNonTerminals()
 
-
-Detect
-filetype plugin on
+function! LoadBranchSession()
+    let l:sessionops = &sessionoptions
+    set sessionoptions=buffers,sesdir
+    let l:current_branch=xolox#misc#str#slug(CurrentBranch())
+    exec 'source '.l:current_branch
+    exec 'set sessionoptions='.l:sessionops
+endfunction
 
 " colors
 set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
-colorscheme peachpuff
+colorscheme elflord
 hi SpellBad ctermfg=red ctermbg=NONE
 hi SpellCap ctermfg=green ctermbg=NONE
+hi SpellRare ctermfg=blue ctermbg=NONE
+
+" Insert minuses between EOL and the 80'th column.
+nnoremap -- $a <Esc>:exec 'normal! '.(78 - getcurpos()[2]).'a-'<CR>
+nnoremap -= i <Esc>:exec 'normal! '.(79 - col('$')).'i-'<CR>
 
 " Toggle numbering
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set nornu
-  else
-    set rnu
-  endif
-endfunc
-nnoremap ;n :call NumberToggle()<cr>
+nnoremap ;n :set invrnu<CR>
+
+function! SetTerminalOps()
+    setlocal nospell
+    setlocal nonumber
+    setlocal norelativenumber
+endfunction
+
+if has('nvim') || has('terminal')
+    tnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
+    nnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
+endif
 
 if has('nvim')
+    set notimeout " https://github.com/neovim/neovim/issues/6166
     let g:terminal_scrollback_buffer_size = 100000
-    tnoremap <ESC><ESC> <C-\><C-n>
+    let g:util_workspace_dir = $MY_WORKSPACE_DIR
 
 	tnoremap <F5> <C-\><C-n>:tabp<CR>
 	tnoremap <F6> <C-\><C-n>:bp<CR>
@@ -422,12 +416,7 @@ if has('nvim')
 	tnoremap <F8> <C-\><C-n>:tabn<CR>
 	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
 
-    tnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
-
-    tnoremap ˙ <C-\><C-n><C-w>h
-    tnoremap ∆ <C-\><C-n><C-w>j
-    tnoremap ˚ <C-\><C-n><C-w>k
-    tnoremap ¬ <C-\><C-n><C-w>l
+    tnoremap <C-\> <C-\><C-n>
 
     tnoremap <C-h> <C-\><C-n><C-w>h
     tnoremap <C-j> <C-\><C-n><C-w>j
@@ -437,17 +426,83 @@ if has('nvim')
 	tnoremap <C-u> <C-\><C-n><C-u>
 	tnoremap <C-d> <C-\><C-n><C-d>
 
-    tnoremap <C-e> <C-\><C-n>:enew<CR>
-
     highlight TermCursor ctermfg=red guifg=red
 
     augroup terminal
 		autocmd!
-        autocmd TermOpen * setlocal nospell
-        autocmd BufWinEnter,WinEnter term://* startinsert
+        " autocmd BufWinEnter,WinEnter term://* startinsert
+       
+        " Don't spellcheck our terminal buffers :-P
+        autocmd BufWinEnter,WinEnter term://* call SetTerminalOps()
     augroup END
+elseif has('terminal')
+    augroup terminal
+        " Don't spellcheck our terminal buffers :-P
+        au BufWinEnter * if &buftype == 'terminal' | call SetTerminalOps() | endif
+    augroup END
+    if v:servername == ""
+        " When vim is started without a servername, set the
+        " servername to the " basename of the current working
+        " directory.
+        call remote_startserver(fnamemodify(getcwd(), ':t'))
+    endif
 
-    autocmd VimEnter * nested vsplit term://bash
+	tnoremap <F5> <C-w>:tabp<CR>
+	tnoremap <F6> <C-w>:bp<CR>
+	tnoremap <F7> <C-w>:bn<CR>
+	tnoremap <F8> <C-w>:tabn<CR>
+	tnoremap <F9><F9> <C-w>:Bdelete<CR>
+
+    tnoremap <C-\> <C-\><C-n>:call SetTerminalOps()<CR>
+
+    tnoremap <C-h> <C-w>h
+    tnoremap <C-j> <C-w>j
+    tnoremap <C-k> <C-w>k
+    tnoremap <C-l> <C-w>l
+
+	tnoremap <C-u> <C-\><C-n><C-u>
+	tnoremap <C-d> <C-\><C-n><C-d>
 endif
 
-" autocmd VimEnter * Wcd
+augroup formatting_and_filetypes
+    autocmd!
+
+    " Handle all BufWritePre events for specific filetypes.
+    " Especially useful for auto-formatting commands.
+    autocmd BufWritePre * call s:OnBufWritePre()
+
+    autocmd BufNewFile,BufRead *.[hCH],*.cc,*.hh,*.[ch]xx setfiletype cpp
+    autocmd BufNewFile,BufRead *.bzl setfiletype bazel
+    autocmd BufNewFile,BufRead *.proto setfiletype proto
+    autocmd BufNewFile,BufRead BUILD setfiletype bazel
+    autocmd BufNewFile,BufRead CMakeLists.txt,*.cmake setfiletype cmake
+    autocmd BufNewFile,BufRead COMMIT_EDITMSG setfiletype commit_editmsg
+augroup END
+
+let g:enable_auto_format=1
+command! AutoFormatToggle call s:AutoFormatToggle()
+function! s:AutoFormatToggle()
+    if exists("g:enable_auto_format") && g:enable_auto_format
+        let g:enable_auto_format=0
+    else
+        let g:enable_auto_format=1
+    endif
+endfunction
+
+function! s:OnBufWritePre()
+    if g:enable_auto_format==1
+        if &filetype=='python'
+            call jakalope#utilities#format('yapf')
+        elseif &filetype=='c' || &filetype=='cpp' || &filetype=='proto'
+            call jakalope#utilities#format('clang_format')
+        elseif expand('%:t')=='BUILD' && g:uname == "Linux"
+            call jakalope#utilities#format('buildifier')
+        elseif &filetype=='bash' || &filetype=='sh'
+            call jakalope#utilities#format('beautify_bash.py -')
+        endif
+    endif
+endfunction
+
+if isdirectory("bazel-genfiles")
+    set path+=bazel-genfiles
+endif

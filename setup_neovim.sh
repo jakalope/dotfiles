@@ -2,22 +2,39 @@
 
 set -eou pipefail
 
+cd /tmp
+if [[ -d neovim ]]; then
+    sudo rm -rf neovim
+fi
+git clone git@github.com:neovim/neovim.git
+cd neovim
+git checkout 9ad7529f705c883e13fba9a014696fb37318145f
+
 # Build and install NeoVim
 if [[ "$(uname -s)" == "Darwin" ]]; then
-    brew tap neovim/neovim
-    brew install neovim || brew upgrade neovim
-    sudo -H pip2 install --upgrade neovim
+    brew install luajit lua
+    sudo luarocks install lpeg
+    sudo luarocks install mpack
+    sudo luarocks install luabitop
 else
-   cd ~/Downloads
-   if [[ ! -e v0.2.0.tar.gz ]]; then
-       wget https://github.com/neovim/neovim/archive/v0.2.0.tar.gz
-   fi
-   gunzip -c v0.2.0.tar.gz | tar xvf -
-   cd neovim-0.2.0
-   make -j CMAKE_BUILD_TYPE=Release
-   sudo make install
+    # sudo apt-get install libuv-dev libmsgpack-dev
+    mkdir .deps ; cd .deps
+    cmake ../third-party
+    make
+    cd ..
 fi
 
+mkdir build
+cd build
+cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo
+make -j
+sudo make install
+
 sudo gem install neovim
+# sudo gem upgrade neovim
 infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
 tic $TERM.ti
+
+# Vim-plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

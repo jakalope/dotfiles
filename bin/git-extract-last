@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ $# != 2 ]]; then
+    echo
+    echo "Creates a new branch by cherry picking the current HEAD"
+    echo "onto <parent-branch>."
+    echo
+    echo "USAGE: $(basename "${0}") <parent-branch> <new-branch>"
+    echo
+    exit 1
+fi
+
+git stash
+git checkout "${1}"
+git checkout -b "${2}"
+git cherry-pick "$(git rev-parse @{-2})"
+git checkout @{-2}
+git rebase -
+git stash pop

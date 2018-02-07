@@ -67,9 +67,9 @@ if [ -n "$force_color_prompt" ]; then
     # We have color support; assume it's compliant with Ecma-48
     # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
     # a case would tend to support setf rather than setaf.)
-    color_prompt=yes
+        color_prompt=yes
     else
-    color_prompt=
+        color_prompt=
     fi
 fi
 
@@ -81,18 +81,18 @@ fi
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
+    xterm*|rxvt*)
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+        ;;
+    *)
+        ;;
 esac
 
 function parse_git_dirty {
-  [[ $(git status 2> /dev/null | tail -n1) == "nothing to commit (working directory clean)" ]] && echo "*"
+    [[ $(git status 2> /dev/null | tail -n1) == "nothing to commit (working directory clean)" ]] && echo "*"
 }
 function parse_git_branch {
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
 }
 
 if [ "$color_prompt" = yes ]; then
@@ -155,7 +155,7 @@ fi
 
 if [[ ! ${PATH} == *"${HOME}/bin"* ]]
 then
-    export PATH=${PATH}:"${HOME}/bin"
+    export PATH="${HOME}/bin":${PATH}
 fi
 
 if [[ -e "/opt/PostgreSQL/9.5/bin" && ! ${PATH} == *"/opt/PostgreSQL/9.5/bin"* ]]
@@ -179,10 +179,6 @@ if [[ -e /usr/local/lib/bazel/bin/bazel-complete.bash ]]; then
     source /usr/local/lib/bazel/bin/bazel-complete.bash
 fi
 
-if [[ -e /opt/ros/indigo ]]; then
-    source /opt/ros/indigo/setup.bash
-fi
-
 if [[ -d ${WORKSPACE_DIR}/scripts/shell ]]; then
     for file in "${WORKSPACE_DIR}/scripts/shell/"* ; do
         if [ -f "$file" ] ; then
@@ -193,10 +189,8 @@ if [[ -d ${WORKSPACE_DIR}/scripts/shell ]]; then
 fi
 
 
-type fakeros >/dev/null 2>&1
-if [[ $? == 0 ]]; then
-    fakeros
-fi
-
 export PATH="/usr/local/heroku/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+if [[ "$XDG_RUNTIME_DIR" == "" ]]; then
+    export XDG_RUNTIME_DIR="/tmp"
+fi
