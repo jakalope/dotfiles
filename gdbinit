@@ -19,4 +19,18 @@ from eigen_printers import register_eigen_printers
 from stl_printers import register_libstdcxx_printers 
 register_eigen_printers (None)
 register_libstdcxx_printers (None)
+end
+
+python
+from skip_std import *
 end 
+
+define hookpost-run
+    skip_stdlib
+end
+define hookpost-start
+    skip_stdlib
+end
+define hookpost-attach
+    skip_stdlib
+end
