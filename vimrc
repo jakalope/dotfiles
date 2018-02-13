@@ -32,6 +32,10 @@ augroup END
 
 """""""""" Plugin opts
 
+" Rust.vim
+let g:rustfmt_options="--config-path=".$HOME."/dotfiles"
+let g:rustfmt_fail_silently = 1
+
 " Utilities
 let g:util_min_split_cols = 83
 let g:util_split_with_terminal = 1
@@ -501,6 +505,8 @@ function! s:OnBufWritePre()
             call jakalope#utilities#format('buildifier')
         elseif &filetype=='bash' || &filetype=='sh'
             call jakalope#utilities#format('beautify_bash.py -')
+        elseif &filetype=='rust'
+            RustFmt
         endif
     endif
 endfunction
