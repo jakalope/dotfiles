@@ -143,8 +143,9 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
-Plug 'wincent/command-t', { 'do':
-            \ 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
+" Disabled until I can figure out why it sometimes fails.
+" Plug 'wincent/command-t', { 'do':
+"             \ 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
 
@@ -401,8 +402,8 @@ function! SetTerminalOps()
 endfunction
 
 if has('nvim') || has('terminal')
-    tnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
-    nnoremap <F10> <C-\><C-n>?Reading 'startup'<CR>/error:<CR>0
+    tnoremap <F10> <C-\><C-n>?ERROR:<CR>/:\( fatal\)* error:<CR>0
+    nnoremap <F10> <C-\><C-n>?ERROR:<CR>/:\( fatal\)* error:<CR>0
 endif
 
 if has('nvim')

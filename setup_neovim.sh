@@ -8,7 +8,7 @@ if [[ -d neovim ]]; then
 fi
 git clone git@github.com:neovim/neovim.git
 cd neovim
-git checkout 9ad7529f705c883e13fba9a014696fb37318145f
+git checkout 6d2c30daf3b29b84b15b547ef956e165f5e9685d
 
 # Build and install NeoVim
 if [[ "$(uname -s)" == "Darwin" ]]; then
