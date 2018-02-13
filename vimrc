@@ -133,6 +133,8 @@ endif
 Plug 'Peaches491/vim-glog-syntax'
 Plug 'easymotion/vim-easymotion'
 Plug 'jakalope/vim-utilities'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-smartword'
 Plug 'kien/ctrlp.vim'
