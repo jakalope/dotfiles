@@ -17,6 +17,8 @@ gettext
 gfortran
 ibgnomeui-dev 
 indicator-multiload
+libevdev-dev
+libudev-dev
 inotify-tools
 kcachegrind
 libatk1.0-dev
@@ -70,3 +72,4 @@ xmlto
 xsel
 zip
 zlib1g-dev
+yaml-cpp

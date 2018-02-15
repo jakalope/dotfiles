@@ -49,6 +49,7 @@ popd
 ./setup_tmux.sh
 ./setup_rust.sh
 #./setup_alacrity.sh
+./setup_xcape.sh
 
 # run indicator multiload for the first time
 indicator-multiload &
