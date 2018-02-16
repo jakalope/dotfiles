@@ -32,6 +32,9 @@ augroup END
 
 """""""""" Plugin opts
 
+" ZFZ<3Vim
+nnoremap <Leader>t :GFiles<CR>
+
 " Rust.vim
 let g:rustfmt_options="--config-path=".$HOME."/dotfiles"
 let g:rustfmt_fail_silently = 1
@@ -50,14 +53,6 @@ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 
 nnoremap <Leader>b :CtrlPBuffer<CR>
 nnoremap <Leader>p :CtrlP<CR>
-
-" CommandT (for file search)
-let g:CommandTMaxFiles=1000000
-let g:CommandTFileScanner="git"
-let g:CommandTGitScanSubmodules=1
-
-nnoremap <Leader>t :CommandTFlush<CR>:CommandT<CR>
-nnoremap <Leader>c :CommandTFlush<CR>
 
 " YouCompleteMe
 set completeopt-=preview
@@ -149,9 +144,6 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
-" Disabled until I can figure out why it sometimes fails.
-" Plug 'wincent/command-t', { 'do':
-"             \ 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
 
