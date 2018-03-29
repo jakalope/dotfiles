@@ -48,11 +48,9 @@ nnoremap zt :execute 'tabnew '.jakalope#utilities#companion()<CR>
 nnoremap zv :execute 'vsplit '.jakalope#utilities#companion()<CR>
 nnoremap zs :execute 'split '.jakalope#utilities#companion()<CR>
 
-" CtrlP (for buffer search and CmdT backup option)
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-
-nnoremap <Leader>b :CtrlPBuffer<CR>
-nnoremap <Leader>p :CtrlP<CR>
+" CtrlP (for buffer search)
+" let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+" nnoremap <Leader>b :CtrlPBuffer<CR>
 
 " YouCompleteMe
 set completeopt-=preview
@@ -109,11 +107,23 @@ nnoremap >; <Plug>Argumentative_MoveRight
 " omap a; <Plug>Argumentative_OpPendingOuterTextObject
 
 " Easymotion
+let g:EasyMotion_re_anywhere = '\v' .
+    \       '(^$)' . '|' .
+    \       '(.>|^$)' . '|' .
+    \       '(\l)\zs(\u)' . '|' .
+    \       '(_\zs.)' . '|' .
+    \       '(#\zs.)'
 map <Leader>w <Plug>(easymotion-bd-w)
 map <Leader>s <Plug>(easymotion-s)
+map <leader>a <Plug>(easymotion-jumptoanywhere)
 
 " MiniYank
 let g:miniyank_filename = $HOME."/.miniyank.mpack"
+
+" IncSearch-Easymotion
+map z/ <Plug>(incsearch-easymotion-/)
+map z? <Plug>(incsearch-easymotion-?)
+map zg/ <Plug>(incsearch-easymotion-stay)
 
 """""""""" Vim-Plug
 
@@ -131,12 +141,14 @@ endif
 
 Plug 'Peaches491/vim-glog-syntax'
 Plug 'easymotion/vim-easymotion'
+Plug 'haya14busa/incsearch-easymotion.vim'
+Plug 'haya14busa/incsearch.vim'
 Plug 'jakalope/vim-utilities'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-smartword'
-Plug 'kien/ctrlp.vim'
+" Plug 'kien/ctrlp.vim'
 Plug 'moll/vim-bbye'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'rust-lang/rust.vim'
@@ -148,6 +160,21 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
 
 call plug#end()
+
+function! BufferBuffer()
+    redir @t
+    ls
+    redir END
+    edit buffer_buffer
+    setlocal modifiable
+    normal "tp
+    setlocal nomodifiable
+    setlocal buftype=nofile
+    setlocal bufhidden=delete
+    setlocal noswapfile
+    setlocal nobuflisted
+endfunction
+nnoremap <Leader>b :call BufferBuffer()<CR><CR>
 
 " Clear and reset options and scripts, source vimrc, reload scripts
 command! Src call ClearAll() | source ~/.vimrc  | call VimRCSource()
@@ -164,6 +191,8 @@ function! ClearAll()
     unlet! g:loaded_commentary
     unlet! g:loaded_syntastic_rust_filetype
     unlet! g:EasyMotion_loaded
+    unlet! g:loaded_incsearch
+    unlet! g:loaded_incsearch_easymotion
 endfunction
 function! VimRCSource()
     ReloadScript ~/.vim/plugged/vim-utilities/plugin/vim-utilities.vim
@@ -173,6 +202,8 @@ function! VimRCSource()
     ReloadScript ~/.vim/plugged/vim-commentary/plugin/commentary.vim
     ReloadScript ~/.vim/plugged/rust.vim/plugin/rust.vim
     ReloadScript ~/.vim/plugged/vim-easymotion/plugin/EasyMotion.vim
+    ReloadScript ~/.vim/plugged/incsearch.vim
+    ReloadScript ~/.vim/plugged/incsearch-easymotion.vim
 
     " Re-detect filetypes.
     " TODO With a rust filetype loaded, this will cause an error.
@@ -252,6 +283,12 @@ let DoxygenToolkit_commentType=1
 
 nnoremap + maO<esc>`a
 nnoremap = mao<esc>`a
+
+" Search forward (backward) for the non-indented beginning of an otherwise
+" indented paragraph.
+" See :help \_
+noremap %% /^\_\s<CR>/^\S<CR>
+noremap && ?^\S<CR>?^\_\s<CR>/^\S<CR>
 
 """""""""""""" Change how vim is interacted with
 
@@ -338,6 +375,7 @@ nnoremap <F8> :tabn<CR>
 
 " fast buffer deletion
 nnoremap <F9><F9> :Bdelete<CR>
+nnoremap <F9><F8> :Bdelete!<CR>
 
 map <C-h> <C-w>h
 map <C-j> <C-w>j
@@ -414,6 +452,7 @@ if has('nvim')
 	tnoremap <F7> <C-\><C-n>:bn<CR>
 	tnoremap <F8> <C-\><C-n>:tabn<CR>
 	tnoremap <F9><F9> <C-\><C-n>:Bdelete<CR>
+	tnoremap <F9><F8> <C-\><C-n>:Bdelete!<CR>
 
     tnoremap <C-\> <C-\><C-n>
 
@@ -451,6 +490,7 @@ elseif has('terminal')
 	tnoremap <F7> <C-w>:bn<CR>
 	tnoremap <F8> <C-w>:tabn<CR>
 	tnoremap <F9><F9> <C-w>:Bdelete<CR>
+	tnoremap <F9><F8> <C-\><C-n>:Bdelete!<CR>
 
     tnoremap <C-\> <C-\><C-n>:call SetTerminalOps()<CR>
 
