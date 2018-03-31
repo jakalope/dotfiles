@@ -29,6 +29,9 @@ augroup Copy
 "     " autocmd TextYankPost * exec "!echo '".v:event['regcontents']."' | ".g:copy
 augroup END
     
+" Scrollback search patterns
+let g:bazel_error="ERROR:<CR>/:\( fatal\)* error:<CR>0"
+let g:rust_error=""
 
 """""""""" Plugin opts
 
@@ -36,7 +39,7 @@ augroup END
 nnoremap <Leader>t :GFiles<CR>
 
 " Rust.vim
-let g:rustfmt_options="--config-path=".$HOME."/dotfiles"
+let g:rustfmt_options="--force"
 let g:rustfmt_fail_silently = 1
 
 " Utilities
@@ -402,6 +405,8 @@ endfunction
 if has('nvim') || has('terminal')
     tnoremap <F10> <C-\><C-n>?ERROR:<CR>/:\( fatal\)* error:<CR>0
     nnoremap <F10> <C-\><C-n>?ERROR:<CR>/:\( fatal\)* error:<CR>0
+    tnoremap <F4> <C-\><C-n>?^   Compiling <CR>/ --> /e<CR>
+    nnoremap <F4> <C-\><C-n>?^   Compiling <CR>/ --> /e<CR>
 endif
 
 if has('nvim')
