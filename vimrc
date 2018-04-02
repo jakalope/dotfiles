@@ -121,7 +121,18 @@ map <leader>a <Plug>(easymotion-jumptoanywhere)
 let g:miniyank_filename = $HOME."/.miniyank.mpack"
 
 " IncSearch-Easymotion
+function! s:config_easyfuzzymotion(...) abort
+  return extend(copy({
+  \   'converters': [incsearch#config#fuzzy#converter()],
+  \   'modules': [incsearch#config#easymotion#module()],
+  \   'keymap': {"\<CR>": '<Over>(easymotion)'},
+  \   'is_expr': 0,
+  \   'is_stay': 1
+  \ }), get(a:, 1, {}))
+endfunction
+
 map z/ <Plug>(incsearch-easymotion-/)
+map <silent><expr> z. incsearch#go(<SID>config_easyfuzzymotion())
 map z? <Plug>(incsearch-easymotion-?)
 map zg/ <Plug>(incsearch-easymotion-stay)
 
@@ -142,13 +153,13 @@ endif
 Plug 'Peaches491/vim-glog-syntax'
 Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/incsearch-easymotion.vim'
+Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'jakalope/vim-utilities'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-smartword'
-" Plug 'kien/ctrlp.vim'
 Plug 'moll/vim-bbye'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'rust-lang/rust.vim'
@@ -174,7 +185,7 @@ function! BufferBuffer()
     setlocal noswapfile
     setlocal nobuflisted
 endfunction
-nnoremap <Leader>b :call BufferBuffer()<CR><CR>
+nnoremap <Leader>b :call BufferBuffer()<CR><CR>/
 
 " Clear and reset options and scripts, source vimrc, reload scripts
 command! Src call ClearAll() | source ~/.vimrc  | call VimRCSource()
@@ -287,8 +298,8 @@ nnoremap = mao<esc>`a
 " Search forward (backward) for the non-indented beginning of an otherwise
 " indented paragraph.
 " See :help \_
-noremap %% /^\_\s<CR>/^\S<CR>
-noremap && ?^\S<CR>?^\_\s<CR>/^\S<CR>
+noremap z% /^\_\s<CR>/^\S<CR>
+noremap z& ?^\S<CR>?^\_\s<CR>/^\S<CR>
 
 """""""""""""" Change how vim is interacted with
 
@@ -425,7 +436,7 @@ hi SpellCap ctermfg=green ctermbg=NONE
 hi SpellRare ctermfg=blue ctermbg=NONE
 
 " Insert minuses between EOL and the 80'th column.
-nnoremap -- $a <Esc>:exec 'normal! '.(78 - getcurpos()[2]).'a-'<CR>
+" nnoremap =- $a <Esc>:exec 'normal! '.(78 - getcurpos()[2]).'a-'<CR>
 nnoremap -= i <Esc>:exec 'normal! '.(79 - col('$')).'i-'<CR>
 
 " Toggle numbering
