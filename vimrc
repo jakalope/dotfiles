@@ -135,7 +135,7 @@ function! s:config_easyfuzzymotion(...) abort
 endfunction
 
 map z/ <Plug>(incsearch-easymotion-/)
-map <silent><expr> z. incsearch#go(<SID>config_easyfuzzymotion())
+map <silent><expr> , incsearch#go(<SID>config_easyfuzzymotion())
 map z? <Plug>(incsearch-easymotion-?)
 map zg/ <Plug>(incsearch-easymotion-stay)
 
@@ -189,6 +189,11 @@ function! BufferBuffer()
     setlocal nobuflisted
 endfunction
 nnoremap <Leader>b :call BufferBuffer()<CR><CR>/
+
+function! Breakpoint()
+    let @+="b ".getcwd()."/".expand("%").":".line(".")
+endfunction
+nnoremap _b :call Breakpoint()<CR>
 
 " Clear and reset options and scripts, source vimrc, reload scripts
 command! Src call ClearAll() | source ~/.vimrc  | call VimRCSource()
@@ -359,8 +364,8 @@ nnoremap _c :CompileOpt<CR>
 
 " Copy current file:line to the system clipboard, preceded by "b"
 " Used to set breakpoints in GDB
-nnoremap _b :exe "silent !echo b ${PWD}/".expand("%").":".
-        \line(".")." \| ".g:copy<CR>
+" nnoremap _b :exe "silent !echo b ${PWD}/".expand("%").":".
+"         \line(".")." \| ".g:copy<CR>
 
 " yank name of current file to register 0 and to system clipboard
 nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
