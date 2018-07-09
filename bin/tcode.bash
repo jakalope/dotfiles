@@ -37,7 +37,7 @@ function tcode() {
 }
 
 function items() {
-    for dir in $(find ./ -name ".git" -type d -mindepth 2 -maxdepth 2); do
+    for dir in $(find ./ -mindepth 2 -maxdepth 2 -name ".git" -type d); do
         pushd "${dir}" > /dev/null
         dir=$(dirname "${dir}")
         dir="${dir##*/}"
