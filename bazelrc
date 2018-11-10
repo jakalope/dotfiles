@@ -1,4 +1,24 @@
-# Build with cuda, caching, and optimized builds (no symbols)
-# build -c opt --config=kraken
-build -c opt --jobs=10
-test --test_output=errors --jobs=10
+################################################################################
+# Defaults
+
+# Always show output from failing tests.
+test --test_output=errors
+
+################################################################################
+# Zoox Specific
+
+build --config=kraken --jobs=40
+
+build:local --config=standalone --jobs=10
+test:local --config=standalone --jobs=10
+
+################################################################################
+# Configs
+
+# Ensure builds and tests happen in a reproducible environment.
+build:sandboxed --spawn_strategy=sandboxed --genrule_strategy=sandboxed
+test:sandboxed --spawn_strategy=sandboxed --genrule_strategy=sandboxed
+
+# Turn off slow build and test isolation.
+build:standalone --spawn_strategy=standalone --genrule_strategy=standalone
+test:standalone --spawn_strategy=standalone --genrule_strategy=standalone

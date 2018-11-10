@@ -192,6 +192,8 @@ nnoremap <Leader>b :call BufferBuffer()<CR><CR>/
 
 function! Breakpoint()
     let @+="b ".getcwd()."/".expand("%").":".line(".")
+    let @"='b '.getcwd()."/".expand("%").":".line(".")
+    let @*='b '.getcwd()."/".expand("%").":".line(".")
 endfunction
 nnoremap _b :call Breakpoint()<CR>
 
@@ -457,8 +459,8 @@ function! SetTerminalOps()
 endfunction
 
 if has('nvim') || has('terminal')
-    tnoremap <F10> <C-\><C-n>?ERROR:.*C++ compilation<CR>/.* error:<CR>0
-    nnoremap <F10> <C-\><C-n>?ERROR:.*C++ compilation<CR>/.* error:<CR>0
+    tnoremap <F10> <C-\><C-n>?ERROR:.*<CR>/.* error:<CR>0
+    nnoremap <F10> <C-\><C-n>?ERROR:.*<CR>/.* error:<CR>0
     tnoremap <F4> <C-\><C-n>?^   Compiling <CR>/ --> /e<CR>
     nnoremap <F4> <C-\><C-n>?^   Compiling <CR>/ --> /e<CR>
 endif
