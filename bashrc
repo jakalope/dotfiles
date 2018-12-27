@@ -197,5 +197,11 @@ if [[ "$XDG_RUNTIME_DIR" == "" ]]; then
     export XDG_RUNTIME_DIR="/tmp"
 fi
 
+if [[ ! ${PATH} == *"/usr/local/go/bin"* ]]
+then
+    export PATH=$PATH:/usr/local/go/bin
+fi
+
 set_title ${WORKSPACE_DIR}
 register
+ssh-agent

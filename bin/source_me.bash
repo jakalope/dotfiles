@@ -23,6 +23,10 @@ function tlist() {
     tmux list-sessions
 }
 
+function pcp_ci() {
+    brun -c opt --config=cuda //lidar/metrics:run_perception_ci -- --email jake@zoox.com --branch $(this)
+}
+
 source ~/bin/upcd.bash
 source ~/bin/wcd.bash
 source ~/bin/scd.bash
