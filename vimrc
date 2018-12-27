@@ -454,8 +454,8 @@ endfunction
 if has('nvim') || has('terminal')
     tnoremap <F10> <C-\><C-n>?ERROR:<CR>/:\( fatal\)* error:<CR>0
     nnoremap <F10> <C-\><C-n>?ERROR:<CR>/:\( fatal\)* error:<CR>0
-    tnoremap <F4> <C-\><C-n>?^   Compiling <CR>/ --> /e<CR>
-    nnoremap <F4> <C-\><C-n>?^   Compiling <CR>/ --> /e<CR>
+    tnoremap <F4> <C-\><C-n>?^   Compiling <CR>/^error<CR>/ --> /e<CR>
+    nnoremap <F4> <C-\><C-n>?^   Compiling <CR>/^error<CR>/ --> /e<CR>
 endif
 
 if has('nvim')
