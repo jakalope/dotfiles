@@ -78,8 +78,8 @@ else
     let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 endif
 
-" nnoremap <C-\> :YcmCompleter GoTo<CR>
-" nnoremap <C-g> :YcmCompleter FixIt<CR>
+nnoremap <C-\> :YcmCompleter GoTo<CR>
+nnoremap <C-g> :YcmCompleter FixIt<CR>
 nnoremap <C-t> :YcmCompleter GetType<CR>
 nnoremap <C-f> :YcmForceCompileAndDiagnostics<CR>
 nnoremap <C-F> :YcmRestartServer<CR>:YcmForceCompileAndDiagnostics<CR>
@@ -373,7 +373,15 @@ nnoremap _c :CompileOpt<CR>
 nnoremap _y :let @"=@%<CR>:let @+=@%<CR>
 
 " Breaks undo at each line break. It also expands abbreviations before this.
-inoremap <CR> <C-]><C-G>u<CR>
+" inoremap <CR> <C-]><C-G>u<CR>
+
+" "zoom" the current tab and turn off line numbering (for mouse-select copy)
+nnoremap _z :call Zoom()<CR>
+function! Zoom()
+    tabnew %
+    setlocal nonumber
+    setlocal norelativenumber
+endfunction
 
 " Open the file under the cursor in the previous window.
 nnoremap zn :call OpenToLineInPrevious('<C-R><C-A>')<CR>
@@ -541,18 +549,17 @@ augroup formatting_and_filetypes
     autocmd BufNewFile,BufRead COMMIT_EDITMSG setfiletype commit_editmsg
 augroup END
 
-let g:enable_auto_format=1
 command! AutoFormatToggle call s:AutoFormatToggle()
 function! s:AutoFormatToggle()
-    if exists("g:enable_auto_format") && g:enable_auto_format
-        let g:enable_auto_format=0
+    if exists("b:disable_auto_format") && b:disable_auto_format
+        let b:disable_auto_format=0
     else
-        let g:enable_auto_format=1
+        let b:disable_auto_format=1
     endif
 endfunction
 
 function! s:OnBufWritePre()
-    if g:enable_auto_format==1
+    if !exists("b:disable_auto_format") || b:disable_auto_format==0
         if &filetype=='python'
             call jakalope#utilities#format('yapf')
         elseif &filetype=='c' || &filetype=='cpp' || &filetype=='proto'
