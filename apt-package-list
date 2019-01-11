@@ -53,6 +53,7 @@ lua-mpack
 lua5.1
 massif-visualizer
 mercurial
+mosh
 oracle-java8-installer
 pkg-config
 python-autopep8

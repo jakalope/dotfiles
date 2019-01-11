@@ -5,6 +5,9 @@ set -eou pipefail
 # install brew
 ./setup_brew.sh
 
+# for mosh
+sudo chown -R $(whoami) /usr/local/share/zsh /usr/local/share/zsh/site-functions
+
 # install dependencies
 xcode-select --install || true
 brew update
@@ -20,8 +23,8 @@ sudo -H pip3 install $(cat pip3-package-list)
 # TODO install this dmg
 file='git-2.10.1-intel-universal-mavericks.dmg'
 url="http://downloads.sourceforge.net/project/git-osx-installer/${file}"
-if [[ ! -e "${file}" ]]; then 
-	wget "${url}"
+if [[ ! -e "${file}" ]]; then
+    wget "${url}"
 fi
 
 ./setup_yapf.sh

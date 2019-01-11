@@ -204,4 +204,8 @@ fi
 
 set_title ${WORKSPACE_DIR}
 register
+SSH_AUTH_SOCK=/tmp/ssh-ZtrGwiX4SH5w/agent.15109; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=15110; export SSH_AGENT_PID;
+echo Agent pid 15110;
 ssh-agent
+

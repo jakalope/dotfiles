@@ -10,3 +10,4 @@ tmux
 reattach-to-user-namespace
 irssi
 go
+mosh
