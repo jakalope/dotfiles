@@ -24,7 +24,7 @@ function tlist() {
 }
 
 function pcp_ci() {
-    brun -c opt --config=cuda //lidar/metrics:run_perception_ci -- --email jake@zoox.com --branch $(this)
+    brun -c opt --config=cuda //lidar/metrics:run_perception_ci -- --email jake@zoox.com --branch $(this) --timing-only
 }
 
 source ~/bin/upcd.bash
