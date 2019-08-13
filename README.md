@@ -8,6 +8,7 @@ Bash
 * `sed -n '/[regex]/p' <file1> <file2> ... <fileN>` Use `sed` regex syntax to `grep` for things.
 * `awk [-F<delimiter-char>] '{print $<field>}'`
 * `time <program>`
+* `trap "rm -rf \"${your_temporary_files}\"" EXIT` Cleanup after yourself, no matter how your script exits.
 
 
 ### Useful CLI stuff

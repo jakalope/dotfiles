@@ -549,8 +549,8 @@ augroup formatting_and_filetypes
     autocmd BufNewFile,BufRead COMMIT_EDITMSG setfiletype commit_editmsg
 augroup END
 
-command! AutoFormatToggle call s:AutoFormatToggle()
-function! s:AutoFormatToggle()
+command! AutoFormatToggleForBuffer call s:AutoFormatToggleForBuffer()
+function! s:AutoFormatToggleForBuffer()
     if exists("b:disable_auto_format") && b:disable_auto_format
         let b:disable_auto_format=0
     else
@@ -558,8 +558,19 @@ function! s:AutoFormatToggle()
     endif
 endfunction
 
+command! DisableAutoFormat call s:DisableAutoFormat()
+function! s:DisableAutoFormat()
+    let g:disable_auto_format=1
+endfunction
+
+command! EnableAutoFormat call s:EnableAutoFormat()
+function! s:EnableAutoFormat()
+    let g:disable_auto_format=0
+endfunction
+
 function! s:OnBufWritePre()
-    if !exists("b:disable_auto_format") || b:disable_auto_format==0
+    if (!exists("b:disable_auto_format") || b:disable_auto_format==0) &&
+                \ (!exists("g:disable_auto_format") || g:disable_auto_format==0)
         if &filetype=='python'
             call jakalope#utilities#format('yapf')
         elseif &filetype=='c' || &filetype=='cpp' || &filetype=='proto'
@@ -577,3 +588,13 @@ endfunction
 if isdirectory("bazel-genfiles")
     set path+=bazel-genfiles
 endif
+
+function! UpdateDeps()
+  let l:fname=expand('%:p')
+  py3f /mnt/flashblade/carden/utils/update_deps_vim.py
+  call input('Press any key to continue')
+  redraw!
+  execute 'edit' l:fname
+endfunction
+nnoremap ,u :call UpdateDeps()<cr>
+

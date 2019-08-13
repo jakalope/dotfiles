@@ -1,4 +1,5 @@
 [global_config]
+  focus = system
 [keybindings]
   cycle_next = <Shift>Tab
 [profiles]

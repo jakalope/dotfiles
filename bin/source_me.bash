@@ -24,7 +24,12 @@ function tlist() {
 }
 
 function pcp_ci() {
-    brun -c opt --config=cuda //lidar/metrics:run_perception_ci -- --email jake@zoox.com --branch $(this) --timing-only
+    brun -c opt --config=cuda //lidar/metrics:run_perception_ci -- --dm --timing-only
+}
+
+function gfc() {
+    ${WORKSPACE_ROOT}/ci/file_validators/validate.py --fix
+    git commit "${@}"
 }
 
 source ~/bin/upcd.bash
@@ -34,7 +39,3 @@ source ~/bin/code-window
 source ~/bin/bin_dir
 source ~/bin/cd_buddy.sh
 source ~/bin/tcode.bash
-
-source ~/dotfiles/worktree/worktree.sh
-export WORKTREE_WORKTREE_ROOT="${HOME}/driving"
-export WORKTREE_BRANCH_NAME_PREFIX="jake/"

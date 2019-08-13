@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+$wcd/ci/file_validators/validate.py --fix

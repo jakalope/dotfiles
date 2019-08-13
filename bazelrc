@@ -2,15 +2,17 @@
 # Defaults
 
 # Always show output from failing tests.
-test --test_output=errors
+test --test_output=errors --local_execution_slots=4
 
 ################################################################################
 # Zoox Specific
 
-build --config=kraken --jobs=40
+build --config=kraken --jobs=40 --local_execution_slots=4
 
 build:local --config=standalone --jobs=10
 test:local --config=standalone --jobs=10
+
+build:ztrace --copt="-DZTRACE_VERBOSE_MODE" --config=cuda
 
 ################################################################################
 # Configs
