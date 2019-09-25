@@ -39,9 +39,9 @@ def main():
     backup_path = os.path.join(home, 'backup', backup_folder)
 
     try:
-	os.makedirs(backup_path)
+        os.makedirs(backup_path)
     except OSError:
-	pass
+        pass
 
     with open(home_files_path, 'r') as home_files:
         for line in home_files:

@@ -39,3 +39,6 @@ source ~/bin/code-window
 source ~/bin/bin_dir
 source ~/bin/cd_buddy.sh
 source ~/bin/tcode.bash
+
+alias wsfilter="awk -v cwd=${PWD#*$wcd} '{print cwd \"/\" $0}'"
+

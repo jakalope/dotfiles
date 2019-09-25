@@ -88,18 +88,15 @@ case "$TERM" in
         ;;
 esac
 
-function parse_git_dirty {
-    [[ $(git rev-parse --abbrev-ref HEAD 2> /dev/null | tail -n1) == "nothing to commit (working directory clean)" ]] && echo "*"
-}
 function parse_git_branch {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+    git rev-parse --abbrev-ref HEAD
 }
 
 if [ "$color_prompt" = yes ]; then
     #export PS1='\u@\h:$(tty):\[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)\n$ '
-    export PS1='\u@\h:\[\033[2;33m\]\w\[\033[0m\]$(parse_git_branch)\n$ '
+    export PS1='\u@\h:\[\033[2;33m\]\w\[\033[0m\][$(parse_git_branch)]\n$ '
 else
-    export PS1='\u@\h\w\$(parse_git_branch)$ '
+    export PS1='\u@\h\w[$(parse_git_branch)]$ '
 fi
 # unset color_prompt force_color_prompt
 
@@ -174,7 +171,7 @@ set -o vi
 
 # set some development environment variables
 export EDITOR=nvim
-export WORKSPACE_DIR="$(pwd)"
+export WORKSPACE_DIR="${PWD}/"
 export SOURCE_DIR="${WORKSPACE_DIR}"
 export wcd="${WORKSPACE_DIR}"
 alias wcd='cd "${wcd}"'
