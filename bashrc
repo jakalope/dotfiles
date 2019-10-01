@@ -89,14 +89,16 @@ case "$TERM" in
 esac
 
 function parse_git_branch {
-    git rev-parse --abbrev-ref HEAD
+    if [[ -e "./.git" ]]; then
+        echo "[$(git rev-parse --abbrev-ref HEAD)]"
+    fi
 }
 
 if [ "$color_prompt" = yes ]; then
     #export PS1='\u@\h:$(tty):\[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)\n$ '
-    export PS1='\u@\h:\[\033[2;33m\]\w\[\033[0m\][$(parse_git_branch)]\n$ '
+    export PS1='\u@\h:\[\033[2;33m\]\w\[\033[0m\]$(parse_git_branch)\n$ '
 else
-    export PS1='\u@\h\w[$(parse_git_branch)]$ '
+    export PS1='\u@\h\w$(parse_git_branch)$ '
 fi
 # unset color_prompt force_color_prompt
 
