@@ -14,6 +14,8 @@ test:local --config=standalone --jobs=10
 
 build:ztrace --copt="-DZTRACE_VERBOSE_MODE" --config=cuda
 
+build:pcp --progress_report_interval 1  --color=yes -j 200 -c opt --config=kraken --config=cuda
+
 ################################################################################
 # Configs
 

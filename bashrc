@@ -89,9 +89,7 @@ case "$TERM" in
 esac
 
 function parse_git_branch {
-    if [[ -e "./.git" ]]; then
-        echo "[$(git rev-parse --abbrev-ref HEAD)]"
-    fi
+    echo "[$(git rev-parse --abbrev-ref HEAD 2>/dev/null)]"
 }
 
 if [ "$color_prompt" = yes ]; then

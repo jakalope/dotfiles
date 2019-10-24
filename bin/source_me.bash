@@ -32,6 +32,10 @@ function gfc() {
     git commit "${@}"
 }
 
+function git-fetch-checkout() {
+    git fetch origin "$1" && git checkout "origin/$1"
+}
+
 source ~/bin/upcd.bash
 source ~/bin/wcd.bash
 source ~/bin/scd.bash
