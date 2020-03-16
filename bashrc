@@ -203,7 +203,7 @@ fi
 set_title ${WORKSPACE_DIR}
 register
 if [[ "$SSH_AUTH_SOCK" == "" ]]; then
-    ssh-agent
+    eval "$(ssh-agent -s)"
     ssh-add
 fi
 
