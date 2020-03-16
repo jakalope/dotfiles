@@ -11,3 +11,5 @@ reattach-to-user-namespace
 irssi
 go
 mosh
+luarocks
+cmake
