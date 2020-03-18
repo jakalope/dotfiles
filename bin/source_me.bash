@@ -36,6 +36,16 @@ function git-fetch-checkout() {
     git fetch origin "$1" && git checkout "origin/$1"
 }
 
+function inotifyrun {
+    FORMAT=$(echo -e "\033[1;33m%w%f\033[0m written");
+    while :; do
+        "$@";
+        echo "Exited: $?";
+        echo "";
+        inotifywait -qre close_write --format "$FORMAT" --exclude '(\.ros|\.git)|(/4913|\.sw.|index\.lock)$' . || break;
+    done
+}
+
 source ~/bin/upcd.bash
 source ~/bin/wcd.bash
 source ~/bin/scd.bash
@@ -45,4 +55,5 @@ source ~/bin/cd_buddy.sh
 source ~/bin/tcode.bash
 
 alias wsfilter="awk -v cwd=${PWD#*$wcd} '{print cwd \"/\" $0}'"
+alias inorun=inotifyrun
 

@@ -207,3 +207,5 @@ if [[ "$SSH_AUTH_SOCK" == "" ]]; then
     ssh-add
 fi
 
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
