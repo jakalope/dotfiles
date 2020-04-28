@@ -15,23 +15,21 @@ function tcode() {
         if ((session_exists)); then
             # attach to an existing session
             echo 'Attempting to attach to existing tmux session.'
-            tmux attach-session -t "$SESSION_NAME"
+            tmux -vv attach-session -t "$SESSION_NAME"
         else
             # create a new session
             echo 'Creating a new tmux session.'
-            tmux -2 new-session \
+            tmux -vv -2 new-session \
                 -s "${SESSION_NAME}" \
                 "MY_WORKSPACE_DIR=\"${PWD}\" ${EDITOR}"
         fi
     else
         if ((session_exists)); then
             echo You are already in this session!
-            $EDITOR
         else
             # take over the current session
             echo Taking over the current session.
-            tmux rename-session $SESSION_NAME 2> /dev/null
-            $EDITOR
+            tmux -vv rename-session $SESSION_NAME 2> /dev/null
         fi
     fi
 }
