@@ -2,33 +2,29 @@
 
 set -eou pipefail
 
-cd /tmp
-if [[ -d neovim ]]; then
-    sudo rm -rf neovim
-fi
-git clone git@github.com:neovim/neovim.git
-cd neovim
-git checkout ede21f95180f44cab6b77598d34de31967f24622
-
 # Build and install NeoVim
 if [[ "$(uname -s)" == "Darwin" ]]; then
-    brew install luajit lua
-    sudo luarocks install lpeg
-    sudo luarocks install mpack
-    sudo luarocks install luabitop
+    brew install neovim
 else
+    cd /tmp
+    if [[ -d neovim ]]; then
+        sudo rm -rf neovim
+    fi
+    git clone git@github.com:neovim/neovim.git
+    cd neovim
+    git checkout ede21f95180f44cab6b77598d34de31967f24622
+
     # sudo apt-get install libuv-dev libmsgpack-dev
     mkdir .deps ; cd .deps
     cmake ../third-party
     make
     cd ..
+    mkdir build
+    cd build
+    cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    make -j
+    sudo make install
 fi
-
-mkdir build
-cd build
-cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo
-make -j
-sudo make install
 
 sudo gem install neovim
 # sudo gem upgrade neovim

@@ -2,10 +2,5 @@ ipython
 matplotlib
 numpy
 pytz
-scipy
-sklearn
-flask
-twilio
-psycopg2
 yamllint==1.6.0
 six

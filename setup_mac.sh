@@ -15,9 +15,9 @@ brew cask install java
 brew install $(cat brew-package-list)
 brew services start postgresql
 brew link gettext
-brew linkapps python3
+brew install python
 sudo -H python get-pip.py
-sudo -H pip install $(cat pip-package-list)
+#sudo -H pip install $(cat pip-package-list)
 sudo -H pip3 install $(cat pip3-package-list)
 
 # TODO install this dmg
@@ -30,7 +30,7 @@ fi
 ./setup_yapf.sh
 ./setup_neovim.sh
 ./setup_rust.sh
-./setup_alacrity.sh
+#./setup_alacrity.sh
 
 echo 'Symlinking...'
 ./setup_symlinks.py
