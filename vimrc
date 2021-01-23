@@ -165,6 +165,7 @@ Plug 'kana/vim-operator-user'
 Plug 'kana/vim-smartword'
 Plug 'moll/vim-bbye'
 Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'psf/black', { 'branch': 'stable' }
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
@@ -572,7 +573,7 @@ function! s:OnBufWritePre()
     if (!exists("b:disable_auto_format") || b:disable_auto_format==0) &&
                 \ (!exists("g:disable_auto_format") || g:disable_auto_format==0)
         if &filetype=='python'
-            call jakalope#utilities#format('yapf')
+            Black
         elseif &filetype=='c' || &filetype=='cpp' || &filetype=='proto'
             call jakalope#utilities#format('clang_format')
         elseif expand('%:t')=='BUILD' && g:uname == "Linux"

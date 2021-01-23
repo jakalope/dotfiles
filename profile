@@ -190,7 +190,6 @@ fi
 
 
 export PATH="/usr/local/heroku/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
 if [[ "$XDG_RUNTIME_DIR" == "" ]]; then
     export XDG_RUNTIME_DIR="/tmp"
 fi
@@ -199,3 +198,4 @@ SSH_AGENT_PID=15110; export SSH_AGENT_PID;
 echo Agent pid 15110;
 ssh-agent
 
+source "$HOME/.cargo/env"
