@@ -1,5 +1,0 @@
-#!/bin/bash
-
-# cd $MY_WORKSPACE_DIR
-#2>/dev/null hg st | grep "^M" | awk '{print $2}' | vims
-2>/dev/null git status -s | grep -v '^??' | awk '{print $2}' | vims
