@@ -323,7 +323,7 @@ augroup END
 command! W :w
 command! Wa :wa
 
-imap kj <Esc>
+imap <F1> <Esc>
 
 " Stop accidental entry into Ex mode
 nnoremap Q <CR>
